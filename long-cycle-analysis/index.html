@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>车联天下长期洞察报告</title>
+  <style>
+    :root {
+      --ink: #1d2733;
+      --muted: #627084;
+      --line: #d9e0e7;
+      --paper: #f7f9fb;
+      --white: #ffffff;
+      --blue: #246bfe;
+      --green: #1f8f5f;
+      --amber: #bf7a1d;
+      --red: #b83d4a;
+      --purple: #7755c7;
+      --cyan: #008ba3;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .hero {
+      min-height: 82vh;
+      padding: 64px max(28px, 6vw) 44px;
+      color: white;
+      background:
+        linear-gradient(rgba(15, 28, 42, .72), rgba(15, 28, 42, .84)),
+        url("https://www.auto-link.com.cn/storage/uploads/images/20241018/6711fb618fbce.jpg") center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero h1 {
+      margin: 0;
+      max-width: 980px;
+      font-size: clamp(42px, 7vw, 88px);
+      line-height: 1.02;
+      letter-spacing: 0;
+      font-weight: 760;
+    }
+    .hero p {
+      max-width: 860px;
+      font-size: clamp(18px, 2.1vw, 27px);
+      color: rgba(255,255,255,.88);
+      margin: 22px 0 0;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+      color: rgba(255,255,255,.82);
+      font-size: 14px;
+    }
+    .pill {
+      border: 1px solid rgba(255,255,255,.36);
+      padding: 7px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.08);
+    }
+    main { padding: 28px max(24px, 5vw) 80px; }
+    section {
+      max-width: 1240px;
+      margin: 0 auto 34px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: clamp(22px, 3vw, 38px);
+      box-shadow: 0 10px 34px rgba(28, 39, 51, .06);
+    }
+    .plain {
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    h2 {
+      margin: 0 0 18px;
+      font-size: clamp(24px, 3vw, 38px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 22px 0 12px;
+      font-size: 20px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+    .lead {
+      font-size: 18px;
+      color: #324253;
+      max-width: 980px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfcfd;
+      min-height: 142px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.1;
+      margin: 6px 0 8px;
+      color: var(--ink);
+    }
+    .metric small { color: var(--muted); }
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: #eef3f7;
+      color: #425167;
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 6px;
+      font-size: 14px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: #3d4b5e;
+      background: #f2f5f8;
+      font-weight: 720;
+    }
+    .right { text-align: right; }
+    .bad { color: var(--red); }
+    .good { color: var(--green); }
+    .warn { color: var(--amber); }
+    .svgbox {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+    }
+    svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      font-family: inherit;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    .two-col {
+      columns: 2 360px;
+      column-gap: 28px;
+    }
+    .quote {
+      border-left: 4px solid var(--blue);
+      padding: 8px 0 8px 14px;
+      color: #33465d;
+      background: #f4f7fb;
+      margin: 12px 0;
+    }
+    .heat {
+      display: grid;
+      grid-template-columns: 150px repeat(4, 1fr);
+      gap: 2px;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+    .heat div {
+      padding: 10px;
+      min-height: 44px;
+      border-radius: 4px;
+      background: #eef3f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .heat .head { background: #33465d; color: white; font-weight: 700; }
+    .heat .label { justify-content: flex-start; color: #314255; font-weight: 700; background: #dde6ef; }
+    .h1 { background: #f5d1d5 !important; }
+    .h2 { background: #ef9ba5 !important; }
+    .h3 { background: #e05c6d !important; color: white; }
+    .h4 { background: #b83d4a !important; color: white; }
+    .callout {
+      border: 1px solid #cfe0f5;
+      background: #f3f7fd;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .source-list li { margin-bottom: 8px; }
+    @media (max-width: 900px) {
+      .span-3, .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: span 12; }
+      .heat { grid-template-columns: 120px repeat(4, minmax(90px, 1fr)); overflow-x: auto; }
+      section { padding: 22px 16px; }
+    }
+    @media print {
+      body { background: white; }
+      .hero { min-height: auto; page-break-after: always; }
+      section { box-shadow: none; break-inside: avoid; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <h1>车联天下：从座舱域控切入整车计算迁移周期</h1>
+      <p>一份结合港交所申请版本招股书、公司官网与行业数据的长期商业模式、能力构成和上下游关系分析。</p>
+      <div class="hero-meta">
+        <span class="pill">研究日期：2026-05-12</span>
+        <span class="pill">交付模式：report</span>
+        <span class="pill">主 skill：系统动力学</span>
+        <span class="pill">次 skill：运筹学决策结构</span>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <span>核心结论：高成长赛道里的“量产交付型域控供应商”，长期胜负不在单点软件，而在芯片平台绑定、OEM定点滚动、现金周转和整车电子电气架构迁移。</span>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>0. 口径与可靠性分层</h2>
+      <p class="lead">车联天下公开信息的关键底座是港交所 2025-11-28 披露的申请版本招股书。该文件不是最终上市招股章程，但包含审计期财务、客户集中度、供应商集中度、出货量、行业顾问数据、研发人员和产能等最完整的公开披露。本报告将事实分三层处理。</p>
+      <div class="grid">
+        <div class="metric span-4">
+          <span class="tag">数据直接支持</span>
+          <strong>财务/出货/客户供应商</strong>
+          <small>来自港交所申请版本招股书：2022、2023、2024、2025H1，单位以人民币百万元、千套等披露口径为主。</small>
+        </div>
+        <div class="metric span-4">
+          <span class="tag">官方叙事支持</span>
+          <strong>业务与生态定位</strong>
+          <small>来自公司官网：智能座舱、中央域控、智能网联、智能驾驶、蔚来资本与博世等投资/合作信息。</small>
+        </div>
+        <div class="metric span-4">
+          <span class="tag">结构推断</span>
+          <strong>长期反馈与约束</strong>
+          <small>基于披露数据推导：规模经济、客户定点、芯片供应、现金周转与研发投入之间的系统关系。</small>
+        </div>
+      </div>
+      <p class="note">可视化选择：结构图用于解释商业模式和上下游，机制图用于解释反馈回路，动态图用于呈现长期指标变化，决策图用于把长期位置判断转化为目标、约束、资源和方案。</p>
+    </section>
+
+    <section>
+      <h2>1. 一页判断</h2>
+      <div class="grid">
+        <div class="metric span-3">
+          <span class="tag">收入规模</span>
+          <strong>26.56 亿</strong>
+          <small>2024 年收入，较 2022 年 3.69 亿扩大约 7.2 倍。</small>
+        </div>
+        <div class="metric span-3">
+          <span class="tag">量产能力</span>
+          <strong>80.9 万套</strong>
+          <small>2024 年车载计算解决方案出货量；2025H1 为 34.8 万套。</small>
+        </div>
+        <div class="metric span-3">
+          <span class="tag">毛利率</span>
+          <strong>16.2%</strong>
+          <small>2024 与 2025H1 均为 16.2%，显示放量后仍有硬件 BOM 和价格竞争约束。</small>
+        </div>
+        <div class="metric span-3">
+          <span class="tag">现金压力</span>
+          <strong>-10.11 亿</strong>
+          <small>2024 年经营现金流净额，主要受营运资金占用拖累。</small>
+        </div>
+      </div>
+      <div class="two-col">
+        <p><b>最重要的长周期洞察：</b>车联天下的机会来自汽车电子电气架构从“分布式 ECU”向“域控/中央计算/区域控制器”迁移。它不是靠单一软件许可赚钱，而是靠进入 OEM 车型生命周期：从定点、共同开发、样件验证、量产爬坡到多车型复用，最终把一个域控平台变成多个车型的可复制交付能力。</p>
+        <p><b>最关键的长期风险：</b>它的增长同时暴露在三类集中度中：大客户集中、关键供应商集中、少数芯片/域控平台集中。2024 年前五大客户贡献 98.7% 收入，最大供应商采购占比 80.3%。这类结构在早期放量时很有效，但会把价格、交期、信用期和技术路线的压力集中回公司资产负债表。</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. 结构图：商业模式不是“卖软件”，而是“卖可量产的整车计算模块”</h2>
+      <p class="lead">车联天下的收入在披露期几乎全部来自车载计算解决方案，2025H1 才开始出现区域控制器收入。它的商业模式可以理解为：芯片/PCBA/车规供应链 + 自研软件/OS + 域控硬件工程 + OEM车型项目制交付。</p>
+      <div class="svgbox">
+        <svg viewBox="0 0 1180 520" role="img" aria-label="车联天下商业模式结构图">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#627084"></path>
+            </marker>
+          </defs>
+          <rect x="20" y="28" width="210" height="430" rx="8" fill="#f2f6fa" stroke="#c8d3df"/>
+          <text x="125" y="62" text-anchor="middle" font-size="20" font-weight="700" fill="#1d2733">上游输入</text>
+          <rect x="46" y="92" width="158" height="72" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="125" y="121" text-anchor="middle" font-size="16" font-weight="700">芯片平台</text>
+          <text x="125" y="146" text-anchor="middle" font-size="13" fill="#627084">高通/车规SoC等</text>
+          <rect x="46" y="188" width="158" height="72" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="125" y="218" text-anchor="middle" font-size="16" font-weight="700">PCBA与制造</text>
+          <text x="125" y="242" text-anchor="middle" font-size="13" fill="#627084">博世合作最关键</text>
+          <rect x="46" y="284" width="158" height="72" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="125" y="314" text-anchor="middle" font-size="16" font-weight="700">车规元器件</text>
+          <text x="125" y="338" text-anchor="middle" font-size="13" fill="#627084">显示/存储/连接</text>
+
+          <rect x="310" y="28" width="350" height="430" rx="8" fill="#f7fbf8" stroke="#c8d8ce"/>
+          <text x="485" y="62" text-anchor="middle" font-size="20" font-weight="700" fill="#1d2733">车联天下能力栈</text>
+          <rect x="340" y="92" width="290" height="64" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="485" y="119" text-anchor="middle" font-size="16" font-weight="700">Autosee OS / 中间件</text>
+          <text x="485" y="140" text-anchor="middle" font-size="13" fill="#627084">座舱、智能网联、跨域融合</text>
+          <rect x="340" y="174" width="290" height="64" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="485" y="202" text-anchor="middle" font-size="16" font-weight="700">域控硬件与系统工程</text>
+          <text x="485" y="222" text-anchor="middle" font-size="13" fill="#627084">座舱域控、舱驾融合、区域控制器</text>
+          <rect x="340" y="256" width="290" height="64" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="485" y="284" text-anchor="middle" font-size="16" font-weight="700">项目制量产交付</text>
+          <text x="485" y="304" text-anchor="middle" font-size="13" fill="#627084">定点、验证、爬坡、质量管理</text>
+          <rect x="340" y="338" width="290" height="64" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="485" y="366" text-anchor="middle" font-size="16" font-weight="700">研发资产沉淀</text>
+          <text x="485" y="386" text-anchor="middle" font-size="13" fill="#627084">402名研发人员、专利/著作权</text>
+
+          <rect x="740" y="28" width="400" height="430" rx="8" fill="#fff9ef" stroke="#e4d1ad"/>
+          <text x="940" y="62" text-anchor="middle" font-size="20" font-weight="700" fill="#1d2733">下游变现</text>
+          <rect x="775" y="92" width="330" height="72" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="940" y="121" text-anchor="middle" font-size="16" font-weight="700">整车厂车型定点</text>
+          <text x="940" y="146" text-anchor="middle" font-size="13" fill="#627084">吉利、奇瑞、广汽等生态线索</text>
+          <rect x="775" y="188" width="330" height="72" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="940" y="218" text-anchor="middle" font-size="16" font-weight="700">随车型周期放量</text>
+          <text x="940" y="242" text-anchor="middle" font-size="13" fill="#627084">2024出货80.9万套</text>
+          <rect x="775" y="284" width="330" height="72" rx="6" fill="#fff" stroke="#d9e0e7"/>
+          <text x="940" y="314" text-anchor="middle" font-size="16" font-weight="700">跨品牌/跨车型复用</text>
+          <text x="940" y="338" text-anchor="middle" font-size="13" fill="#627084">降低单项目研发摊销</text>
+
+          <line x1="230" y1="224" x2="310" y2="224" stroke="#627084" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="660" y1="224" x2="740" y2="224" stroke="#627084" stroke-width="2" marker-end="url(#arrow)"/>
+          <path d="M 940 360 C 940 448, 490 490, 485 404" fill="none" stroke="#1f8f5f" stroke-width="3" marker-end="url(#arrow)"/>
+          <text x="707" y="475" text-anchor="middle" font-size="14" fill="#1f8f5f">量产经验与平台复用反哺研发</text>
+        </svg>
+      </div>
+      <p class="note">读图要点：软件是必要条件，但不是全部护城河。真正的商业壁垒来自“软件 + 硬件 + 车规量产 + 客户项目制关系”的组合。</p>
+    </section>
+
+    <section>
+      <h2>3. 动态图：高增长已经发生，下一阶段是“增长质量”而不是“有没有需求”</h2>
+      <div class="grid">
+        <div class="span-7">
+          <h3>收入、毛利率与研发强度</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 760 430" aria-label="收入、毛利率与研发强度">
+              <line x1="75" y1="350" x2="720" y2="350" stroke="#9aa6b2"/>
+              <line x1="75" y1="55" x2="75" y2="350" stroke="#9aa6b2"/>
+              <text x="68" y="355" text-anchor="end" font-size="12" fill="#627084">0</text>
+              <text x="68" y="258" text-anchor="end" font-size="12" fill="#627084">1,000</text>
+              <text x="68" y="160" text-anchor="end" font-size="12" fill="#627084">2,000</text>
+              <text x="68" y="63" text-anchor="end" font-size="12" fill="#627084">3,000</text>
+              <text x="78" y="35" font-size="13" fill="#627084">百万元；折线为百分比，按右侧标签读</text>
+              <rect x="150" y="314" width="72" height="36" fill="#246bfe"/>
+              <rect x="330" y="126" width="72" height="224" fill="#246bfe"/>
+              <rect x="510" y="91" width="72" height="259" fill="#246bfe"/>
+              <text x="186" y="372" text-anchor="middle" font-size="13">2022</text>
+              <text x="366" y="372" text-anchor="middle" font-size="13">2023</text>
+              <text x="546" y="372" text-anchor="middle" font-size="13">2024</text>
+              <text x="186" y="306" text-anchor="middle" font-size="12" fill="#246bfe">369</text>
+              <text x="366" y="118" text-anchor="middle" font-size="12" fill="#246bfe">2,298</text>
+              <text x="546" y="83" text-anchor="middle" font-size="12" fill="#246bfe">2,656</text>
+              <polyline points="186,324 366,299 546,304" fill="none" stroke="#1f8f5f" stroke-width="4"/>
+              <circle cx="186" cy="324" r="5" fill="#1f8f5f"/>
+              <circle cx="366" cy="299" r="5" fill="#1f8f5f"/>
+              <circle cx="546" cy="304" r="5" fill="#1f8f5f"/>
+              <text x="616" y="307" font-size="13" fill="#1f8f5f">毛利率 9.5% → 17.5% → 16.2%</text>
+              <polyline points="186,78 366,290 546,303" fill="none" stroke="#bf7a1d" stroke-width="4"/>
+              <circle cx="186" cy="78" r="5" fill="#bf7a1d"/>
+              <circle cx="366" cy="290" r="5" fill="#bf7a1d"/>
+              <circle cx="546" cy="303" r="5" fill="#bf7a1d"/>
+              <text x="585" y="236" font-size="13" fill="#bf7a1d">研发费用率 92.6% → 17.7% → 13.8%</text>
+            </svg>
+          </div>
+          <div class="legend">
+            <span><i class="dot" style="background:var(--blue)"></i>收入</span>
+            <span><i class="dot" style="background:var(--green)"></i>毛利率</span>
+            <span><i class="dot" style="background:var(--amber)"></i>研发费用率</span>
+          </div>
+        </div>
+        <div class="span-5">
+          <h3>关键财务表</h3>
+          <table>
+            <thead>
+              <tr><th>指标</th><th class="right">2022</th><th class="right">2023</th><th class="right">2024</th><th class="right">2025H1</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>收入</td><td class="right">368.6</td><td class="right">2,297.7</td><td class="right">2,655.6</td><td class="right">1,039.0</td></tr>
+              <tr><td>毛利率</td><td class="right">9.5%</td><td class="right">17.5%</td><td class="right">16.2%</td><td class="right">16.2%</td></tr>
+              <tr><td>研发费用</td><td class="right">341.2</td><td class="right">406.6</td><td class="right">367.7</td><td class="right">142.0</td></tr>
+              <tr><td>经调整净亏损</td><td class="right bad">-412.9</td><td class="right bad">-108.8</td><td class="right bad">-95.3</td><td class="right bad">-13.9</td></tr>
+              <tr><td>经营现金流净额</td><td class="right bad">-250.0</td><td class="right bad">-697.0</td><td class="right bad">-1,011.1</td><td class="right bad">-335.2</td></tr>
+            </tbody>
+          </table>
+          <p class="note">单位：人民币百万元。2025H1 数据不可直接年化，因为车型项目交付节奏和回款周期有季节性。</p>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="span-6">
+          <h3>出货量与ASP</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 620 330" aria-label="出货量与ASP">
+              <line x1="70" y1="270" x2="585" y2="270" stroke="#9aa6b2"/>
+              <line x1="70" y1="50" x2="70" y2="270" stroke="#9aa6b2"/>
+              <rect x="122" y="238" width="58" height="32" fill="#008ba3"/>
+              <rect x="282" y="117" width="58" height="153" fill="#008ba3"/>
+              <rect x="442" y="73" width="58" height="197" fill="#008ba3"/>
+              <text x="151" y="293" text-anchor="middle" font-size="13">2022</text>
+              <text x="311" y="293" text-anchor="middle" font-size="13">2023</text>
+              <text x="471" y="293" text-anchor="middle" font-size="13">2024</text>
+              <text x="151" y="231" text-anchor="middle" font-size="12" fill="#008ba3">13.0万</text>
+              <text x="311" y="110" text-anchor="middle" font-size="12" fill="#008ba3">62.8万</text>
+              <text x="471" y="66" text-anchor="middle" font-size="12" fill="#008ba3">80.9万</text>
+              <polyline points="151,190 311,137 471,163" fill="none" stroke="#7755c7" stroke-width="4"/>
+              <circle cx="151" cy="190" r="5" fill="#7755c7"/>
+              <circle cx="311" cy="137" r="5" fill="#7755c7"/>
+              <circle cx="471" cy="163" r="5" fill="#7755c7"/>
+              <text x="352" y="34" font-size="13" fill="#7755c7">ASP：2,835 → 3,659 → 3,283 元</text>
+            </svg>
+          </div>
+          <p class="note">2023 年 ASP 上升说明产品组合/项目结构改善；2024 年 ASP 回落提醒：价格竞争、车型结构和平台降本会持续压缩单套收入。</p>
+        </div>
+        <div class="span-6">
+          <h3>行业底层迁移：域控市场空间仍在扩容</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 620 330" aria-label="中国域控制器市场规模">
+              <line x1="70" y1="270" x2="585" y2="270" stroke="#9aa6b2"/>
+              <line x1="70" y1="50" x2="70" y2="270" stroke="#9aa6b2"/>
+              <rect x="120" y="260" width="70" height="10" fill="#246bfe"/>
+              <rect x="275" y="200" width="70" height="70" fill="#246bfe"/>
+              <rect x="430" y="51" width="70" height="219" fill="#246bfe"/>
+              <text x="155" y="292" text-anchor="middle" font-size="13">2020</text>
+              <text x="310" y="292" text-anchor="middle" font-size="13">2024</text>
+              <text x="465" y="292" text-anchor="middle" font-size="13">2029E</text>
+              <text x="155" y="253" text-anchor="middle" font-size="12">139亿</text>
+              <text x="310" y="193" text-anchor="middle" font-size="12">934亿</text>
+              <text x="465" y="44" text-anchor="middle" font-size="12">2,918亿</text>
+              <text x="78" y="34" font-size="13" fill="#627084">中国域控制器解决方案市场规模，人民币</text>
+            </svg>
+          </div>
+          <p class="note">行业预测来自招股书引用的弗若斯特沙利文。预测不等于确定收入，但说明车联天下踩在电子电气架构重构的大周期上。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. 机制图：长期飞轮与长期刹车同时存在</h2>
+      <p class="lead">车联天下的长期表现取决于两个相反回路：正向飞轮是“车型定点 → 出货放量 → 研发摊销 → 平台复用 → 更多定点”；负向约束是“客户/供应商集中 → 议价与账期压力 → 现金流承压 → 融资依赖/研发节奏约束”。</p>
+      <div class="svgbox">
+        <svg viewBox="0 0 1120 640" aria-label="车联天下长期反馈机制图">
+          <defs>
+            <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#5a6878"></path>
+            </marker>
+          </defs>
+          <text x="280" y="42" text-anchor="middle" font-size="22" font-weight="760" fill="#1f8f5f">R1 正向飞轮：平台复用与车型定点</text>
+          <ellipse cx="280" cy="165" rx="110" ry="45" fill="#f1faf5" stroke="#93c7ab"/>
+          <text x="280" y="160" text-anchor="middle" font-size="16" font-weight="700">OEM车型定点</text>
+          <text x="280" y="183" text-anchor="middle" font-size="13" fill="#627084">更多量产项目</text>
+          <ellipse cx="505" cy="280" rx="112" ry="45" fill="#f1faf5" stroke="#93c7ab"/>
+          <text x="505" y="276" text-anchor="middle" font-size="16" font-weight="700">出货放量</text>
+          <text x="505" y="299" text-anchor="middle" font-size="13" fill="#627084">规模制造/质量经验</text>
+          <ellipse cx="280" cy="420" rx="115" ry="45" fill="#f1faf5" stroke="#93c7ab"/>
+          <text x="280" y="416" text-anchor="middle" font-size="16" font-weight="700">研发摊销下降</text>
+          <text x="280" y="439" text-anchor="middle" font-size="13" fill="#627084">费用率改善</text>
+          <ellipse cx="72" cy="280" rx="112" ry="45" fill="#f1faf5" stroke="#93c7ab"/>
+          <text x="72" y="276" text-anchor="middle" font-size="16" font-weight="700">平台复用</text>
+          <text x="72" y="299" text-anchor="middle" font-size="13" fill="#627084">跨品牌/车型</text>
+          <path d="M 370 183 C 450 205, 508 222, 515 238" fill="none" stroke="#1f8f5f" stroke-width="3" marker-end="url(#arr2)"/>
+          <path d="M 486 324 C 440 382, 390 415, 396 417" fill="none" stroke="#1f8f5f" stroke-width="3" marker-end="url(#arr2)"/>
+          <path d="M 168 414 C 102 380, 64 342, 63 326" fill="none" stroke="#1f8f5f" stroke-width="3" marker-end="url(#arr2)"/>
+          <path d="M 89 236 C 130 168, 194 150, 177 153" fill="none" stroke="#1f8f5f" stroke-width="3" marker-end="url(#arr2)"/>
+          <text x="289" y="505" text-anchor="middle" font-size="14" fill="#1f8f5f">增强回路：如果平台能够跨车型复用，规模会改善利润质量</text>
+
+          <text x="845" y="42" text-anchor="middle" font-size="22" font-weight="760" fill="#b83d4a">B1 约束回路：集中度与现金消耗</text>
+          <ellipse cx="845" cy="150" rx="122" ry="45" fill="#fff4f5" stroke="#e2a0aa"/>
+          <text x="845" y="146" text-anchor="middle" font-size="16" font-weight="700">大客户集中</text>
+          <text x="845" y="169" text-anchor="middle" font-size="13" fill="#627084">前五大客户近99%</text>
+          <ellipse cx="1040" cy="280" rx="118" ry="45" fill="#fff4f5" stroke="#e2a0aa"/>
+          <text x="1040" y="276" text-anchor="middle" font-size="16" font-weight="700">议价/账期压力</text>
+          <text x="1040" y="299" text-anchor="middle" font-size="13" fill="#627084">车型放量越大越明显</text>
+          <ellipse cx="845" cy="430" rx="126" ry="45" fill="#fff4f5" stroke="#e2a0aa"/>
+          <text x="845" y="426" text-anchor="middle" font-size="16" font-weight="700">经营现金流承压</text>
+          <text x="845" y="449" text-anchor="middle" font-size="13" fill="#627084">2024为-10.11亿元</text>
+          <ellipse cx="640" cy="280" rx="118" ry="45" fill="#fff4f5" stroke="#e2a0aa"/>
+          <text x="640" y="276" text-anchor="middle" font-size="16" font-weight="700">融资依赖上升</text>
+          <text x="640" y="299" text-anchor="middle" font-size="13" fill="#627084">影响研发与产能节奏</text>
+          <path d="M 945 166 C 1005 205, 1035 230, 1039 236" fill="none" stroke="#b83d4a" stroke-width="3" marker-end="url(#arr2)"/>
+          <path d="M 1032 326 C 994 382, 946 419, 968 414" fill="none" stroke="#b83d4a" stroke-width="3" marker-end="url(#arr2)"/>
+          <path d="M 738 427 C 682 390, 642 340, 639 326" fill="none" stroke="#b83d4a" stroke-width="3" marker-end="url(#arr2)"/>
+          <path d="M 653 235 C 690 167, 765 145, 725 148" fill="none" stroke="#b83d4a" stroke-width="3" marker-end="url(#arr2)"/>
+          <text x="846" y="505" text-anchor="middle" font-size="14" fill="#b83d4a">平衡回路：放量不能自动带来自由现金流，营运资金会吞掉增长收益</text>
+        </svg>
+      </div>
+      <div class="callout">
+        <b>长期解释：</b>2022-2024 年收入爆发说明 R1 飞轮已经启动；但 2024 年经营现金流为 -10.11 亿元，且最大供应商占采购 80.3%，说明 B1 约束也在增强。车联天下能否从“项目驱动增长”升级为“平台驱动利润”，取决于复用率、回款周期、关键料件降本和客户结构是否改善。
+      </div>
+    </section>
+
+    <section>
+      <h2>5. 能力构成：强在量产域控与供应链耦合，短板在客户独立性和现金自循环</h2>
+      <div class="grid">
+        <div class="span-6">
+          <h3>能力雷达：数据披露与结构判断</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 560 500" aria-label="能力雷达图">
+              <g transform="translate(280,250)">
+                <polygon points="0,-180 171,-56 106,146 -106,146 -171,-56" fill="#f8fafc" stroke="#d9e0e7"/>
+                <polygon points="0,-135 128,-42 79,110 -79,110 -128,-42" fill="none" stroke="#d9e0e7"/>
+                <polygon points="0,-90 86,-28 53,73 -53,73 -86,-28" fill="none" stroke="#d9e0e7"/>
+                <polygon points="0,-45 43,-14 27,37 -27,37 -43,-14" fill="none" stroke="#d9e0e7"/>
+                <line x1="0" y1="0" x2="0" y2="-190" stroke="#c5ced8"/>
+                <line x1="0" y1="0" x2="181" y2="-59" stroke="#c5ced8"/>
+                <line x1="0" y1="0" x2="112" y2="155" stroke="#c5ced8"/>
+                <line x1="0" y1="0" x2="-112" y2="155" stroke="#c5ced8"/>
+                <line x1="0" y1="0" x2="-181" y2="-59" stroke="#c5ced8"/>
+                <polygon points="0,-156 143,-46 59,81 -79,110 -137,-45" fill="rgba(36,107,254,.22)" stroke="#246bfe" stroke-width="3"/>
+                <circle cx="0" cy="-156" r="4" fill="#246bfe"/>
+                <circle cx="143" cy="-46" r="4" fill="#246bfe"/>
+                <circle cx="59" cy="81" r="4" fill="#246bfe"/>
+                <circle cx="-79" cy="110" r="4" fill="#246bfe"/>
+                <circle cx="-137" cy="-45" r="4" fill="#246bfe"/>
+                <text x="0" y="-216" text-anchor="middle" font-size="14" font-weight="700">域控量产交付</text>
+                <text x="215" y="-62" text-anchor="start" font-size="14" font-weight="700">软件/OS沉淀</text>
+                <text x="140" y="184" text-anchor="start" font-size="14" font-weight="700">客户多元化</text>
+                <text x="-140" y="184" text-anchor="end" font-size="14" font-weight="700">现金自循环</text>
+                <text x="-218" y="-62" text-anchor="end" font-size="14" font-weight="700">供应链协同</text>
+              </g>
+            </svg>
+          </div>
+          <p class="note">雷达图是结构评分，不是公司披露的官方指标。评分依据：出货与市场排名较强，软件资产与研发团队较强；客户集中和经营现金流是主要短板。</p>
+        </div>
+        <div class="span-6">
+          <h3>能力证据表</h3>
+          <table>
+            <thead><tr><th>能力层</th><th>公开证据</th><th>长期含义</th></tr></thead>
+            <tbody>
+              <tr><td>研发组织</td><td>2025H1 末 658 名员工，研发人员 402 名，占 61.1%。</td><td>仍是技术与工程密集型公司，费用刚性较强。</td></tr>
+              <tr><td>知识产权</td><td>2025H1 末拥有 237 项软件著作权、228 项专利、52 项商标。</td><td>软件/系统工程沉淀存在，但商业化仍以硬件解决方案变现。</td></tr>
+              <tr><td>量产制造</td><td>2024 年计划产能 110.1 万套，实际产量约 81.2 万套。</td><td>具备规模化交付基础，但产能利用率与客户项目节奏绑定。</td></tr>
+              <tr><td>产品延展</td><td>2025H1 区域控制器收入约 227.7 万元，仍很小。</td><td>从座舱域控走向整车/区域架构尚在早期验证期。</td></tr>
+              <tr><td>生态合作</td><td>官网披露与博世、蔚来资本等战略投资/合作；招股书披露与博世 PCBA 合作。</td><td>外部生态增强可信度，也形成关键依赖。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>6. 上下游关系：增长的“确定性”来自集中，风险也来自集中</h2>
+      <p class="lead">汽车电子一级供应商早期通常依赖少数大客户快速放量。车联天下的问题不是“有没有客户”，而是客户和供应商集中度都太高，导致它在上下游之间承受双向资金与议价压力。</p>
+      <h3>集中度热力图</h3>
+      <div class="heat" aria-label="客户与供应商集中度">
+        <div class="head"></div><div class="head">2022</div><div class="head">2023</div><div class="head">2024</div><div class="head">2025H1</div>
+        <div class="label">最大客户收入占比</div><div class="h1">40.1%</div><div class="h3">59.0%</div><div class="h3">58.7%</div><div class="h2">42.7%</div>
+        <div class="label">前五大客户收入占比</div><div class="h3">95.3%</div><div class="h4">99.5%</div><div class="h4">98.7%</div><div class="h4">99.2%</div>
+        <div class="label">最大供应商采购占比</div><div class="h4">79.1%</div><div class="h4">82.9%</div><div class="h4">80.3%</div><div class="h4">75.4%</div>
+        <div class="label">前五大供应商采购占比</div><div class="h4">89.2%</div><div class="h4">89.0%</div><div class="h3">85.0%</div><div class="h3">82.6%</div>
+      </div>
+      <div class="grid">
+        <div class="span-6">
+          <h3>上游：博世 PCBA 合作的双面性</h3>
+          <p>招股书披露，车联天下与博世自 2020 年开始合作；其 SA8155P 智能座舱域控制器作为双方合作的核心案例，已用于 6 家整车厂的 45 款车型。这个合作降低了车规制造、质量和客户信任门槛，是公司快速放量的关键。</p>
+          <p>但招股书同时披露，博世相关实体是报告期最大供应商，采购占比 2022-2025H1 分别为 79.1%、82.9%、80.3%、75.4%。这意味着材料、交付、信用期和价格条款会显著影响公司毛利率与现金流。</p>
+        </div>
+        <div class="span-6">
+          <h3>下游：OEM项目生命周期决定收入节奏</h3>
+          <p>公司服务客户数量从 2022 年 5 家增至 2025H1 的 14 家，但收入仍由前五大客户贡献约 99%。这种结构说明客户数量扩张尚未转化为收入多元化，收入仍围绕少数头部车型和平台。</p>
+          <p>如果新客户只是小批量验证，则不能明显改善集中度；只有当第二梯队客户进入多个量产车型，且平台复用带来较低边际研发投入，集中度风险才会实质下降。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>7. 决策图：长期位置判断的目标—约束树</h2>
+      <p class="lead">如果把车联天下看作一个长期观察对象，关键不是“收入能不能继续增长”，而是“增长能否转化为可持续自由现金流和更高议价能力”。</p>
+      <div class="svgbox">
+        <svg viewBox="0 0 1120 660" aria-label="目标约束树">
+          <defs>
+            <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#627084"></path>
+            </marker>
+          </defs>
+          <rect x="340" y="28" width="440" height="74" rx="8" fill="#1d2733"/>
+          <text x="560" y="58" text-anchor="middle" font-size="20" font-weight="760" fill="#fff">长期目标</text>
+          <text x="560" y="84" text-anchor="middle" font-size="15" fill="#dce6f0">从项目型域控供应商升级为平台型整车计算伙伴</text>
+          <line x1="560" y1="102" x2="560" y2="142" stroke="#627084" stroke-width="2" marker-end="url(#arr3)"/>
+          <rect x="80" y="145" width="220" height="84" rx="8" fill="#edf4ff" stroke="#b9ccef"/>
+          <text x="190" y="176" text-anchor="middle" font-size="16" font-weight="700">目标1：利润质量</text>
+          <text x="190" y="201" text-anchor="middle" font-size="13" fill="#627084">毛利率稳定提升</text>
+          <rect x="330" y="145" width="220" height="84" rx="8" fill="#f0fbf5" stroke="#b9dcc7"/>
+          <text x="440" y="176" text-anchor="middle" font-size="16" font-weight="700">目标2：客户结构</text>
+          <text x="440" y="201" text-anchor="middle" font-size="13" fill="#627084">降低单一客户收入波动</text>
+          <rect x="580" y="145" width="220" height="84" rx="8" fill="#fff8ec" stroke="#e9c990"/>
+          <text x="690" y="176" text-anchor="middle" font-size="16" font-weight="700">目标3：现金自循环</text>
+          <text x="690" y="201" text-anchor="middle" font-size="13" fill="#627084">经营现金流接近转正</text>
+          <rect x="830" y="145" width="220" height="84" rx="8" fill="#f7f1ff" stroke="#cab9ef"/>
+          <text x="940" y="176" text-anchor="middle" font-size="16" font-weight="700">目标4：架构迁移</text>
+          <text x="940" y="201" text-anchor="middle" font-size="13" fill="#627084">舱驾融合/区域控制器</text>
+
+          <line x1="560" y1="122" x2="190" y2="145" stroke="#627084" stroke-width="2"/>
+          <line x1="560" y1="122" x2="440" y2="145" stroke="#627084" stroke-width="2"/>
+          <line x1="560" y1="122" x2="690" y2="145" stroke="#627084" stroke-width="2"/>
+          <line x1="560" y1="122" x2="940" y2="145" stroke="#627084" stroke-width="2"/>
+
+          <rect x="80" y="285" width="220" height="260" rx="8" fill="#fff" stroke="#d9e0e7"/>
+          <text x="190" y="315" text-anchor="middle" font-size="16" font-weight="700" fill="#b83d4a">硬约束</text>
+          <text x="102" y="354" font-size="14">• BOM与芯片成本</text>
+          <text x="102" y="386" font-size="14">• 价格年降与车型竞争</text>
+          <text x="102" y="418" font-size="14">• 车规质量责任</text>
+          <text x="102" y="450" font-size="14">• 大客户项目节奏</text>
+          <text x="102" y="482" font-size="14">• 关键供应商供货/账期</text>
+
+          <rect x="330" y="285" width="220" height="260" rx="8" fill="#fff" stroke="#d9e0e7"/>
+          <text x="440" y="315" text-anchor="middle" font-size="16" font-weight="700" fill="#bf7a1d">软约束</text>
+          <text x="352" y="354" font-size="14">• OEM信任与历史交付</text>
+          <text x="352" y="386" font-size="14">• 平台复用程度</text>
+          <text x="352" y="418" font-size="14">• 软件体验可感知度</text>
+          <text x="352" y="450" font-size="14">• 组织跨项目效率</text>
+          <text x="352" y="482" font-size="14">• 海外法规适配能力</text>
+
+          <rect x="580" y="285" width="220" height="260" rx="8" fill="#fff" stroke="#d9e0e7"/>
+          <text x="690" y="315" text-anchor="middle" font-size="16" font-weight="700" fill="#246bfe">关键资源</text>
+          <text x="602" y="354" font-size="14">• 研发团队与IP</text>
+          <text x="602" y="386" font-size="14">• 博世/芯片平台合作</text>
+          <text x="602" y="418" font-size="14">• 已量产客户关系</text>
+          <text x="602" y="450" font-size="14">• 产线与质量体系</text>
+          <text x="602" y="482" font-size="14">• IPO融资窗口</text>
+
+          <rect x="830" y="285" width="220" height="260" rx="8" fill="#fff" stroke="#d9e0e7"/>
+          <text x="940" y="315" text-anchor="middle" font-size="16" font-weight="700" fill="#1f8f5f">长期方案</text>
+          <text x="852" y="354" font-size="14">A. 深耕头部客户</text>
+          <text x="852" y="386" font-size="14">B. 客户多元化扩张</text>
+          <text x="852" y="418" font-size="14">C. 平台化+区域控制器</text>
+          <text x="852" y="450" font-size="14">D. 海外车型生态跟随</text>
+          <text x="852" y="482" font-size="14">E. 软件/数据能力上移</text>
+        </svg>
+      </div>
+      <h3>三种长期情景</h3>
+      <table>
+        <thead><tr><th>情景</th><th>触发条件</th><th>经营表现</th><th>观察指标</th></tr></thead>
+        <tbody>
+          <tr><td><b>平台化成功</b></td><td>同一域控/OS平台跨多个OEM和车型复用，区域控制器逐步放量。</td><td class="good">收入继续增长，研发费用率下降，经营现金流改善。</td><td>前五大客户占比下降；区域控制器收入占比提升；毛利率突破并稳定在更高区间。</td></tr>
+          <tr><td><b>项目型增长</b></td><td>新车型持续定点，但每个项目都需要较多定制，平台复用有限。</td><td class="warn">收入增长但利润率横盘，现金流持续承压。</td><td>收入增长但应收/存货/合同资产同步扩张；研发费用率不再下降。</td></tr>
+          <tr><td><b>价格与架构挤压</b></td><td>OEM自研或强势供应商降维竞争，舱驾融合/中央计算迭代快于公司产品迁移。</td><td class="bad">ASP下滑，毛利率下降，亏损扩大或融资依赖增强。</td><td>ASP连续下行；最大客户收入波动；最大供应商占比仍高且毛利率被压缩。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>8. 长周期洞察：车联天下处在“域控普及后半场、中央计算前半场”</h2>
+      <div class="grid">
+        <div class="span-6">
+          <h3>洞察一：赛道确定性高，但赛道红利会从“装车率”转向“架构升级”</h3>
+          <p>2020-2024 年，中国智能汽车销量从约 740 万辆增至 2,290 万辆；招股书预测 2029 年达到 3,050 万辆。智能车渗透的第一阶段是座舱域控普及，下一阶段是舱驾融合、中央计算和区域控制器。车联天下已经享受第一阶段红利，但未来增长必须证明自己能跟上第二阶段架构迁移。</p>
+        </div>
+        <div class="span-6">
+          <h3>洞察二：硬件收入放量快，软件护城河需要用复用率验证</h3>
+          <p>公司拥有 Autosee OS、软件著作权和大规模研发团队，但财务上仍主要表现为硬件解决方案收入。真正的软件护城河不是“有没有OS名字”，而是平台复用带来的项目边际成本下降、交付周期缩短和客户切换成本上升。</p>
+        </div>
+        <div class="span-6">
+          <h3>洞察三：供应链合作是早期加速器，也是长期依赖项</h3>
+          <p>博世合作让车联天下获得车规制造、PCBA和OEM信任背书，这是其快速量产的重要条件。长期看，公司需要把这种合作转化为多源供应、联合开发议价和质量体系资产，而不是停留在单一采购依赖。</p>
+        </div>
+        <div class="span-6">
+          <h3>洞察四：现金流是长期胜负手</h3>
+          <p>2024 年经调整亏损收窄到 9,530 万元，但经营现金流净额为 -10.11 亿元。这说明利润表改善不等于商业模式自循环。域控供应商夹在上游芯片/PCBA和下游OEM账期之间，营运资金能力会决定它能否穿越车型换代周期。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>9. 未来跟踪清单</h2>
+      <table>
+        <thead><tr><th>跟踪主题</th><th>关键问题</th><th>优先看的数据</th><th>判断方向</th></tr></thead>
+        <tbody>
+          <tr><td>客户多元化</td><td>客户数量增长是否变成收入结构改善？</td><td>最大客户、前五大客户占比；新增客户量产车型数量。</td><td>前五大客户低于 85% 是结构改善的初步信号。</td></tr>
+          <tr><td>区域控制器/舱驾融合</td><td>第二曲线是否开始贡献收入？</td><td>区域控制器收入、出货、毛利率；舱驾融合项目定点。</td><td>收入占比与毛利率同时提升才算有效迁移。</td></tr>
+          <tr><td>毛利率韧性</td><td>ASP下行时毛利率能否稳定？</td><td>ASP、BOM成本、主要材料采购占比。</td><td>毛利率稳定或提升说明复用/降本有效。</td></tr>
+          <tr><td>现金转换</td><td>增长是否吞噬现金？</td><td>经营现金流、应收账款、存货、合同资产、应付账款。</td><td>经营现金流接近转正比单年收入增速更重要。</td></tr>
+          <tr><td>供应链独立性</td><td>最大供应商占比能否下降？</td><td>最大供应商和前五大供应商采购占比。</td><td>最大供应商低于 50% 才说明依赖明显缓解。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>10. 来源</h2>
+      <ul class="source-list">
+        <li><a href="https://www.hkexnews.hk/app/sehk/2025/107906/documents/sehk25112803068_c.pdf">港交所：无锡车联天下智能科技股份有限公司申请版本招股书，2025-11-28</a>。用于财务、出货、客户/供应商集中度、研发人员、产能、行业顾问数据。</li>
+        <li><a href="https://www.auto-link.com.cn/">车联天下官网</a>。用于公司业务定位、产品线、客户合作、投资与生态表述。</li>
+        <li><a href="https://www.eco.gov.cn/news_info/64238.html">中国经济网/中经网：2025年中国汽车产销数据，2026-01-13</a>。用于宏观汽车与新能源汽车产销背景。</li>
+      </ul>
+      <p class="note">注：招股书中的行业规模和排名来自其委托/引用的弗若斯特沙利文资料，属于可靠披露来源但仍为预测和第三方估计；本报告对预测部分均以“行业假设”而非确定事实处理。</p>
+    </section>
+  </main>
+</body>
+</html>
