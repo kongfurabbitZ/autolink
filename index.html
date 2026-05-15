@@ -1,0 +1,3073 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>车联天下国际化能力建设交流材料</title>
+  <link rel="icon" href="data:," />
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --paper: #ffffff;
+      --ink: #18202a;
+      --muted: #667085;
+      --line: #d9dee7;
+      --teal: #087a7c;
+      --teal-soft: #e5f4f2;
+      --blue: #315b9d;
+      --blue-soft: #e9eef9;
+      --red: #b64444;
+      --red-soft: #fae9e7;
+      --amber: #9a650d;
+      --amber-soft: #fff1d6;
+      --green: #2f7a4f;
+      --green-soft: #e6f3ea;
+      --shadow: 0 20px 60px rgba(24, 32, 42, 0.10);
+      --radius: 8px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      letter-spacing: 0;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    button, a {
+      font: inherit;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(49, 91, 157, 0.25);
+    }
+
+    a:hover {
+      border-bottom-color: currentColor;
+    }
+
+    .topbar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 20;
+      height: 58px;
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) auto auto;
+      align-items: center;
+      gap: 16px;
+      padding: 0 24px;
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      background:
+        linear-gradient(135deg, var(--teal) 0 49%, transparent 50%),
+        linear-gradient(315deg, var(--red) 0 48%, var(--amber) 49%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+      flex: 0 0 auto;
+    }
+
+    .brand-title {
+      min-width: 0;
+    }
+
+    .brand-title strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-title span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .progress-wrap {
+      width: min(24vw, 280px);
+      height: 8px;
+      border-radius: 99px;
+      background: #edf0f4;
+      overflow: hidden;
+      border: 1px solid #e0e5ec;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--blue), var(--amber));
+      transition: width 180ms ease;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn,
+    .mode-btn {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+
+    .icon-btn {
+      width: 36px;
+      display: inline-grid;
+      place-items: center;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .mode-btn {
+      padding: 0 12px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .icon-btn:hover,
+    .mode-btn:hover {
+      border-color: #a8b3c4;
+      transform: translateY(-1px);
+    }
+
+    .mode-btn[aria-pressed="true"] {
+      color: #fff;
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .shell {
+      height: 100vh;
+      padding-top: 58px;
+      display: grid;
+      grid-template-columns: 264px minmax(0, 1fr);
+    }
+
+    .rail {
+      border-right: 1px solid var(--line);
+      background: #fff;
+      overflow: auto;
+      padding: 18px 14px 22px;
+    }
+
+    .rail h2 {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .toc {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .toc button {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      min-height: 42px;
+      padding: 8px;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .toc button:hover {
+      background: #f4f6f8;
+    }
+
+    .toc button.active {
+      background: var(--blue-soft);
+      border-color: #cbd8f2;
+    }
+
+    .toc .num {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .toc button.active .num {
+      background: var(--ink);
+    }
+
+    .toc .label {
+      min-width: 0;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .toc .kicker {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .deck {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(49, 91, 157, 0.04), transparent 35%),
+        var(--bg);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      overflow: auto;
+      padding: clamp(26px, 4vw, 52px);
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide-inner {
+      max-width: 1180px;
+      min-height: calc(100vh - 58px - clamp(52px, 8vw, 104px));
+      margin: 0 auto;
+      display: grid;
+      align-content: center;
+      gap: 24px;
+    }
+
+    .cover .slide-inner {
+      align-content: stretch;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 920px;
+      margin-bottom: 18px;
+      font-size: clamp(40px, 6vw, 78px);
+      line-height: 1.04;
+      font-weight: 820;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      max-width: 960px;
+      margin-bottom: 10px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.08;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 9px;
+      font-size: 18px;
+      line-height: 1.28;
+      font-weight: 760;
+    }
+
+    .lead {
+      max-width: 880px;
+      margin-bottom: 0;
+      color: #3f4856;
+      font-size: clamp(17px, 2.1vw, 22px);
+      line-height: 1.7;
+    }
+
+    .sublead {
+      max-width: 840px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.95fr);
+      gap: clamp(24px, 4vw, 54px);
+      align-items: stretch;
+      height: 100%;
+    }
+
+    .hero-copy {
+      align-self: center;
+    }
+
+    .hero-panel {
+      display: grid;
+      align-content: center;
+      gap: 14px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, #fff, #f8fafc);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-statement {
+      padding: 18px;
+      border-left: 4px solid var(--teal);
+      background: var(--teal-soft);
+      border-radius: 0 8px 8px 0;
+      color: #164b4d;
+      font-size: 18px;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .contact-card {
+      display: inline-grid;
+      gap: 4px;
+      margin-top: 20px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--blue);
+      border-radius: var(--radius);
+      background: #fff;
+      color: #354052;
+      box-shadow: 0 10px 26px rgba(24, 32, 42, 0.07);
+    }
+
+    .contact-card strong {
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .contact-card span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: #465162;
+      font-size: 13px;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .tag::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 10px 30px rgba(24, 32, 42, 0.055);
+    }
+
+    .card.no-shadow {
+      box-shadow: none;
+    }
+
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+
+    .metric {
+      display: grid;
+      gap: 7px;
+      min-height: 124px;
+    }
+
+    .metric .value {
+      font-size: clamp(28px, 3.8vw, 46px);
+      line-height: 1;
+      font-weight: 840;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .metric .label {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .metric.teal { border-top: 5px solid var(--teal); }
+    .metric.blue { border-top: 5px solid var(--blue); }
+    .metric.amber { border-top: 5px solid var(--amber); }
+    .metric.red { border-top: 5px solid var(--red); }
+    .metric.green { border-top: 5px solid var(--green); }
+
+    .note {
+      padding: 16px 18px;
+      border-radius: var(--radius);
+      background: #eef2f7;
+      color: #394555;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .note strong {
+      color: var(--ink);
+    }
+
+    .note.teal { background: var(--teal-soft); color: #164b4d; }
+    .note.amber { background: var(--amber-soft); color: #5c3a08; }
+    .note.red { background: var(--red-soft); color: #6e2929; }
+    .note.green { background: var(--green-soft); color: #1f5136; }
+
+    .list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 22px;
+      color: #3f4856;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.68em;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--teal);
+    }
+
+    .list.red li::before { background: var(--red); }
+    .list.amber li::before { background: var(--amber); }
+    .list.blue li::before { background: var(--blue); }
+    .list.green li::before { background: var(--green); }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .four-col {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .pill-title {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      margin-bottom: 10px;
+      padding: 4px 9px;
+      border-radius: 6px;
+      background: #edf0f4;
+      color: #354052;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .plain-title {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .diagram {
+      width: 100%;
+      min-height: 300px;
+      display: grid;
+      align-items: center;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .chain {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .chain-node {
+      position: relative;
+      min-height: 156px;
+      padding: 16px;
+      border: 1px solid #dce2eb;
+      border-radius: var(--radius);
+      background: #f8fafc;
+    }
+
+    .chain-node:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: -11px;
+      top: 50%;
+      width: 18px;
+      height: 2px;
+      background: #b8c2d2;
+    }
+
+    .chain-node strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .chain-node span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .chain-node.focus {
+      border-color: #93c7c4;
+      background: var(--teal-soft);
+      box-shadow: inset 0 0 0 2px rgba(8, 122, 124, 0.09);
+    }
+
+    .friction {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .friction-item {
+      min-height: 96px;
+      padding: 13px;
+      border-radius: 7px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .friction-item strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .friction-item span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .ecosystem-map {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-areas:
+        "supplier shareholder customer"
+        "software core overseas"
+        "capital partner compliance";
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .eco-node,
+    .eco-core {
+      min-height: 132px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .eco-core {
+      grid-area: core;
+      display: grid;
+      align-content: center;
+      text-align: center;
+      background: var(--ink);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .eco-core strong {
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .eco-core span {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .eco-node strong,
+    .cash-step strong,
+    .bottleneck strong,
+    .fourall-card strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .eco-node span,
+    .cash-step span,
+    .bottleneck span,
+    .fourall-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .eco-node.supplier { grid-area: supplier; border-top: 5px solid var(--red); }
+    .eco-node.shareholder { grid-area: shareholder; border-top: 5px solid var(--blue); }
+    .eco-node.customer { grid-area: customer; border-top: 5px solid var(--amber); }
+    .eco-node.software { grid-area: software; border-top: 5px solid var(--teal); }
+    .eco-node.overseas { grid-area: overseas; border-top: 5px solid var(--green); }
+    .eco-node.capital { grid-area: capital; border-top: 5px solid var(--blue); }
+    .eco-node.partner { grid-area: partner; border-top: 5px solid var(--teal); }
+    .eco-node.compliance { grid-area: compliance; border-top: 5px solid var(--red); }
+
+    .insight-strip {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .insight {
+      min-height: 160px;
+      display: grid;
+      align-content: start;
+      gap: 9px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .insight .day {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .insight strong {
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .insight span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .tension {
+      display: grid;
+      grid-template-columns: 1fr 88px 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .tension-side {
+      padding: 22px;
+      border-radius: var(--radius);
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .tension-side.opportunity {
+      border-top: 5px solid var(--green);
+    }
+
+    .tension-side.fragility {
+      border-top: 5px solid var(--red);
+    }
+
+    .versus {
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .ring {
+      width: min(460px, 100%);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      position: relative;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 18deg, #dbeafe 0 20%, #e5f4f2 0 40%, #fff1d6 0 60%, #fae9e7 0 80%, #e6f3ea 0 100%);
+      border: 1px solid var(--line);
+      box-shadow: inset 0 0 0 34px #fff, var(--shadow);
+    }
+
+    .ring-center {
+      position: absolute;
+      inset: 31%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      padding: 20px;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .ring-label {
+      position: absolute;
+      width: 140px;
+      min-height: 58px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(24, 32, 42, 0.08);
+      font-size: 13px;
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    .ring-label small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .ring-label.l1 { left: 50%; top: -10px; transform: translateX(-50%); }
+    .ring-label.l2 { right: -18px; top: 29%; }
+    .ring-label.l3 { right: 8%; bottom: 4%; }
+    .ring-label.l4 { left: 8%; bottom: 4%; }
+    .ring-label.l5 { left: -18px; top: 29%; }
+
+    .pathway {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .path-card {
+      min-height: 260px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .path-card .step {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 14px;
+      border-radius: 7px;
+      color: #fff;
+      background: var(--teal);
+      font-weight: 800;
+    }
+
+    .question-bank {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .question-card {
+      min-height: 230px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .question-card .topic {
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .question-card p {
+      margin: 0;
+      color: #2b3442;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .timebox {
+      min-height: 330px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .timebox .time {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 64px;
+      height: 34px;
+      margin-bottom: 14px;
+      border-radius: 7px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .gate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .gate {
+      min-height: 280px;
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gate::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 6px;
+      background: var(--teal);
+    }
+
+    .gate:nth-child(2)::before { background: var(--amber); }
+    .gate:nth-child(3)::before { background: var(--red); }
+
+    .gate .gate-num {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .source-list {
+      columns: 2;
+      column-gap: 34px;
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .source-list li {
+      break-inside: avoid;
+      margin: 0 0 10px;
+      color: #3f4856;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .footnote {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .slide-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .kbd {
+      padding: 2px 6px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #fff;
+      color: #4b5565;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      padding: 12px 13px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .mini-table th {
+      background: #f1f4f8;
+      color: #364153;
+      font-weight: 800;
+    }
+
+    .mini-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .callout-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .callout {
+      min-height: 150px;
+      padding: 17px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .callout span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .force-map {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-areas:
+        "supplier entrant substitute"
+        "buyer center rival";
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .force-node {
+      min-height: 142px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .force-node.center {
+      display: grid;
+      align-content: center;
+      text-align: center;
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .force-node.center span {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .force-node strong,
+    .wf-item strong,
+    .scenario-cell strong,
+    .gantt-row strong,
+    .prune-node strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .force-node span,
+    .wf-item span,
+    .scenario-cell span,
+    .gantt-row span,
+    .prune-node span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .force-node.supplier { grid-area: supplier; border-top: 5px solid var(--red); }
+    .force-node.buyer { grid-area: buyer; border-top: 5px solid var(--red); }
+    .force-node.rival { grid-area: rival; border-top: 5px solid var(--amber); }
+    .force-node.entrant { grid-area: entrant; border-top: 5px solid var(--blue); }
+    .force-node.substitute { grid-area: substitute; border-top: 5px solid var(--green); }
+    .force-node.center { grid-area: center; }
+
+    .waterfall {
+      min-height: 330px;
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 10px;
+      align-items: end;
+      padding: 20px 16px 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .wf-item {
+      display: grid;
+      gap: 8px;
+      align-content: end;
+      min-width: 0;
+    }
+
+    .wf-bar {
+      min-height: 28px;
+      display: grid;
+      place-items: center;
+      padding: 6px 4px;
+      border-radius: 6px 6px 0 0;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .wf-bar.pos { background: var(--teal); }
+    .wf-bar.neg { background: var(--red); }
+    .wf-bar.mid { background: var(--amber); }
+    .wf-bar.final { background: var(--ink); }
+
+    .wf-label {
+      min-height: 42px;
+      color: #3f4856;
+      font-size: 11px;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .cash-chain {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .cash-step {
+      position: relative;
+      min-height: 156px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .cash-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: -9px;
+      top: 48%;
+      width: 14px;
+      height: 2px;
+      background: #b8c2d2;
+    }
+
+    .cash-step .num {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .bottleneck-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .bottleneck {
+      min-height: 118px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--red);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .bmc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .bmc-cell {
+      min-height: 146px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .bmc-cell.cost { border-top: 5px solid var(--red); }
+    .bmc-cell.value { border-top: 5px solid var(--amber); }
+    .bmc-cell.resource { border-top: 5px solid var(--blue); }
+    .bmc-cell.center { border-top: 5px solid var(--teal); background: var(--teal-soft); }
+
+    .bmc-code {
+      display: inline-flex;
+      margin-bottom: 8px;
+      padding: 3px 7px;
+      border-radius: 5px;
+      background: #eef2f7;
+      color: #344054;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .fourall-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .fourall-card {
+      min-height: 230px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .fourall-card:nth-child(1) { border-top: 5px solid var(--blue); }
+    .fourall-card:nth-child(2) { border-top: 5px solid var(--teal); }
+    .fourall-card:nth-child(3) { border-top: 5px solid var(--amber); }
+    .fourall-card:nth-child(4) { border-top: 5px solid var(--green); }
+
+    .candidate-question {
+      margin-top: 2px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--ink);
+      border-radius: var(--radius);
+      background: #fff;
+      color: #344054;
+      box-shadow: 0 8px 20px rgba(24, 32, 42, 0.045);
+    }
+
+    .candidate-question strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .candidate-question span {
+      color: #3f4856;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .strategy-lanes,
+    .evolution-line,
+    .milestone-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .strategy-row {
+      display: grid;
+      grid-template-columns: 130px repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .strategy-label {
+      display: grid;
+      place-items: center;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: #fff;
+      font-weight: 800;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .strategy-step,
+    .milestone-card,
+    .evo-step {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .strategy-step strong,
+    .milestone-card strong,
+    .evo-step strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .strategy-step span,
+    .milestone-card span,
+    .evo-step span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .evolution-line {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
+    }
+
+    .evo-step {
+      position: relative;
+      min-height: 188px;
+      border-top: 5px solid var(--blue);
+    }
+
+    .evo-step:nth-child(2) { border-top-color: var(--teal); }
+    .evo-step:nth-child(3) { border-top-color: var(--amber); }
+
+    .evo-year {
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .milestone-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .milestone-card {
+      min-height: 236px;
+    }
+
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: 86px repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .scenario-head,
+    .scenario-row-head {
+      min-height: 48px;
+      display: grid;
+      place-items: center;
+      padding: 10px;
+      border-radius: var(--radius);
+      background: #eef2f7;
+      color: #344054;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .scenario-cell {
+      min-height: 128px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .scenario-cell.up { border-top: 5px solid var(--green); }
+    .scenario-cell.base { border-top: 5px solid var(--blue); }
+    .scenario-cell.down { border-top: 5px solid var(--red); }
+
+    .gantt {
+      display: grid;
+      gap: 10px;
+    }
+
+    .gantt-scale,
+    .gantt-row {
+      display: grid;
+      grid-template-columns: 160px repeat(6, minmax(0, 1fr));
+      gap: 8px;
+      align-items: center;
+    }
+
+    .gantt-scale span {
+      min-height: 28px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .gantt-row {
+      min-height: 56px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .gantt-bar {
+      min-height: 32px;
+      display: grid;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 7px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .gantt-bar.blue { background: var(--blue); }
+    .gantt-bar.teal { background: var(--teal); }
+    .gantt-bar.amber { background: var(--amber); }
+    .gantt-bar.red { background: var(--red); }
+    .gantt-bar.green { background: var(--green); }
+
+    .prune-tree {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .prune-col {
+      display: grid;
+      gap: 12px;
+    }
+
+    .prune-node {
+      min-height: 124px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .prune-node.root {
+      border-top: 5px solid var(--blue);
+      background: var(--blue-soft);
+    }
+
+    .prune-node.keep {
+      border-top: 5px solid var(--green);
+    }
+
+    .prune-node.cut {
+      border-top: 5px solid var(--red);
+    }
+
+    .source-chip {
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      min-height: 28px;
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+      word-break: break-all;
+    }
+
+    .mode-hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    body.handout {
+      overflow: auto;
+    }
+
+    body.handout .shell {
+      min-height: 100vh;
+      height: auto;
+    }
+
+    body.handout .deck {
+      overflow: visible;
+    }
+
+    body.handout .slide {
+      position: relative;
+      display: block;
+      min-height: auto;
+      border-bottom: 1px solid var(--line);
+    }
+
+    body.handout .slide-inner {
+      min-height: 0;
+      align-content: start;
+    }
+
+    body.handout .slide-footer .mode-hint::after {
+      content: "阅读模式：全部页面已展开，适合滚动阅读或打印。";
+    }
+
+    @media (max-width: 1100px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .rail {
+        display: none;
+      }
+
+      .topbar {
+        grid-template-columns: minmax(180px, 1fr) auto;
+      }
+
+      .progress-wrap {
+        display: none;
+      }
+
+      .hero-grid,
+      .two-col,
+      .three-col,
+      .timeline,
+      .gate-grid,
+      .pathway,
+      .tension,
+      .force-map,
+      .ecosystem-map,
+      .bmc-grid,
+      .fourall-grid,
+      .strategy-row,
+      .evolution-line,
+      .milestone-grid,
+      .prune-tree {
+        grid-template-columns: 1fr;
+      }
+
+      .versus {
+        min-height: 30px;
+      }
+
+      .section-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-3,
+      .span-4,
+      .span-5,
+      .span-6,
+      .span-7,
+      .span-8,
+      .span-12 {
+        grid-column: auto;
+      }
+
+      .insight-strip,
+      .question-bank,
+      .four-col,
+      .chain,
+      .friction,
+      .callout-row,
+      .waterfall,
+      .cash-chain,
+      .bottleneck-grid,
+      .scenario-grid,
+      .gantt-scale,
+      .gantt-row {
+        grid-template-columns: 1fr;
+      }
+
+      .chain-node:not(:last-child)::after,
+      .cash-step:not(:last-child)::after {
+        display: none;
+      }
+
+      .gantt-bar {
+        grid-column: auto !important;
+      }
+
+      .source-list {
+        columns: 1;
+      }
+
+      .ring {
+        width: min(390px, 100%);
+      }
+
+      .ring-label {
+        position: static;
+        width: auto;
+        transform: none !important;
+        margin: 8px auto 0;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar {
+        height: auto;
+        min-height: 58px;
+        padding: 8px 12px;
+      }
+
+      .brand-title span {
+        display: none;
+      }
+
+      .mode-btn.print-btn {
+        display: none;
+      }
+
+      .shell {
+        padding-top: 58px;
+      }
+
+      .slide {
+        padding: 22px 16px 34px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      h2 {
+        font-size: 30px;
+      }
+
+      .hero-panel {
+        padding: 18px;
+      }
+
+      .hero-statement {
+        font-size: 16px;
+      }
+    }
+
+    @media print {
+      body {
+        overflow: visible;
+        background: #fff;
+      }
+
+      .topbar,
+      .rail {
+        display: none !important;
+      }
+
+      .shell {
+        display: block;
+        height: auto;
+        padding: 0;
+      }
+
+      .deck {
+        overflow: visible;
+        background: #fff;
+      }
+
+      .slide {
+        display: block !important;
+        position: relative;
+        min-height: 100vh;
+        padding: 28px;
+        page-break-after: always;
+        background: #fff;
+      }
+
+      .slide-inner {
+        max-width: none;
+        min-height: 0;
+        align-content: start;
+      }
+
+      .card,
+      .hero-panel,
+      .diagram,
+      .question-card,
+      .timebox,
+      .gate,
+      .path-card,
+      .callout,
+      .contact-card,
+      .candidate-question {
+        box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand" aria-label="文档标题">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <div class="brand-title">
+        <strong>车联天下国际化能力建设</strong>
+        <span>战略观察与讨论议题 · 2026-05-15</span>
+      </div>
+    </div>
+    <div class="progress-wrap" aria-hidden="true">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="controls">
+      <button class="icon-btn" id="prevBtn" title="上一页" aria-label="上一页">‹</button>
+      <button class="icon-btn" id="nextBtn" title="下一页" aria-label="下一页">›</button>
+      <button class="mode-btn" id="modeBtn" aria-pressed="false">阅读模式</button>
+      <button class="mode-btn print-btn" id="printBtn">打印</button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="rail" aria-label="内容目录">
+      <h2>目录</h2>
+      <ol class="toc" id="toc"></ol>
+    </aside>
+
+    <main class="deck" id="deck">
+      <section class="slide cover active" data-title="首页" data-kicker="共同议题">
+        <div class="slide-inner">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow">Strategic Conversation Brief</p>
+              <h1>国际化能力建设：从海外项目支持走向全球化组织系统</h1>
+              <p class="lead">围绕车联天下智能座舱、舱驾融合与全球化布局，本材料整理若干战略观察与讨论议题，聚焦国际化流程、知识管理、人才发展、合规证据链与 AI 运营场景的体系化建设。</p>
+              <div class="meta-row">
+                <span class="tag">全球化组织能力</span>
+                <span class="tag">流程 / 知识 / 人才 / 合规</span>
+                <span class="tag">AI 运营与数据闭环</span>
+              </div>
+              <div class="contact-card" aria-label="候选人联系方式">
+                <strong>瞿博文</strong>
+                <span>166 1986 2025</span>
+                <span>bowen88500@126.com</span>
+              </div>
+            </div>
+            <div class="hero-panel">
+              <div class="plain-title">核心命题</div>
+              <div class="hero-statement">车联天下的国际化建设，正在从产品交付能力延伸到总部能力在海外可运行、可复制的组织系统。</div>
+              <div class="note">
+                <strong>能力定位：</strong>国际化建设支持职能可承担流程、知识、人才、合规与 AI 运营的系统建构工作，其成效取决于授权、汇报线与跨部门治理机制。
+              </div>
+              <div class="slide-footer">
+                <span>讨论目的：围绕国际化建设的关键能力、优先级与协同机制形成共同语言。</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>如果用一句话定义这个岗位最应创造的价值，贵公司更希望它优先解决海外项目交付效率、全球组织能力，还是利润结构改善？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="讨论框架" data-kicker="共同议题">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Discussion Framework</p>
+            <h2>讨论围绕三个问题展开</h2>
+            <p class="lead">车联天下的国际化建设可从业务承接、组织复用和运营效率三个层面展开。三者共同决定海外项目能否从单点交付走向体系化复制。</p>
+          </div>
+
+          <div class="callout-row">
+            <div class="callout">
+              <strong>如何承接全球客户项目</strong>
+              <span>从客户需求、项目交付、质量闭环到合规证据链，形成可复制的海外项目承接机制。</span>
+            </div>
+            <div class="callout">
+              <strong>如何提升组织复用能力</strong>
+              <span>将项目经验沉淀为流程、知识资产、人才认证和总部-海外接口规则。</span>
+            </div>
+            <div class="callout">
+              <strong>如何用 AI 与数据改善运营</strong>
+              <span>从知识管理、经营分析、项目治理和内审预检切入，形成可量化的运营效率提升。</span>
+            </div>
+          </div>
+
+          <div class="note teal">
+            <strong>交流重点：</strong>以事实基础、能力建设重点和落地路径为主，围绕国际化建设目标、资源配置和跨部门协同机制进一步对齐。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>在业务承接、组织复用、AI 运营三件事里，贵公司认为 2026 年最不能失手的是哪一项？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="公司转折点" data-kicker="事实底座">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Company Inflection Point</p>
+            <h2>机会基础清晰，重点在结构化承接能力</h2>
+            <p class="lead">公开信息与公司披露显示，车联天下已具备量产、客户、研发与资本背书，下一阶段可重点关注客户结构、供应链、资金节奏和海外能力建设的协同。</p>
+          </div>
+
+          <div class="section-grid">
+            <div class="card metric teal span-3">
+              <div class="value">660+</div>
+              <div class="label">员工规模，研发人员约 460+，研发密度较高。</div>
+            </div>
+            <div class="card metric blue span-3">
+              <div class="value">81 万台</div>
+              <div class="label">2024 年交付量，出口约 12.4 万台，出口占比约 15.3%。</div>
+            </div>
+            <div class="card metric amber span-3">
+              <div class="value">26.56 亿</div>
+              <div class="label">2024 年收入规模，盈利结构仍处持续改善阶段。</div>
+            </div>
+            <div class="card metric red span-3">
+              <div class="value">99% 左右</div>
+              <div class="label">前五大客户收入占比，客户结构是关键战略变量。</div>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="card no-shadow">
+              <span class="pill-title">正面信号</span>
+              <ul class="list green">
+                <li>国内智能座舱域控与舱驾融合已有量产基础。</li>
+                <li>高通平台、国产平台、中央计算、Autosee OS 均有布局。</li>
+                <li>博世、蔚来资本、无锡国联、威孚高科等股东提供产业与资本背书。</li>
+              </ul>
+            </div>
+            <div class="card no-shadow">
+              <span class="pill-title">能力建设议题</span>
+              <ul class="list red">
+                <li>客户集中度与供应商集中度较高，议价与连续性风险需要制度化对冲。</li>
+                <li>收入仍以硬件为主，软件与服务独立计费能力有待提升。</li>
+                <li>海外市场扩张同时要求合规、工程、质量、人才与知识体系的组合能力。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>在客户集中、供应集中、现金节奏和海外能力之间，管理层当前最关注的领先指标是哪一个？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="关键观察" data-kicker="逻辑收敛">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Key Observations</p>
+            <h2>七个关键观察可作为讨论基础</h2>
+            <p class="lead">围绕生态位、竞争格局、盈利结构、全球化战略、技术栈、AI 演进和中期趋势，可形成以下七项讨论基础。</p>
+          </div>
+
+          <div class="insight-strip">
+            <div class="insight">
+              <div class="day">01</div>
+              <strong>生态位</strong>
+              <span>从座舱域控 Tier1 向舱驾融合、中央计算方向上移。</span>
+            </div>
+            <div class="insight">
+              <div class="day">02</div>
+              <strong>竞争格局</strong>
+              <span>买方议价、同业竞争与替代技术演进需要持续管理。</span>
+            </div>
+            <div class="insight">
+              <div class="day">03</div>
+              <strong>盈利结构</strong>
+              <span>盈利质量可从毛利结构、软件计费与中央计算高 ASP 三个方向观察。</span>
+            </div>
+            <div class="insight">
+              <div class="day">04</div>
+              <strong>四全战略</strong>
+              <span>四全战略提供清晰框架，后续关键在海外人才、能力与组织结构承接。</span>
+            </div>
+            <div class="insight">
+              <div class="day">05</div>
+              <strong>技术栈</strong>
+              <span>硅基与应用层较强，中间件、OTA、CI/CD 证据链需验证。</span>
+            </div>
+            <div class="insight">
+              <div class="day">06</div>
+              <strong>AI 演进</strong>
+              <span>AI 入舱建议避免以单一模型为中心，更适合关注 Agent runtime、端云调度与数据闭环。</span>
+            </div>
+            <div class="insight">
+              <div class="day">07</div>
+              <strong>路径选择</strong>
+              <span>先夯实资金节奏与合规支点，再通过海外能力闭环积累长期增长空间。</span>
+            </div>
+          </div>
+
+          <div class="note amber">
+            <strong>综合观察：</strong>国际化建设的价值在于帮助公司把产品、流程、知识、合规和 AI 运营连接成可复制的全球能力。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>这七个观察里，哪一项最接近公司内部正在讨论的核心矛盾，哪一项需要我进一步校准？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="生态关系网" data-kicker="Day 1">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Ecosystem Network</p>
+            <h2>生态关系网：车联天下处在多重关系的交汇点</h2>
+            <p class="lead">从生态关系看，公司既承接高通平台、博世背书与头部 OEM 项目机会，也需要处理供应集中、客户集中、海外合规和资本市场预期之间的联动。</p>
+          </div>
+
+          <div class="ecosystem-map" aria-label="Day1 生态关系网">
+            <div class="eco-node supplier">
+              <strong>上游芯片与硬件伙伴</strong>
+              <span>高通提供 8155/8255/8775/8797 等平台基础，芯驰等国产芯片形成替代储备；供应集中决定 BOM 与交付韧性。</span>
+            </div>
+            <div class="eco-node shareholder">
+              <strong>产业与资本股东</strong>
+              <span>博世、蔚来资本、无锡国联、威孚高科等形成产业与资本背书，也带来战略边界和治理协同议题。</span>
+            </div>
+            <div class="eco-node customer">
+              <strong>核心 OEM 客户</strong>
+              <span>奇瑞、北汽、广汽、长城、吉利、上汽等客户构成基本盘；头部客户深度绑定带来规模，也放大结构波动。</span>
+            </div>
+            <div class="eco-node software">
+              <strong>OS / 中间件生态</strong>
+              <span>Autosee OS、QNX、Android Automotive、AUTOSAR Adaptive、SOA 与 API 治理共同决定软件复用和平台化空间。</span>
+            </div>
+            <div class="eco-core">
+              <strong>车联天下</strong>
+              <span>座舱域控 Tier1 向舱驾融合、中央计算和全球化组织能力上移。</span>
+            </div>
+            <div class="eco-node overseas">
+              <strong>海外渠道与本地支点</strong>
+              <span>日本横滨销售中心、罗马尼亚/欧洲工程支点和随车出海渠道，是海外客户入口与本地化能力的起点。</span>
+            </div>
+            <div class="eco-node capital">
+              <strong>资本市场窗口</strong>
+              <span>港股递表与募资节奏影响研发、海外和组织建设投入，也要求战略故事与经营指标保持一致。</span>
+            </div>
+            <div class="eco-node partner">
+              <strong>项目交付协同方</strong>
+              <span>Tier2 屏幕、摄像头、存储、PCBA、测试与认证伙伴共同影响项目质量、成本和版本交付节奏。</span>
+            </div>
+            <div class="eco-node compliance">
+              <strong>合规与客户信任</strong>
+              <span>R155/R156、ASPICE、GDPR、功能安全与 OTA 证据链，决定海外项目从试点进入量产体系的可信度。</span>
+            </div>
+          </div>
+
+          <div class="note teal">
+            <strong>交流切入：</strong>生态关系网的重点不是列出相关方，而是识别哪些关系需要被流程、知识、合规和组织机制固化，避免关键经验只停留在单个项目或个人接口。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>高通、博世、核心 OEM、资本市场与海外渠道五类关系中，国际化建设支持职能最应优先打通哪一类接口？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="价值链上下游" data-kicker="Day 1 · 结构图">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Structure Map</p>
+            <h2>价值链上下游：中段位置决定“被挤压”与“向上走”的双重逻辑</h2>
+            <p class="lead">从上游芯片到下游 OEM，车联天下位于价值链中段：一方面承接高通平台红利与客户项目机会，另一方面也承受上游 BOM、下游议价和海外合规的多重挤压。</p>
+          </div>
+
+          <div class="diagram">
+            <div class="chain" aria-label="价值链结构图">
+              <div class="chain-node">
+                <strong>上游芯片与 IP</strong>
+                <span>高通 8155/8255/8775/8797，芯驰与 MTK 作为替代储备。</span>
+              </div>
+              <div class="chain-node">
+                <strong>OS 与中间件</strong>
+                <span>Autosee、Android/QNX 生态、HAL、SOA 与 API 治理。</span>
+              </div>
+              <div class="chain-node focus">
+                <strong>车联天下位置</strong>
+                <span>座舱域控、舱驾融合、中央计算与项目交付能力。</span>
+              </div>
+              <div class="chain-node">
+                <strong>OEM 项目体系</strong>
+                <span>奇瑞、北汽、广汽、长城、上汽、吉利等客户接口。</span>
+              </div>
+              <div class="chain-node">
+                <strong>海外市场承接</strong>
+                <span>随车出海、欧洲工程支点、合规证据链与售后质量闭环。</span>
+              </div>
+            </div>
+
+            <div class="friction">
+              <div class="friction-item">
+                <strong>供应端约束</strong>
+                <span>芯片平台强耦合带来速度，也带来供应和议价风险。</span>
+              </div>
+              <div class="friction-item">
+                <strong>客户端约束</strong>
+                <span>客户集中带来规模，也要求多 OEM 流程复用能力。</span>
+              </div>
+              <div class="friction-item">
+                <strong>海外端约束</strong>
+                <span>合规、质量、人才与数据证据链决定欧洲客户信任。</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="note teal">
+            <strong>讨论问题：</strong>公司希望把中段位置升级为平台位，还是先巩固高质量工程供应商位置？前者要求软件、合规和海外组织能力，后者更强调交付效率与成本控制。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>公司更希望把中段位置升级为平台位，还是先巩固高质量工程供应商位置？这会直接影响岗位的建设重点。</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="五力机制" data-kicker="Day 2 · Porter">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Porter Five Forces</p>
+            <h2>五力不是静态评分，而是利润池被挤压的传导机制</h2>
+            <p class="lead">车联天下的核心议题，不只是“竞争强不强”，而是供应商、客户、替代技术和同业竞争如何同时作用于 ASP、BOM、研发投入和现金节奏。</p>
+          </div>
+
+          <div class="force-map" aria-label="Porter 五力作用机制流程图">
+            <div class="force-node supplier">
+              <strong>供应商议价</strong>
+              <span>高通平台带来技术速度与客户认可，也使核心 BOM、供货节奏和成本谈判集中在少数关键上游。</span>
+            </div>
+            <div class="force-node entrant">
+              <strong>潜在进入者</strong>
+              <span>OEM 自研、华为车 BU、域控 ODM 与软件平台公司，都在重新定义 Tier1 边界。</span>
+            </div>
+            <div class="force-node substitute">
+              <strong>替代技术</strong>
+              <span>舱驾融合、中央计算、AI Agent 与整车操作系统，可能让传统座舱域控价值被重新切分。</span>
+            </div>
+            <div class="force-node buyer">
+              <strong>买方议价</strong>
+              <span>头部客户集中带来规模与验证场景，也要求更强的多客户流程复用和价格韧性。</span>
+            </div>
+            <div class="force-node center">
+              <strong>利润池挤压</strong>
+              <span>ASP 受客户压制，BOM 受上游牵引，研发费用随平台升级上行。</span>
+            </div>
+            <div class="force-node rival">
+              <strong>同业竞争</strong>
+              <span>德赛西威、博世、佛吉亚等在平台化、软件收入和海外信任上形成多维竞争。</span>
+            </div>
+          </div>
+
+          <div class="note amber">
+            <strong>建议讨论问题：</strong>公司更希望优先修复哪一股力的传导链条：上游 BOM、客户结构、软件定价，还是海外合规信任？不同选择会导向完全不同的国际化建设重点。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>五力里最值得优先管理的是供应商议价、客户集中、替代技术，还是同业平台化竞争？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="单位经济学" data-kicker="Day 3 · 利润结构">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Unit Economics</p>
+            <h2>26.56 亿营收下为何仍亏 2.53 亿</h2>
+            <p class="lead">单位经济学拆解显示，问题不只是规模阶段，而是硬件 ASP、BOM、研发分摊与毛利结构之间的关系。国际化建设需要回答：海外业务是否能带来更高 ASP、更高软件占比与更低重复交付成本。</p>
+          </div>
+
+          <div class="waterfall" aria-label="单位经济学瀑布图">
+            <div class="wf-item">
+              <div class="wf-bar pos" style="height: 230px;">¥3,279</div>
+              <div class="wf-label">单台 ASP</div>
+            </div>
+            <div class="wf-item">
+              <div class="wf-bar neg" style="height: 156px;">-1,800</div>
+              <div class="wf-label">芯片 / 高通</div>
+            </div>
+            <div class="wf-item">
+              <div class="wf-bar neg" style="height: 78px;">-700</div>
+              <div class="wf-label">PCBA / 存储</div>
+            </div>
+            <div class="wf-item">
+              <div class="wf-bar neg" style="height: 46px;">-249</div>
+              <div class="wf-label">其他物料</div>
+            </div>
+            <div class="wf-item">
+              <div class="wf-bar mid" style="height: 74px;">¥530</div>
+              <div class="wf-label">单台毛利</div>
+            </div>
+            <div class="wf-item">
+              <div class="wf-bar neg" style="height: 66px;">-454</div>
+              <div class="wf-label">研发分摊</div>
+            </div>
+            <div class="wf-item">
+              <div class="wf-bar neg" style="height: 38px;">-100</div>
+              <div class="wf-label">销售费用</div>
+            </div>
+            <div class="wf-item">
+              <div class="wf-bar neg" style="height: 42px;">-120</div>
+              <div class="wf-label">管理费用</div>
+            </div>
+            <div class="wf-item">
+              <div class="wf-bar neg" style="height: 46px;">-142</div>
+              <div class="wf-label">财务 + 减值</div>
+            </div>
+            <div class="wf-item">
+              <div class="wf-bar final" style="height: 58px;">-¥286</div>
+              <div class="wf-label">单台净损益</div>
+            </div>
+          </div>
+
+          <div class="three-col">
+            <div class="note red"><strong>结构性压力：</strong>ASP 约 3,279 元，BOM 占比高，单台毛利约 530 元，不足以覆盖研发、销售、管理与财务分摊。</div>
+            <div class="note amber"><strong>关键杠杆：</strong>若毛利率停留在约 16%，仅靠出货放量对盈利改善有限；若毛利率向 22%-24% 提升，盈亏平衡线明显前移。</div>
+            <div class="note green"><strong>国际化含义：</strong>海外高 ASP 项目、中央计算产品与软件/服务收费，是改善毛利结构的三条可验证路径。</div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>公司更相信规模改善盈利，还是毛利结构升级改善盈利？海外业务在其中承担什么角色？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="订单现金链" data-kicker="Day 3">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Order-To-Cash Chain</p>
+            <h2>订单→现金链条：瓶颈不只在收入端，也在交付和回款节奏</h2>
+            <p class="lead">单位经济学解释利润结构，订单到现金链条解释现金效率。对国际化建设而言，关键是把报价、项目开发、采购、交付、验收、回款和复盘连接为可追踪的管理闭环。</p>
+          </div>
+
+          <div class="cash-chain" aria-label="订单到现金链条流转图">
+            <div class="cash-step">
+              <div class="num">1</div>
+              <strong>客户定点 / RFQ</strong>
+              <span>需求定义、目标价格、交付窗口与合规要求进入报价和项目立项。</span>
+            </div>
+            <div class="cash-step">
+              <div class="num">2</div>
+              <strong>NRE 与项目开发</strong>
+              <span>定制开发、样件、测试、版本迭代与客户评审消耗研发和项目资源。</span>
+            </div>
+            <div class="cash-step">
+              <div class="num">3</div>
+              <strong>BOM 锁定与采购</strong>
+              <span>芯片、PCBA、存储、屏幕与摄像头等物料决定毛利弹性和供应韧性。</span>
+            </div>
+            <div class="cash-step">
+              <div class="num">4</div>
+              <strong>生产交付</strong>
+              <span>量产节拍、质量验证、EOL 测试和问题闭环影响交付效率。</span>
+            </div>
+            <div class="cash-step">
+              <div class="num">5</div>
+              <strong>验收开票</strong>
+              <span>客户验收、软件版本确认、质量问题处理和合规材料决定开票节点。</span>
+            </div>
+            <div class="cash-step">
+              <div class="num">6</div>
+              <strong>回款入账</strong>
+              <span>账期、索赔、返修、年降和客户集中度共同影响经营现金流。</span>
+            </div>
+            <div class="cash-step">
+              <div class="num">7</div>
+              <strong>复盘再投入</strong>
+              <span>将经验沉淀为平台复用、知识资产、人才认证和下一轮项目效率。</span>
+            </div>
+          </div>
+
+          <div class="bottleneck-grid" aria-label="瓶颈标注">
+            <div class="bottleneck">
+              <strong>客户集中瓶颈</strong>
+              <span>单一或少数头部客户的需求变更、年降与账期安排，会放大收入和现金波动。</span>
+            </div>
+            <div class="bottleneck">
+              <strong>BOM 成本瓶颈</strong>
+              <span>高通与核心物料占比高，若 ASP 承压，毛利改善需要更强的平台复用和采购协同。</span>
+            </div>
+            <div class="bottleneck">
+              <strong>项目制瓶颈</strong>
+              <span>NRE、定制开发和多轮验收容易占用现金，流程标准化与需求冻结机制很关键。</span>
+            </div>
+            <div class="bottleneck">
+              <strong>海外闭环瓶颈</strong>
+              <span>海外项目增加合规、质量、售后和本地响应要求，证据链完整度会影响验收和复购。</span>
+            </div>
+          </div>
+
+          <div class="note amber">
+            <strong>交流切入：</strong>若岗位能够把订单现金链条中的瓶颈前置可视化，就能把国际化建设从“支持性工作”转化为影响利润质量和现金效率的管理抓手。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>订单到现金链条里，当前现金效率最大的瓶颈在报价、采购、交付、验收，还是回款？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="BMC 九宫格" data-kicker="商业模式画布">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Business Model Canvas</p>
+            <h2>BMC 九宫格：最需要补强的是“价值端复利”</h2>
+            <p class="lead">从商业模式画布看，车联天下左侧资源、伙伴、研发和交付能力并不弱；更值得讨论的是右侧价值端能否从硬件项目制，走向软件、数据、升级和长期运营。</p>
+          </div>
+
+          <div class="bmc-grid" aria-label="BMC 九宫格">
+            <div class="bmc-cell resource"><span class="bmc-code">KP</span><h3>关键合作伙伴</h3><p class="sublead">高通提供主芯片并占采购较高比例；芯驰形成国产平台储备；博世兼具战略股东与全球渠道协同价值；横滨销售伙伴提供日本市场入口。</p></div>
+            <div class="bmc-cell cost"><span class="bmc-code">KA</span><h3>关键业务</h3><p class="sublead">座舱域控研发、舱驾融合产品化、Autosee OS 开发、项目交付与售后、ASPICE 合规和海外项目本地化。</p></div>
+            <div class="bmc-cell value"><span class="bmc-code">CR</span><h3>客户关系</h3><p class="sublead">项目制深度绑定、多年期定点合作、联合开发 A+B 分工、售后驻场支持与研发资源池共享。</p></div>
+            <div class="bmc-cell cost"><span class="bmc-code">CO</span><h3>成本结构</h3><p class="sublead">物料成本约 84%，研发投入约 13.8%，销售管理约 7%，财务与减值约 4%；成本改善需要平台化复用。</p></div>
+            <div class="bmc-cell center"><span class="bmc-code">VP</span><h3>价值主张</h3><p class="sublead">面向 OEM 提供高性价比域控、快速定制、本土平台兼容、多平台支持和合规背书；面向资本市场提供细分赛道份额与成长性叙事。</p></div>
+            <div class="bmc-cell value"><span class="bmc-code">CH</span><h3>渠道通路</h3><p class="sublead">OEM 直接对接、横滨日本销售中心、博世全球渠道协同，以及通过整车出海间接渗透海外市场。</p></div>
+            <div class="bmc-cell resource"><span class="bmc-code">KR</span><h3>关键资源</h3><p class="sublead">460+ 研发人员、博世股东背书、奇瑞深度绑定、港股递表通道、99 个国家出货记录与 Autosee OS 知识资产。</p></div>
+            <div class="bmc-cell value"><span class="bmc-code">RS</span><h3>收入流</h3><p class="sublead">硬件销售约 85%-90%，软件授权约 5%-8%，服务/NRE 约 3%-5%；IP 授权仍接近空白。</p></div>
+            <div class="bmc-cell value"><span class="bmc-code">CS</span><h3>客户细分</h3><p class="sublead">国内头部 OEM 以奇瑞为核心，覆盖北汽、广汽、长城、吉利、上汽等；海外随车出海覆盖 99 国，未来可关注欧洲 OEM 直供机会。</p></div>
+          </div>
+
+          <div class="note teal">
+            <strong>建议讨论问题：</strong>国际化建设的第一性目标，是支持销售扩张，还是把项目制经验转化为可复用的平台、知识、合规和收费能力？
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>九宫格里，贵公司最希望未来三年发生结构性变化的是收入流、客户细分，还是价值主张？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="四全战略内涵" data-kicker="Day 4">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Four-Global Strategy</p>
+            <h2>“四全战略”内涵分解：从市场覆盖走向能力复制</h2>
+            <p class="lead">“全球客户、全球能力、全球团队、全球生态”可以理解为国际化建设的四个相互支撑的系统。其关键不只是“走出去”，而是总部能力能否在海外场景中稳定运行。</p>
+          </div>
+
+          <div class="fourall-grid" aria-label="四全战略内涵分解">
+            <div class="fourall-card">
+              <span class="pill-title">全球客户</span>
+              <strong>从随车出海到海外客户入口</strong>
+              <span>第一阶段依托中国 OEM 出海和既有客户项目；第二阶段需要建立海外客户需求澄清、项目报价、技术支持与本地响应机制。</span>
+            </div>
+            <div class="fourall-card">
+              <span class="pill-title">全球能力</span>
+              <strong>从交付能力到可审计能力</strong>
+              <span>将工程、质量、合规、售后、版本治理和数据闭环沉淀为标准流程，使海外项目不依赖临时协调和个人经验。</span>
+            </div>
+            <div class="fourall-card">
+              <span class="pill-title">全球团队</span>
+              <strong>从人员派驻到组织接口</strong>
+              <span>建立总部-海外接口人、角色能力模型、人才认证、知识库和复盘机制，让本地团队能够独立承接客户和项目问题。</span>
+            </div>
+            <div class="fourall-card">
+              <span class="pill-title">全球生态</span>
+              <strong>从单点伙伴到信任网络</strong>
+              <span>将芯片、Tier2、认证机构、质量售后、渠道伙伴、产业股东和资本市场连接成海外可信交付网络。</span>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="note teal">
+              <strong>岗位切入点：</strong>国际化建设支持职能可把“四全战略”拆解成流程制度、知识资产、人才标准、合规证据链和 AI 运营看板。
+            </div>
+            <div class="note amber">
+              <strong>管理重点：</strong>四个“全球”需要共同推进，但启动阶段应明确优先顺序：先客户入口、先工程合规，还是先组织体系。
+            </div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>四全战略里，哪一项已经有成熟机制，哪一项仍需要从 0 到 1 搭建？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="战略时间表" data-kicker="三段跳">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Strategic Timeline</p>
+            <h2>战略三段跳与“四全战略”需要在同一张时间表里对齐</h2>
+            <p class="lead">技术跃迁、客户多元化、全球组织和资本窗口不是四条独立线。若节奏错位，单点突破很难转化为系统性跃迁。</p>
+          </div>
+
+          <div class="strategy-lanes" aria-label="战略三段跳与四全战略时间表">
+            <div class="strategy-row">
+              <div class="strategy-label">三段跳</div>
+              <div class="strategy-step"><strong>1. 域控立足</strong><span>以座舱域控量产、核心客户项目和高通平台经验形成基本盘。</span></div>
+              <div class="strategy-step"><strong>2. 舱驾融合</strong><span>用 AL-A1 / 8775 等项目验证跨域集成、质量闭环和软件中间层能力。</span></div>
+              <div class="strategy-step"><strong>3. 中央计算</strong><span>用 8797、SOA、API 治理和 OTA 证据链切入更高 ASP 和平台位置。</span></div>
+              <div class="strategy-step"><strong>4. 平台化复利</strong><span>通过海外客户、软件收费和知识复用，把项目能力转成组织能力。</span></div>
+            </div>
+            <div class="strategy-row">
+              <div class="strategy-label">四全战略</div>
+              <div class="strategy-step"><strong>全球客户</strong><span>从随车出海到海外客户入口，先扩客户，再扩复用。</span></div>
+              <div class="strategy-step"><strong>全球能力</strong><span>工程、质量、合规、售后和数据闭环同步本地化。</span></div>
+              <div class="strategy-step"><strong>全球团队</strong><span>总部流程与海外接口人形成标准协同，而非单点协调。</span></div>
+              <div class="strategy-step"><strong>全球生态</strong><span>认证、供应链、资本和伙伴网络共同形成海外信任。</span></div>
+            </div>
+          </div>
+
+          <div class="note amber">
+            <strong>建议讨论问题：</strong>如果 2026-2027 年只能优先投入一条线，公司更愿意优先押注中央计算定点、欧洲工程能力，还是海外客户直供入口？
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>如果三段跳与四全战略节奏冲突，2026-2027 年更应优先保技术跃迁，还是组织本地化？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="技术演进" data-kicker="Day 5 · 时间表">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Technology Evolution</p>
+            <h2>座舱域控 → 舱驾融合 → 中央计算：每一跳都更考验组织系统</h2>
+            <p class="lead">技术路线越往上，越不是单纯硬件迭代，而是研发流程、合规证据链、软件平台、客户接口和全球交付共同升级。</p>
+          </div>
+
+          <div class="evolution-line" aria-label="座舱域控到中央计算演进时间表">
+            <div class="evo-step">
+              <div class="evo-year">2021-2024</div>
+              <h3>座舱域控规模化</h3>
+              <ul class="list blue">
+                <li>8155/8255 量产经验建立基本盘。</li>
+                <li>收入第二与装机第四的口径差，提示 ASP 与定制成本都需拆解。</li>
+                <li>组织重点：供应稳定、项目复盘、成本透明。</li>
+              </ul>
+            </div>
+            <div class="evo-step">
+              <div class="evo-year">2025-2027</div>
+              <h3>舱驾融合量产验证</h3>
+              <ul class="list green">
+                <li>8775 / AL-A1 等项目验证跨域集成。</li>
+                <li>质量、功能安全、网络安全与 OTA 开始前置进入项目治理。</li>
+                <li>组织重点：跨部门决策、需求冻结、版本控制。</li>
+              </ul>
+            </div>
+            <div class="evo-step">
+              <div class="evo-year">2028+</div>
+              <h3>中央计算与平台位</h3>
+              <ul class="list amber">
+                <li>8797 定点只是入口，关键在量产、复用和毛利结构。</li>
+                <li>软件平台、API、Agent runtime 与数据闭环决定长期价值。</li>
+                <li>组织重点：全球合规、软件收费、海外客户信任。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>从域控到中央计算，每一跳最可能卡在技术、客户定点、合规，还是跨部门流程？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="1/3/5 年情景" data-kicker="矩阵">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Scenario Matrix</p>
+            <h2>1/3/5 年关键里程碑：真正关键的是哪些节点会打开或剪掉后续路径</h2>
+            <p class="lead">情景矩阵把财务、客户、技术、组织四维放在同一张图里。它的价值不是预测，而是识别哪些早期信号值得管理层提前盯住。</p>
+          </div>
+
+          <div class="scenario-grid" aria-label="1/3/5 年情景影响矩阵">
+            <div></div>
+            <div class="scenario-head">1Y<br><span>现金流与 IPO 窗口</span></div>
+            <div class="scenario-head">3Y<br><span>海外化与客户结构</span></div>
+            <div class="scenario-head">5Y<br><span>平台位与组织形态</span></div>
+            <div class="scenario-row-head">上行</div>
+            <div class="scenario-cell up"><strong>打开主路径</strong><span>IPO 成功，营收约 33-35 亿；8797 中央计算取得首个定点，海外团队启动招募。</span></div>
+            <div class="scenario-cell up"><strong>验证跃迁</strong><span>海外占比 25%-30%，中央计算量产，毛利结构升级，海外能力闭环成型。</span></div>
+            <div class="scenario-cell up"><strong>平台终局</strong><span>海外占比超过 35%，集中度低于 75%，欧洲 OEM 直供突破，组织完成结构型转变。</span></div>
+            <div class="scenario-row-head">基准</div>
+            <div class="scenario-cell base"><strong>稳态延续</strong><span>营收约 30 亿，亏损大体持平；Deep Fusion EEA 仍处架构先于订单阶段。</span></div>
+            <div class="scenario-cell base"><strong>承接磨合</strong><span>营收约 45 亿，仍在盈亏线附近；舱驾融合量产，总部与海外接口磨合中。</span></div>
+            <div class="scenario-cell base"><strong>微利稳态</strong><span>形成区域工程供应商客户结构，组织独立但生态层位置有限。</span></div>
+            <div class="scenario-row-head">下行</div>
+            <div class="scenario-cell down"><strong>剪枝压力</strong><span>IPO 遇阻或现金压力上升，研发投入与海外计划被迫收缩。</span></div>
+            <div class="scenario-cell down"><strong>路径收缩</strong><span>客户分流叠加中央计算推进不及预期，第二跳全球化与第三跳中央计算相互拖累。</span></div>
+            <div class="scenario-cell down"><strong>边缘化风险</strong><span>客户基础、技术位置和组织形态同步承压，可能退回可替代工程节点。</span></div>
+          </div>
+
+          <div class="note teal">
+            <strong>建议讨论问题：</strong>公司内部最看重的 1 年领先指标是什么：现金跑道、8797 定点、欧洲组织启动，还是客户集中度下降？
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>公司内部是否已经明确 1 年、3 年、5 年的领先指标和路径剪枝条件？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="行业甘特图" data-kicker="关键事件">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Industry Event Gantt</p>
+            <h2>行业关键事件甘特图：战略窗口不是无限期开放</h2>
+            <p class="lead">将行业事件、公司动作和岗位建设放到同一条时间轴，能更清楚地看到：国际化建设不是“有空再做”，而是与资本窗口、技术窗口和客户窗口同步竞争。</p>
+          </div>
+
+          <div class="gantt" aria-label="行业关键事件甘特图">
+            <div class="gantt-scale"><span></span><span>2024</span><span>2025</span><span>2026</span><span>2027</span><span>2028</span><span>2029</span></div>
+            <div class="gantt-row">
+              <div><strong>座舱域控基本盘</strong><span>8155/8255 普及，域控竞争加剧。</span></div>
+              <div class="gantt-bar blue" style="grid-column: 2 / 4;">量产规模与 ASP 口径验证</div>
+            </div>
+            <div class="gantt-row">
+              <div><strong>资本市场窗口</strong><span>递表、募资、现金跑道与估值故事。</span></div>
+              <div class="gantt-bar amber" style="grid-column: 3 / 5;">IPO 与资金节奏</div>
+            </div>
+            <div class="gantt-row">
+              <div><strong>舱驾融合窗口</strong><span>跨域集成、质量闭环、功能安全与版本治理。</span></div>
+              <div class="gantt-bar teal" style="grid-column: 4 / 6;">量产验证与复用</div>
+            </div>
+            <div class="gantt-row">
+              <div><strong>欧洲本地化窗口</strong><span>罗马尼亚、合规认证、工程响应与客户信任。</span></div>
+              <div class="gantt-bar green" style="grid-column: 4 / 7;">工程支点与客户入口</div>
+            </div>
+            <div class="gantt-row">
+              <div><strong>中央计算窗口</strong><span>8797、SOA、OTA、Agent runtime 与数据闭环。</span></div>
+              <div class="gantt-bar red" style="grid-column: 5 / 8;">平台位竞争</div>
+            </div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>哪些行业窗口是公司认为必须在 2026-2027 年抢下来的？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="剪枝树" data-kicker="决策图">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Outcome-Oriented Pruning Tree</p>
+            <h2>结果导向剪枝树：先识别会剪掉后续路径的门槛</h2>
+            <p class="lead">与其讨论所有可能性，不如先看哪些门槛会直接剪掉后续路径。对岗位而言，最有价值的工作，是把这些门槛前置为可监控、可治理、可复盘的管理机制。</p>
+          </div>
+
+          <div class="prune-tree" aria-label="结果导向剪枝树">
+            <div class="prune-col">
+              <div class="prune-node root"><strong>上行目标</strong><span>从座舱域控 Tier1 走向舱驾融合 / 中央计算平台型公司。</span></div>
+              <div class="prune-node root"><strong>岗位抓手</strong><span>流程、知识、人才、合规、AI 运营和海外项目治理。</span></div>
+            </div>
+            <div class="prune-col">
+              <div class="prune-node"><strong>现金门槛</strong><span>1 年内 IPO 与资金节奏若承压，3 年的中央计算量产与海外闭环会被显著延后。</span></div>
+              <div class="prune-node"><strong>客户结构门槛</strong><span>3 年内若仍高度依赖单一头部客户，5 年终局更可能落在区域工程供应商，而非平台公司。</span></div>
+              <div class="prune-node"><strong>技术跃迁门槛</strong><span>8797 定点只是入口，真正决定上行的是中央计算量产、复用率和软件毛利。</span></div>
+            </div>
+            <div class="prune-col">
+              <div class="prune-node keep"><strong>保留路径</strong><span>资金节奏稳定 + 客户多元化 + 中央计算量产 + 海外能力闭环。</span></div>
+              <div class="prune-node cut"><strong>剪枝路径</strong><span>现金压力、客户分流或技术第三跳失败，会同步压缩研发、海外和组织建设。</span></div>
+            </div>
+          </div>
+
+          <div class="note amber">
+            <strong>建议讨论问题：</strong>公司是否已有一套“剪枝指标”仪表盘，用来监控现金、客户、技术、组织四类门槛？若需要进一步补强，国际化建设支持职能可以优先建立这类系统。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>哪些信号一旦出现，公司会主动收缩路径、调整资源，而不是继续平均投入？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="关键矛盾" data-kicker="机制图">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Core Tension</p>
+            <h2>机会窗口清晰，结构承接能力需要同步建设</h2>
+            <p class="lead">该议题的重点在于：如何把外部机会牵引转化为组织结构承接能力。</p>
+          </div>
+
+          <div class="tension">
+            <div class="tension-side opportunity">
+              <h3>机会窗口</h3>
+              <ul class="list green">
+                <li>中国 OEM 出海带动座舱和域控产品随车出海。</li>
+                <li>舱驾融合、中央计算、SDV 推动新一轮平台换代。</li>
+                <li>欧洲本地工程、质量和合规能力不足，为中国 Tier1 留出窗口。</li>
+                <li>AI 入舱带来 Agent runtime、端云调度与数据闭环的新机会。</li>
+              </ul>
+            </div>
+            <div class="versus">需要被组织化承接</div>
+            <div class="tension-side fragility">
+              <h3>结构约束</h3>
+              <ul class="list red">
+                <li>客户集中度高，单一客户策略变化会放大业务波动。</li>
+                <li>高通平台依赖带来研发速度，也带来供应链与成本约束。</li>
+                <li>博世既是股东与技术背书，也可能带来欧洲业务边界的治理张力。</li>
+                <li>海外组织、合规证据链、CI/CD 与知识复用体系仍需验证。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="note amber">
+            <strong>建议讨论方向：</strong>机会窗口转化为全球化能力，需要把结构约束转化为可管理、可审计、可复制的组织能力。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>机会窗口和结构约束同时存在时，贵公司希望这个岗位先放大机会，还是先治理约束？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="全球化能力闭环" data-kicker="机制图">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Global Capability Loop</p>
+            <h2>国际化不只是销售扩张，更是能力本地化</h2>
+            <p class="lead">公司公开提出的“四全战略”强调能力全球化。全球化不只是销售扩张，而是客户、能力、团队、合作方和资本的闭环。</p>
+          </div>
+
+          <div class="two-col">
+            <div class="diagram">
+              <div class="ring" aria-label="全球化五环闭环">
+                <div class="ring-center">能力全球化<br>五环闭环</div>
+                <div class="ring-label l1">客户<small>需求、定点、反馈</small></div>
+                <div class="ring-label l2">能力<small>工程、质量、合规</small></div>
+                <div class="ring-label l3">团队<small>本地人才与总部接口</small></div>
+                <div class="ring-label l4">合作方<small>供应链、认证、服务</small></div>
+                <div class="ring-label l5">资本<small>IPO 背书与投入</small></div>
+              </div>
+            </div>
+
+            <div class="card no-shadow">
+              <span class="pill-title">岗位的落点</span>
+              <ul class="list blue">
+                <li>把总部流程翻译成海外可执行流程，而不是简单复制总部制度。</li>
+                <li>把项目经验沉淀成知识资产与人才认证，而不是依赖个人经验。</li>
+                <li>把合规、内审、质量闭环前置到项目治理，而不是事后补材料。</li>
+                <li>把 AI 工具嵌入知识管理、经营分析和项目治理，而不是停留在工具部署。</li>
+              </ul>
+              <div class="note teal" style="margin-top: 16px;">
+                <strong>讨论问题：</strong>公司当前优先级更接近海外客户入口拓展，还是客户入口后的工程与流程闭环建设？
+              </div>
+            </div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>全球客户、能力、团队、合作方、资本之间，当前闭环最薄的一环是哪一环？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="欧洲支点" data-kicker="决策图">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Romania And Europe</p>
+            <h2>罗马尼亚更像欧洲工程支点，而非单一销售市场</h2>
+            <p class="lead">罗马尼亚相关布局的讨论重点，可放在欧盟供应链、工程响应、质量验证、合规与客户信任，而不仅是当地销量。</p>
+          </div>
+
+          <div class="pathway">
+            <div class="path-card">
+              <div class="step">1</div>
+              <h3>先建工程与质量闭环</h3>
+              <ul class="list green">
+                <li>应用工程中心</li>
+                <li>问题复现与返修分析</li>
+                <li>EOL 测试和质量实验室</li>
+                <li>欧洲客户需求澄清</li>
+              </ul>
+            </div>
+            <div class="path-card">
+              <div class="step">2</div>
+              <h3>再承接合规和本地化</h3>
+              <ul class="list blue">
+                <li>R155/R156、GDPR、ASPICE</li>
+                <li>供应商义务与 SBOM</li>
+                <li>软件更新与版本追溯</li>
+                <li>本地合作伙伴管理</li>
+              </ul>
+            </div>
+            <div class="path-card">
+              <div class="step">3</div>
+              <h3>最后按定点规模扩产</h3>
+              <ul class="list amber">
+                <li>小批量装配</li>
+                <li>本地供应链开发</li>
+                <li>欧洲 OEM 直供机会</li>
+                <li>制造能力与订单匹配</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="note amber">
+            <strong>讨论问题：</strong>公司对罗马尼亚的第一阶段目标，是销售办公室、工程交付中心、质量售后中心，还是包含制造和本地供应链的综合实体？
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>罗马尼亚/欧洲第一阶段更偏工程支点、合规支点、销售支点，还是综合实体？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="AI 与技术栈" data-kicker="动态图">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">AI And Technology Stack</p>
+            <h2>AI 机会更适合放在模型与车之间的工程层</h2>
+            <p class="lead">可讨论的 AI 站位，是模型不可知的 Agent runtime、端云调度中间件、数据闭环和合规证据链。</p>
+          </div>
+
+          <div class="section-grid">
+            <div class="card span-5 no-shadow">
+              <span class="pill-title">AI 入舱四层</span>
+              <table class="mini-table">
+                <thead>
+                  <tr><th>层级</th><th>趋势</th><th>对 Tier1 的含义</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>交互层</td><td>语音、多模态、情感交互</td><td>增长最快，也可能受到模型公司平台化能力影响。</td></tr>
+                  <tr><td>内容层</td><td>个性化、陪伴、座舱主题</td><td>体验加分，但长期差异化难度较高。</td></tr>
+                  <tr><td>决策层</td><td>VLA、车人协同</td><td>重排舱驾融合和芯片平台价值。</td></tr>
+                  <tr><td>生态层</td><td>车家办公 Agent 网络</td><td>入口主权更多在 OEM、手机与云厂商。</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card span-7 no-shadow">
+              <span class="pill-title">可重点布局的工程层</span>
+              <div class="callout-row" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+                <div class="callout">
+                  <strong>Autosee Agent Runtime</strong>
+                  <span>挂载不同模型，管理工具调用、权限、上下文与多 Agent 协作。</span>
+                </div>
+                <div class="callout">
+                  <strong>端云调度中间件</strong>
+                  <span>决定哪些任务端侧处理、哪些上云，兼顾延迟、隐私、能力和成本。</span>
+                </div>
+                <div class="callout">
+                  <strong>数据闭环</strong>
+                  <span>车端数据采集、脱敏、训练、评估、OTA 回灌，形成持续学习能力。</span>
+                </div>
+                <div class="callout">
+                  <strong>合规证据链</strong>
+                  <span>把 R156、R155、ISO/PAS 8800 变成可追溯、可审计的工程体系。</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="note red">
+            <strong>建议重点确认的关键点：</strong>OTA、全栈 CI/CD、API 治理与模型运行时监控的成熟度。这些环节决定 AI 能力能否从概念展示进入可审计、可交付、可持续迭代的工程体系。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>AI 运营在公司内部更接近效率工具，还是未来产品和工程平台的一部分？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="岗位价值模型" data-kicker="结构图">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Role Value Model</p>
+            <h2>岗位价值：把全球化战略翻译成组织操作系统</h2>
+            <p class="lead">该模型用于说明国际化建设岗位可能承担的三类系统建设任务。</p>
+          </div>
+
+          <div class="section-grid">
+            <div class="card span-4 no-shadow">
+              <span class="pill-title">流程体系</span>
+              <h3>可执行、可审计、可复制</h3>
+              <ul class="list blue">
+                <li>销售、项目、支持、HR、财务流程标准化。</li>
+                <li>海外流程内审和持续改进。</li>
+                <li>总部政策在海外端的适配机制。</li>
+              </ul>
+            </div>
+            <div class="card span-4 no-shadow">
+              <span class="pill-title">知识与人才</span>
+              <h3>经验沉淀为组织能力</h3>
+              <ul class="list green">
+                <li>全球知识库和项目复盘机制。</li>
+                <li>销售、项目经理、应用工程、质量等角色能力模型。</li>
+                <li>认证、培训和后备梯队建设。</li>
+              </ul>
+            </div>
+            <div class="card span-4 no-shadow">
+              <span class="pill-title">AI 与数据</span>
+              <h3>从工具部署到 ROI 闭环</h3>
+              <ul class="list amber">
+                <li>知识管理 RAG。</li>
+                <li>海外经营分析。</li>
+                <li>项目治理、质量复盘、合规预检。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="note teal">
+              <strong>价值定位：</strong>这一职能聚焦于把总部能力建设成海外组织可以复用的操作系统，降低项目对个人经验的过度依赖。
+            </div>
+            <div class="note amber">
+              <strong>治理前提：</strong>建议明确岗位是否具备跨部门流程制定权、资源调配权、执行机制参与权，以及与管理层和国际业务负责人的汇报关系。
+            </div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>这个岗位的授权边界是否足以推动流程、知识、人才、AI 和合规的跨部门建设？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="讨论议题" data-kicker="对齐重点">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Conversation Agenda</p>
+            <h2>5 个可以推动深度沟通的战略问题</h2>
+            <p class="lead">这些问题保留战略诊断力度，但表达方式转为“共同诊断”。它们适合用来理解公司对利润结构、客户结构、技术跃迁、合规和 AI 运营的真实优先级。</p>
+          </div>
+
+          <div class="question-bank">
+            <div class="question-card">
+              <div class="topic">盈利结构</div>
+              <h3>规模问题，还是毛利结构问题</h3>
+              <p>“公司更希望优先用出货规模改善盈利，还是用中央计算、软件收费和海外高 ASP 改善单位经济学？”</p>
+            </div>
+            <div class="question-card">
+              <div class="topic">客户结构</div>
+              <h3>深度绑定，还是主动稀释</h3>
+              <p>“头部客户高度集中，在公司内部更被视为战略绑定的优势，还是需要通过海外和多 OEM 项目主动稀释的结构变量？”</p>
+            </div>
+            <div class="question-card">
+              <div class="topic">平台边界</div>
+              <h3>高通 / 博世背书如何转化为自主平台位</h3>
+              <p>“高通生态和博世股东关系带来信任背书，同时也会形成边界。公司如何定义自有平台能力和海外授权边界？”</p>
+            </div>
+            <div class="question-card">
+              <div class="topic">合规杠杆</div>
+              <h3>将合规要求转化为客户信任</h3>
+              <p>“R155/R156/ISO/PAS 8800 更像成本项，还是进入欧洲客户体系的证据链和信任资产？”</p>
+            </div>
+            <div class="question-card">
+              <div class="topic">AI 落地</div>
+              <h3>工具部署，还是组织复利</h3>
+              <p>“AI 运营的 KPI 应定义为部署工具数量，还是替代工时、降低重复交付、沉淀知识资产和提升项目治理效率？”</p>
+            </div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>这些问题中，哪一个最值得进入下一轮深聊和联合拆解？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="30/60/90 天" data-kicker="行动方案">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Initial Roadmap</p>
+            <h2>30/60/90 天计划：把战略诊断转成组织机制</h2>
+            <p class="lead">这一路线不是泛泛入职计划，而是围绕五力压力、单位经济学、BMC 缺口、情景剪枝和国际化承接能力，建立可执行的组织抓手。</p>
+          </div>
+
+          <div class="timeline">
+            <div class="timebox">
+              <div class="time">30 天</div>
+              <h3>盘点与协同节奏</h3>
+              <ul class="list blue">
+                <li>访谈销售、项目、研发、质量、财务、HR 与海外接口人。</li>
+                <li>输出流程接口热力图、五力压力清单与单位经济学假设表。</li>
+                <li>建立国际化项目协同周节奏，先识别会剪枝的关键门槛。</li>
+              </ul>
+              <div class="note" style="margin-top: 14px;">交付物：流程接口热力图、五力压力清单、剪枝指标草案。</div>
+            </div>
+            <div class="timebox">
+              <div class="time">60 天</div>
+              <h3>关键流程立柱</h3>
+              <ul class="list green">
+                <li>选择 2-3 个最高痛点流程标准化：需求冻结、版本发布、合规预检。</li>
+                <li>上线全球知识管理 MVP，沉淀项目复盘、客户问答与合规证据。</li>
+                <li>在一个海外项目试运行流程 V1，验证总部-海外接口效率。</li>
+              </ul>
+              <div class="note" style="margin-top: 14px;">交付物：SOP V1、知识库 MVP、海外项目试运行复盘。</div>
+            </div>
+            <div class="timebox">
+              <div class="time">90 天</div>
+              <h3>人才与 AI 试点</h3>
+              <ul class="list amber">
+                <li>形成国际人才能力模型与认证路径，覆盖销售、项目、应用工程、质量、合规。</li>
+                <li>启动海外经营分析 AI 试点，把客户、项目、合规、财务指标接入月度看板。</li>
+                <li>提交 1 年国际化建设路线图，对齐 1/3/5 年情景矩阵。</li>
+              </ul>
+              <div class="note" style="margin-top: 14px;">交付物：能力模型、AI 试点报告、1 年路线图与 3 年能力蓝图。</div>
+            </div>
+          </div>
+
+          <div class="note teal">
+            <strong>可量化指标：</strong>Top 10 流程接口清单、剪枝指标看板、知识库复用率、流程试运行周期、合规证据链完整度、AI 月报自动化程度、业务方满意度。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>如果入职后 90 天只能交付三个结果，贵公司最希望看到哪三个可验证产出？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="协同条件" data-kicker="决策图">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Alignment Gates</p>
+            <h2>启动国际化建设前需要对齐的 3 个条件</h2>
+            <p class="lead">为了让国际化建设产生实效，建议在职责设计和启动阶段优先对齐以下条件。</p>
+          </div>
+
+          <div class="gate-grid">
+            <div class="gate">
+              <div class="gate-num">Gate 1</div>
+              <h3>授权边界</h3>
+              <p class="sublead">岗位是否拥有跨部门流程制定权、资源调配权和执行委员会参与权？授权边界会直接影响岗位从协调支持走向体系建设的实际空间。</p>
+              <div class="note teal" style="margin-top: 18px;">建议对齐：该岗位通常如何推动销售、项目、质量、HR、财务等部门的协同决策？</div>
+            </div>
+            <div class="gate">
+              <div class="gate-num">Gate 2</div>
+              <h3>资本与投入节奏</h3>
+              <p class="sublead">资本市场进展、资金节奏与海外投入节奏，将影响岗位第一年在体系建设与重点支点支持之间的资源配置。</p>
+              <div class="note amber" style="margin-top: 18px;">建议对齐：今年国际化建设最需要支持的业务节点，是 IPO、欧洲客户、罗马尼亚实体，还是组织体系重构？</div>
+            </div>
+            <div class="gate">
+              <div class="gate-num">Gate 3</div>
+              <h3>情景管理机制</h3>
+              <p class="sublead">公司是否已建立机制化的问题识别、压力情景讨论与跨部门闭环机制？</p>
+              <div class="note red" style="margin-top: 18px;">建议对齐：公司做三年规划时，通常会如何设置基准情景和压力情景？</div>
+            </div>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>公司是否愿意把授权、资源、指标和跨部门治理机制在启动阶段一次讲清楚？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="交流摘要" data-kicker="一页纸">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">One-Page Takeaway</p>
+            <h2>核心摘要</h2>
+            <p class="lead">以下内容可作为本材料的简要结论。</p>
+          </div>
+
+          <div class="card no-shadow">
+            <h3>总体观察</h3>
+            <p class="sublead">车联天下正处于从国内智能座舱域控 Tier1 向全球化、舱驾融合与中央计算能力上移的阶段。这个阶段的核心挑战包括产品路线升级，以及总部能力在海外可运行、可审计、可复制。</p>
+          </div>
+
+          <div class="section-grid">
+            <div class="card span-4 no-shadow">
+              <span class="pill-title">战略洞察</span>
+              <ul class="list blue">
+                <li>机会窗口清晰：OEM 出海、SDV、AI 入舱、欧洲本地化缺口。</li>
+                <li>结构约束并存：客户、供应商、资金、合规和组织能力需要同步建设。</li>
+                <li>岗位价值在于把能力约束转化为制度化建设议题。</li>
+              </ul>
+            </div>
+            <div class="card span-4 no-shadow">
+              <span class="pill-title">岗位贡献</span>
+              <ul class="list green">
+                <li>建设全球流程、知识管理和人才能力体系。</li>
+                <li>用 AI 先落地知识管理与海外经营分析两个高 ROI 场景。</li>
+                <li>把合规证据链与项目治理、质量闭环结合。</li>
+              </ul>
+            </div>
+            <div class="card span-4 no-shadow">
+              <span class="pill-title">建议进一步对齐</span>
+              <ul class="list amber">
+                <li>公司今年国际化建设的前三个业务目标。</li>
+                <li>罗马尼亚/欧洲布局的当前阶段和第一阶段目标。</li>
+                <li>该岗位的汇报线、授权范围和成功指标。</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="note teal">
+            <strong>一句话收束：</strong>在清晰授权与协同机制下，这一职能有机会成为车联天下全球化组织能力的系统建设者；授权和协同机制的明确程度，也将直接影响岗位价值的发挥空间。
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>这份材料中，哪一项判断最接近公司的真实战略意图，哪一项需要我重新校准？</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="资料来源" data-kicker="Sources">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Sources And Boundaries</p>
+            <h2>公开来源与说明</h2>
+            <p class="lead">本材料参考公开披露文件、公司官网信息与行业公开资料，并结合岗位职责形成交流议题。相关数据和表述以公司正式披露口径为准。</p>
+          </div>
+
+          <div class="two-col">
+            <div class="card no-shadow">
+              <h3>参考基础</h3>
+              <ul class="list blue">
+                <li>公司官网与公开新闻稿。</li>
+                <li>港交所递表文件及相关财务资料。</li>
+                <li>行业公开资料与汽车电子、智能座舱、SDV 相关研究线索。</li>
+                <li>国际化建设支持总监岗位职责描述。</li>
+                <li>Porter 五力、BMC、单位经济学、情景规划与结果导向剪枝框架。</li>
+                <li>围绕全球化流程、知识管理、人才发展、合规与 AI 运营的管理框架梳理。</li>
+              </ul>
+            </div>
+            <div class="card no-shadow">
+              <h3>公开资料线索</h3>
+              <ol class="source-list">
+                <li><a href="https://www.auto-link.com.cn/company/brief.html" target="_blank" rel="noreferrer">车联天下官网公司简介</a></li>
+                <li><a href="https://www.auto-link.com.cn/news/details_490_2710.html" target="_blank" rel="noreferrer">车联天下“四全战略”公开文章</a></li>
+                <li><a href="https://www1.hkexnews.hk/app/sehk/2025/107906/a127748/sehk25112803074_c.pdf" target="_blank" rel="noreferrer">港交所递表资料</a></li>
+                <li><a href="https://www1.hkexnews.hk/app/sehk/2025/107906/a127748/sehk25112803090_c.pdf" target="_blank" rel="noreferrer">港交所财务资料</a></li>
+                <li><a href="https://www1.hkexnews.hk/app/sehk/2025/107906/a127748/sehk25112803083_c.pdf" target="_blank" rel="noreferrer">港交所行业概览</a></li>
+                <li><a href="https://acarom.ro/productia-de-automobile-in-romania-scadere-de-2-6-procente-in-2025/" target="_blank" rel="noreferrer">ACAROM 罗马尼亚汽车产量</a></li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="note amber">
+            <strong>边界说明：</strong>本材料用于岗位交流与战略沟通，不代表对公司决策、经营结果或未来计划的确定性结论。涉及公司计划的部分，均以公司管理层正式信息为准。
+          </div>
+
+          <div class="slide-footer">
+            <span>浏览方式：<span class="kbd">←</span>/<span class="kbd">→</span> 分页，<span class="kbd">H</span> 切换阅读模式，<span class="kbd">P</span> 打印。</span>
+          </div>
+
+          <div class="candidate-question">
+            <strong>我想进一步请教：</strong><span>是否有公开资料之外的正式口径，可以帮助我进一步校正这些判断并对齐公司优先级？</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const toc = document.getElementById("toc");
+    const progressBar = document.getElementById("progressBar");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const modeBtn = document.getElementById("modeBtn");
+    const printBtn = document.getElementById("printBtn");
+    let current = 0;
+
+    function buildToc() {
+      slides.forEach((slide, index) => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.innerHTML = `<span class="num">${String(index + 1).padStart(2, "0")}</span><span class="label">${slide.dataset.title}<span class="kicker">${slide.dataset.kicker || ""}</span></span>`;
+        btn.addEventListener("click", () => {
+          document.body.classList.remove("handout");
+          modeBtn.setAttribute("aria-pressed", "false");
+          modeBtn.textContent = "阅读模式";
+          showSlide(index);
+        });
+        li.appendChild(btn);
+        toc.appendChild(li);
+      });
+    }
+
+    function showSlide(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, i) => slide.classList.toggle("active", i === current));
+      Array.from(toc.querySelectorAll("button")).forEach((btn, i) => btn.classList.toggle("active", i === current));
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+      const active = slides[current];
+      active.scrollTop = 0;
+      window.location.hash = `slide-${current + 1}`;
+    }
+
+    function toggleHandout() {
+      const enabled = document.body.classList.toggle("handout");
+      modeBtn.setAttribute("aria-pressed", String(enabled));
+      modeBtn.textContent = enabled ? "分页模式" : "阅读模式";
+      if (!enabled) showSlide(current);
+    }
+
+    function next() {
+      if (document.body.classList.contains("handout")) return;
+      showSlide(current + 1);
+    }
+
+    function prev() {
+      if (document.body.classList.contains("handout")) return;
+      showSlide(current - 1);
+    }
+
+    prevBtn.addEventListener("click", prev);
+    nextBtn.addEventListener("click", next);
+    modeBtn.addEventListener("click", toggleHandout);
+    printBtn.addEventListener("click", () => {
+      if (!document.body.classList.contains("handout")) toggleHandout();
+      setTimeout(() => window.print(), 120);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const key = event.key.toLowerCase();
+      if (key === "arrowright" || key === "pagedown" || key === " ") {
+        event.preventDefault();
+        next();
+      }
+      if (key === "arrowleft" || key === "pageup") {
+        event.preventDefault();
+        prev();
+      }
+      if (key === "h") {
+        event.preventDefault();
+        toggleHandout();
+      }
+      if (key === "p") {
+        event.preventDefault();
+        if (!document.body.classList.contains("handout")) toggleHandout();
+        setTimeout(() => window.print(), 120);
+      }
+    });
+
+    buildToc();
+
+    const match = window.location.hash.match(/slide-(\d+)/);
+    if (match) {
+      showSlide(Number(match[1]) - 1);
+    } else {
+      showSlide(0);
+    }
+  </script>
+</body>
+</html>
