@@ -1,0 +1,1505 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
+  <title>车联天下智能汽车计算链研究（二）：供应商竞争与生态位</title>
+  <style>
+    :root {
+      --ink: #1e2a36;
+      --muted: #5f6f82;
+      --line: #d9e1e8;
+      --paper: #f5f7fa;
+      --white: #ffffff;
+      --blue: #2458d3;
+      --cyan: #008ca3;
+      --green: #1f8f5f;
+      --amber: #bf7a1d;
+      --red: #b83d4a;
+      --purple: #7156c7;
+      --slate: #344255;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .hero {
+      min-height: 82vh;
+      padding: 64px max(28px, 6vw) 40px;
+      color: white;
+      background:
+        linear-gradient(rgba(16, 27, 38, .70), rgba(16, 27, 38, .90)),
+        url("https://www.auto-link.com.cn/storage/uploads/images/20241018/6711fb618fbce.jpg") center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero h1 {
+      margin: 0;
+      max-width: 1060px;
+      font-size: clamp(42px, 7vw, 88px);
+      line-height: 1.03;
+      letter-spacing: 0;
+      font-weight: 780;
+    }
+    .hero p {
+      max-width: 960px;
+      font-size: clamp(18px, 2.1vw, 27px);
+      color: rgba(255,255,255,.9);
+      margin: 22px 0 0;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+      color: rgba(255,255,255,.82);
+      font-size: 14px;
+    }
+    .pill {
+      border: 1px solid rgba(255,255,255,.34);
+      padding: 7px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,.08);
+    }
+    main { padding: 28px max(24px, 5vw) 80px; }
+    section {
+      max-width: 1280px;
+      margin: 0 auto 34px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: clamp(22px, 3vw, 38px);
+      box-shadow: 0 10px 34px rgba(28, 39, 51, .06);
+    }
+    h2 {
+      margin: 0 0 18px;
+      font-size: clamp(25px, 3vw, 39px);
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 22px 0 12px;
+      font-size: 20px;
+      line-height: 1.28;
+      letter-spacing: 0;
+    }
+    .lead {
+      max-width: 980px;
+      color: #334457;
+      font-size: 18px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+    .metric {
+      min-height: 142px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      background: #fbfcfd;
+    }
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.1;
+      margin: 6px 0 8px;
+    }
+    .metric small { color: var(--muted); }
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: #eef3f7;
+      color: #405167;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .tag.blue { background: #edf3ff; color: var(--blue); }
+    .tag.green { background: #eef9f3; color: var(--green); }
+    .tag.amber { background: #fff5e5; color: var(--amber); }
+    .tag.red { background: #fff1f3; color: var(--red); }
+    .note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 6px;
+      font-size: 14px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f0f4f8;
+      color: #3d4b5e;
+      font-weight: 760;
+    }
+    .right { text-align: right; }
+    .good { color: var(--green); font-weight: 700; }
+    .warn { color: var(--amber); font-weight: 700; }
+    .bad { color: var(--red); font-weight: 700; }
+    .svgbox {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+    }
+    svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      font-family: inherit;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    .callout {
+      border: 1px solid #cfe0f5;
+      background: #f3f7fd;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0 0;
+    }
+    .two-col {
+      columns: 2 360px;
+      column-gap: 28px;
+    }
+    .source-list li { margin-bottom: 8px; }
+    .quad {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .mini-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfd;
+    }
+    @media (max-width: 900px) {
+      .span-3, .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: span 12; }
+      section { padding: 22px 16px; }
+      .quad { grid-template-columns: 1fr; }
+    }
+    @media print {
+      body { background: white; }
+      .hero { min-height: auto; page-break-after: always; }
+      section { box-shadow: none; break-inside: avoid; }
+      a { color: inherit; }
+    }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+/* AUTOLINK_INDUSTRY_COMPACT_CSS_START */
+.industry-supply-grid {
+  align-items: start;
+}
+.trend-compare-grid {
+  align-items: stretch;
+}
+.trend-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.trend-compare-grid .trend-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+.trend-panel > h3 {
+  flex: 0 0 auto;
+}
+.trend-compare-grid .trend-panel > h3 {
+  margin: 0;
+  padding: 14px 16px 8px;
+}
+.trend-panel .svgbox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.trend-compare-grid .trend-panel .svgbox {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.trend-panel .svgbox > svg {
+  width: 100%;
+}
+.trend-table-box {
+  padding: 0;
+  overflow: hidden;
+}
+.trend-table-box table {
+  margin: 0;
+  height: 100%;
+  table-layout: fixed;
+  font-size: 13px;
+}
+.trend-table-box col:first-child {
+  width: 76px;
+}
+.trend-table-box th:first-child,
+.trend-table-box td:first-child {
+  white-space: nowrap;
+}
+.trend-table-box th,
+.trend-table-box td {
+  padding: 10px 9px;
+  line-height: 1.56;
+}
+.trend-table-panel .svgbox {
+  flex: 1;
+}
+.trend-chart-panel .legend {
+  display: none;
+}
+.position-market-table col:first-child {
+  width: 128px;
+}
+.position-market-table th:first-child,
+.position-market-table td:first-child,
+.market-rules-table th:first-child,
+.market-rules-table td:first-child {
+  white-space: nowrap;
+}
+.market-rules-table col:first-child {
+  width: 112px;
+}
+.radar-toggle-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+.radar-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  padding: 6px 10px;
+  color: #35475b;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.radar-toggle .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+  flex: 0 0 auto;
+}
+.radar-toggle[aria-pressed="false"] {
+  opacity: .48;
+  background: #f4f7fa;
+}
+.radar-series {
+  transition: opacity .18s ease;
+}
+.radar-series.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+#strategy .industry-strategy-box {
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+#strategy .quad {
+  margin-top: 16px;
+  align-items: start;
+}
+#conclusion .two-col {
+  columns: initial;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 30px;
+  align-items: start;
+}
+#conclusion .two-col p {
+  margin: 0 0 16px;
+  break-inside: auto;
+}
+#conclusion .two-col p:nth-child(1),
+#conclusion .two-col p:nth-child(2),
+#conclusion .two-col p:nth-child(3) {
+  grid-column: 1;
+}
+#conclusion .two-col p:nth-child(4) {
+  grid-column: 2;
+  grid-row: 1;
+}
+#conclusion .two-col p:nth-child(5) {
+  grid-column: 2;
+  grid-row: 2;
+}
+@media (max-width: 900px) {
+  .trend-table-box {
+    overflow-x: auto;
+  }
+  #conclusion .two-col {
+    grid-template-columns: 1fr;
+  }
+  #conclusion .two-col p {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+}
+/* AUTOLINK_INDUSTRY_COMPACT_CSS_END */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* AUTOLINK_SERIES_CSS_START */
+.autolink-series-frame {
+  --series-ink: #17202b;
+  --series-muted: #5b6877;
+  --series-line: #d8e0e8;
+  --series-paper: #f6f8fb;
+  --series-white: #ffffff;
+  --series-accent: #255fd5;
+  color: var(--series-ink);
+  background: var(--series-white);
+  border-bottom: 1px solid var(--series-line);
+  padding: 18px max(22px, 5vw);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+}
+.autolink-series-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+  gap: 18px;
+  align-items: center;
+}
+.autolink-series-kicker {
+  color: var(--series-accent);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .04em;
+}
+.autolink-series-title {
+  margin-top: 5px;
+  font-size: 20px;
+  line-height: 1.28;
+  font-weight: 850;
+}
+.autolink-series-subtitle {
+  margin-top: 4px;
+  color: var(--series-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.autolink-series-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.autolink-series-links a {
+  border: 1px solid var(--series-line);
+  border-radius: 6px;
+  background: var(--series-paper);
+  color: var(--series-ink);
+  padding: 7px 9px;
+  font-size: 12px;
+  line-height: 1.2;
+  text-decoration: none;
+}
+.autolink-series-links a.is-current {
+  border-color: var(--series-accent);
+  background: color-mix(in srgb, var(--series-accent) 12%, white);
+  color: var(--series-accent);
+  font-weight: 800;
+}
+body main > section,
+body .content {
+  max-width: 1280px !important;
+}
+body > header.hero {
+  min-height: 640px !important;
+  padding: 70px max(28px, 6vw) 42px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  gap: 32px !important;
+}
+body > header.hero > .hero-inner,
+body > header.hero > div:first-child {
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+body > header.hero h1 {
+  order: 1;
+  margin: 0 !important;
+  max-width: 1060px !important;
+  font-size: clamp(38px, 5vw, 66px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0 !important;
+  font-weight: 850 !important;
+}
+body > header.hero p {
+  order: 2;
+  max-width: 960px !important;
+  margin: 22px 0 0 !important;
+  font-size: clamp(17px, 1.8vw, 23px) !important;
+  line-height: 1.52 !important;
+}
+body > header.hero .hero-meta {
+  order: 3;
+  gap: 10px !important;
+  margin-top: 24px !important;
+}
+body > header.hero .hero-grid {
+  order: 4;
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin: 42px auto 0 !important;
+}
+body > header.hero > .hero-meta {
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin: auto auto 0 !important;
+}
+body > header.hero .pill,
+body > header.hero .hero-pill {
+  border-radius: 6px !important;
+  padding: 7px 10px !important;
+  line-height: 1.35 !important;
+}
+@media (max-width: 860px) {
+  .autolink-series-inner { grid-template-columns: 1fr; }
+  .autolink-series-links { justify-content: flex-start; }
+  body > header.hero { min-height: auto !important; padding: 50px 18px 34px !important; }
+}
+/* AUTOLINK_SERIES_CSS_END */
+
+/* AUTOLINK_STICKY_NAV_CSS_START */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(247,248,250,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 24px;
+}
+.nav-inner a {
+  color: var(--slate, #35475b);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 11px;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 730;
+  text-decoration: none;
+}
+.nav-inner a:hover {
+  text-decoration: none;
+  border-color: var(--blue, #255fd5);
+  color: var(--blue, #255fd5);
+}
+@media print {
+  .sticky-nav { display: none; }
+}
+/* AUTOLINK_STICKY_NAV_CSS_END */
+</style>
+</head>
+<body>
+<!-- AUTOLINK_SERIES_START -->
+<div class="autolink-series-frame" style="--series-accent:#008c8c">
+  <div class="autolink-series-inner">
+    <div>
+      <div class="autolink-series-kicker">车联天下智能汽车计算链研究 · 第 02 篇</div>
+      <div class="autolink-series-title">车联天下智能汽车计算链研究（二）：供应商竞争与生态位</div>
+      <div class="autolink-series-subtitle">从域控供应商比较看平台化、规模化与海外化路径｜如何理解它与德赛西威、亿咖通等公司的竞争？</div>
+    </div>
+    <nav class="autolink-series-links" aria-label="车联天下系列报告导航">
+      <a class="" href="../../2026-05-16/autolink_integrated_series/autolink_integrated_series.html">总览</a><a class="" href="../../2026-05-16/autolink_business_ecosystem_report/autolink_business_ecosystem_report.html">商业生态篇</a><a class="is-current" href="autolink_ecosystem_analysis.html">行业生态篇</a><a class="" href="../../2026-05-16/carlink.html">经营质量篇</a><a class="" href="../../2026-05-15/hr_layout_comparison/hr_layout_comparison.html">组织能力篇</a>
+    </nav>
+  </div>
+</div>
+<!-- AUTOLINK_SERIES_END -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <header class="hero">
+    <div>
+      <h1>车联天下智能汽车计算链研究（二）：供应商竞争与生态位</h1>
+      <p>以车联天下为出发点，拆解智能座舱、域控制器、舱驾融合与区域控制器背后的供给消费关系，并对比德赛西威、亿咖通在中国与海外市场的生态位置。</p>
+      <div class="hero-meta">
+        <span class="pill">研究日期：2026-05-12</span>
+        <span class="pill">交付模式：report</span>
+        <span class="pill">主 skill：系统动力学</span>
+        <span class="pill">视觉类别：结构图 / 机制图 / 动态图 / 决策图</span>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <span>核心判断：这不是一个线性零部件市场，而是由芯片平台、Tier 1、OEM、用户体验、法规和数据闭环共同塑造的多回路生态。</span>
+    </div>
+  </header>
+
+<!-- AUTOLINK_STICKY_NAV_START -->
+<nav class="sticky-nav" aria-label="报告导航">
+  <div class="nav-inner">
+    <a href="#boundary">边界口径</a><a href="#flows">三条流</a><a href="#product">产品生态</a><a href="#supply">供给消费</a><a href="#causal">因果回路</a><a href="#stock">存量流量</a><a href="#trend">行为趋势</a><a href="#position">坐标系</a><a href="#strategy">策略矩阵</a><a href="#rules">中外规则</a><a href="#conclusion">生态结论</a><a href="#dashboard">跟踪仪表盘</a><a href="#sources">来源</a>
+  </div>
+</nav>
+<!-- AUTOLINK_STICKY_NAV_END -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <main>
+    <section id="boundary">
+      <h2>0. 报告边界与资料口径</h2>
+      <p class="lead">本报告把车联天下放进“智能汽车计算链”中观察，而不是只看它自己的收入增长。比较对象选择德赛西威和亿咖通，因为三者都围绕智能座舱、车载计算平台、智能驾驶/网联服务展开，但组织起点、客户结构和海外路径明显不同。</p>
+      <div class="grid">
+        <div class="metric span-3">
+          <span class="tag blue">车联天下</span>
+          <strong>域控量产切入</strong>
+          <small>以智能座舱域控制器为主，2025H1 开始出现区域控制器收入。收入高度来自中国客户与车载计算解决方案。</small>
+        </div>
+        <div class="metric span-3">
+          <span class="tag green">德赛西威</span>
+          <strong>规模型 Tier 1</strong>
+          <small>2025 年收入 325.57 亿元，覆盖智能座舱、智能驾驶、网联服务，海外收入约 24.10 亿元。</small>
+        </div>
+        <div class="metric span-3">
+          <span class="tag amber">亿咖通</span>
+          <strong>平台型生态公司</strong>
+          <small>2025 年收入 8.479 亿美元，强调计算平台、操作系统、SoC 与云服务，仍有吉利系客户集中度。</small>
+        </div>
+        <div class="metric span-3">
+          <span class="tag red">生态焦点</span>
+          <strong>供给链 + 需求链</strong>
+          <small>芯片和PCBA决定成本与交付；OEM决定定点和账期；消费者决定智能功能装车拉力。</small>
+        </div>
+      </div>
+      <p class="note">资料层级：公司公告/年报/招股书优先；官网用于产品与生态定位；行业预测只作为方向性背景。亿咖通海外收入存在披露口径差异，本报告会单独说明。</p>
+    </section>
+
+    <section id="flows">
+      <h2>1. 结构图：智能汽车计算生态不是一条链，而是三条流的叠加</h2>
+      <p class="lead">从车联天下视角看，行业生态由三条流组成：实物流从芯片、PCBA、域控硬件进入整车；资金流从消费者到整车厂，再通过项目定点和账期传导到供应商；数据/软件流则通过 OTA、云服务、用户行为和车型迭代反哺下一代产品。</p>
+      <div class="svgbox">
+        <svg viewBox="0 0 1240 620" aria-label="智能汽车计算生态三流结构图">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#5f6f82"></path>
+            </marker>
+            <marker id="arrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f8f5f"></path>
+            </marker>
+            <marker id="arrowAmber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#bf7a1d"></path>
+            </marker>
+          </defs>
+          <rect x="30" y="70" width="230" height="420" rx="8" fill="#f1f5fb" stroke="#cbd7e5"/>
+          <text x="145" y="105" text-anchor="middle" font-size="20" font-weight="760">上游供给</text>
+          <rect x="58" y="135" width="174" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="145" y="162" text-anchor="middle" font-size="15" font-weight="700">SoC / MCU / 存储</text>
+          <text x="145" y="183" text-anchor="middle" font-size="12" fill="#5f6f82">高通、芯驰、黑芝麻等</text>
+          <rect x="58" y="222" width="174" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="145" y="249" text-anchor="middle" font-size="15" font-weight="700">PCBA / EMS</text>
+          <text x="145" y="270" text-anchor="middle" font-size="12" fill="#5f6f82">博世、代工、车规质量</text>
+          <rect x="58" y="309" width="174" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="145" y="336" text-anchor="middle" font-size="15" font-weight="700">基础软件 / 工具链</text>
+          <text x="145" y="357" text-anchor="middle" font-size="12" fill="#5f6f82">OS、Hypervisor、中间件</text>
+          <rect x="58" y="396" width="174" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="145" y="423" text-anchor="middle" font-size="15" font-weight="700">传感器 / 连接</text>
+          <text x="145" y="444" text-anchor="middle" font-size="12" fill="#5f6f82">摄像头、雷达、T-Box</text>
+
+          <rect x="355" y="70" width="270" height="420" rx="8" fill="#f1fbf7" stroke="#b7d9c7"/>
+          <text x="490" y="105" text-anchor="middle" font-size="20" font-weight="760">域控供应商</text>
+          <rect x="386" y="135" width="208" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="490" y="162" text-anchor="middle" font-size="15" font-weight="700">车联天下</text>
+          <text x="490" y="183" text-anchor="middle" font-size="12" fill="#5f6f82">智能座舱域控、区域控制器早期</text>
+          <rect x="386" y="222" width="208" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="490" y="249" text-anchor="middle" font-size="15" font-weight="700">德赛西威</text>
+          <text x="490" y="270" text-anchor="middle" font-size="12" fill="#5f6f82">座舱 + 智驾 + 网联服务</text>
+          <rect x="386" y="309" width="208" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="490" y="336" text-anchor="middle" font-size="15" font-weight="700">亿咖通</text>
+          <text x="490" y="357" text-anchor="middle" font-size="12" fill="#5f6f82">计算平台、OS、SoC、云</text>
+          <rect x="386" y="396" width="208" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="490" y="423" text-anchor="middle" font-size="15" font-weight="700">系统集成能力</text>
+          <text x="490" y="444" text-anchor="middle" font-size="12" fill="#5f6f82">定点、验证、SOP、OTA</text>
+
+          <rect x="720" y="70" width="220" height="420" rx="8" fill="#fff8ec" stroke="#e7cc98"/>
+          <text x="830" y="105" text-anchor="middle" font-size="20" font-weight="760">整车厂消费</text>
+          <rect x="748" y="135" width="164" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="830" y="162" text-anchor="middle" font-size="15" font-weight="700">车型定点</text>
+          <text x="830" y="183" text-anchor="middle" font-size="12" fill="#5f6f82">项目制采购</text>
+          <rect x="748" y="222" width="164" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="830" y="249" text-anchor="middle" font-size="15" font-weight="700">架构选择</text>
+          <text x="830" y="270" text-anchor="middle" font-size="12" fill="#5f6f82">分布式、域控、中央计算</text>
+          <rect x="748" y="309" width="164" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="830" y="336" text-anchor="middle" font-size="15" font-weight="700">价格与账期</text>
+          <text x="830" y="357" text-anchor="middle" font-size="12" fill="#5f6f82">议价权、回款周期</text>
+          <rect x="748" y="396" width="164" height="64" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="830" y="423" text-anchor="middle" font-size="15" font-weight="700">全球合规</text>
+          <text x="830" y="444" text-anchor="middle" font-size="12" fill="#5f6f82">网络安全、数据、功能安全</text>
+
+          <rect x="1030" y="70" width="180" height="420" rx="8" fill="#f7f2ff" stroke="#c9b8ee"/>
+          <text x="1120" y="105" text-anchor="middle" font-size="20" font-weight="760">终端需求</text>
+          <rect x="1054" y="145" width="132" height="76" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="1120" y="174" text-anchor="middle" font-size="15" font-weight="700">消费者</text>
+          <text x="1120" y="196" text-anchor="middle" font-size="12" fill="#5f6f82">座舱体验/智驾信任</text>
+          <rect x="1054" y="255" width="132" height="76" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="1120" y="284" text-anchor="middle" font-size="15" font-weight="700">数据反馈</text>
+          <text x="1120" y="306" text-anchor="middle" font-size="12" fill="#5f6f82">使用、故障、偏好</text>
+          <rect x="1054" y="365" width="132" height="76" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="1120" y="394" text-anchor="middle" font-size="15" font-weight="700">品牌差异化</text>
+          <text x="1120" y="416" text-anchor="middle" font-size="12" fill="#5f6f82">溢价或销量拉动</text>
+
+          <line x1="260" y1="280" x2="355" y2="280" stroke="#5f6f82" stroke-width="2.4" marker-end="url(#arrow)"/>
+          <line x1="625" y1="280" x2="720" y2="280" stroke="#5f6f82" stroke-width="2.4" marker-end="url(#arrow)"/>
+          <line x1="940" y1="280" x2="1030" y2="280" stroke="#5f6f82" stroke-width="2.4" marker-end="url(#arrow)"/>
+          <path d="M 1120 255 C 1060 42, 500 20, 490 130" fill="none" stroke="#1f8f5f" stroke-width="3" marker-end="url(#arrowGreen)"/>
+          <path d="M 1120 442 C 1042 560, 840 555, 830 462" fill="none" stroke="#bf7a1d" stroke-width="3" marker-end="url(#arrowAmber)"/>
+          <path d="M 830 462 C 682 588, 236 565, 146 462" fill="none" stroke="#bf7a1d" stroke-width="3" marker-end="url(#arrowAmber)"/>
+          <text x="435" y="36" font-size="14" fill="#1f8f5f">数据/软件流：体验反馈 → OTA/算法/平台迭代</text>
+          <text x="670" y="590" font-size="14" fill="#bf7a1d">资金/议价流：消费者支付 → OEM账期 → Tier 1营运资金 → 上游采购</text>
+        </svg>
+      </div>
+      <p class="note">读图要点：车联天下的生态位置在“域控供应商”一层。它既消费上游芯片/PCBA/软件能力，又被整车厂以车型项目的方式消费；最终用户不直接向它付费，但用户体验决定 OEM 是否继续给它新项目。</p>
+    </section>
+
+    <section id="product">
+      <h2>2. 产品生态：三家公司在同一迁移路径上，但站位不同</h2>
+      <p class="lead">智能汽车电子电气架构的迁移路径大致是：分布式 ECU → 座舱/智驾等域控制器 → 舱驾融合/跨域计算 → 中央计算 + 区域控制器。车联天下当前主体在座舱域控，德赛西威覆盖更宽，亿咖通更强调平台、OS 和 SoC 生态。</p>
+      <div class="svgbox">
+        <svg viewBox="0 0 1240 540" aria-label="电子电气架构迁移和公司站位">
+          <defs>
+            <marker id="arrp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#5f6f82"></path>
+            </marker>
+          </defs>
+          <line x1="100" y1="280" x2="1140" y2="280" stroke="#96a3b1" stroke-width="3" marker-end="url(#arrp)"/>
+          <text x="100" y="250" font-size="14" fill="#5f6f82">过去</text>
+          <text x="1120" y="250" font-size="14" fill="#5f6f82">未来</text>
+          <g>
+            <circle cx="170" cy="280" r="52" fill="#f2f5f8" stroke="#c5ced8"/>
+            <text x="170" y="274" text-anchor="middle" font-size="16" font-weight="700">分布式ECU</text>
+            <text x="170" y="297" text-anchor="middle" font-size="12" fill="#5f6f82">功能盒子堆叠</text>
+          </g>
+          <g>
+            <circle cx="420" cy="280" r="60" fill="#edf3ff" stroke="#9bb6ef"/>
+            <text x="420" y="272" text-anchor="middle" font-size="16" font-weight="700">座舱/智驾域控</text>
+            <text x="420" y="296" text-anchor="middle" font-size="12" fill="#5f6f82">当前主战场</text>
+          </g>
+          <g>
+            <circle cx="690" cy="280" r="66" fill="#eef9f3" stroke="#99d1b1"/>
+            <text x="690" y="272" text-anchor="middle" font-size="16" font-weight="700">舱驾融合</text>
+            <text x="690" y="296" text-anchor="middle" font-size="12" fill="#5f6f82">计算资源复用</text>
+          </g>
+          <g>
+            <circle cx="970" cy="280" r="72" fill="#fff6e8" stroke="#e6c37f"/>
+            <text x="970" y="272" text-anchor="middle" font-size="16" font-weight="700">中央计算+区域</text>
+            <text x="970" y="296" text-anchor="middle" font-size="12" fill="#5f6f82">下一阶段架构</text>
+          </g>
+
+          <rect x="245" y="62" width="330" height="58" rx="7" fill="#fff" stroke="#2458d3" stroke-width="2"/>
+          <text x="410" y="86" text-anchor="middle" font-size="15" font-weight="700" fill="#2458d3">车联天下</text>
+          <text x="410" y="108" text-anchor="middle" font-size="12" fill="#5f6f82">座舱域控强，区域控制器刚起步</text>
+          <line x1="410" y1="120" x2="420" y2="220" stroke="#2458d3" stroke-width="2"/>
+          <path d="M 575 120 C 650 160, 820 168, 970 208" fill="none" stroke="#2458d3" stroke-width="1.5" stroke-dasharray="6 5"/>
+
+          <rect x="385" y="392" width="510" height="58" rx="7" fill="#fff" stroke="#1f8f5f" stroke-width="2"/>
+          <text x="640" y="416" text-anchor="middle" font-size="15" font-weight="700" fill="#1f8f5f">德赛西威</text>
+          <text x="640" y="438" text-anchor="middle" font-size="12" fill="#5f6f82">座舱、智驾、网联服务、HUD、传感器与全球客户体系</text>
+          <line x1="430" y1="392" x2="420" y2="340" stroke="#1f8f5f" stroke-width="2"/>
+          <line x1="690" y1="392" x2="690" y2="346" stroke="#1f8f5f" stroke-width="2"/>
+          <line x1="850" y1="392" x2="970" y2="352" stroke="#1f8f5f" stroke-width="2"/>
+
+          <rect x="665" y="62" width="430" height="58" rx="7" fill="#fff" stroke="#bf7a1d" stroke-width="2"/>
+          <text x="880" y="86" text-anchor="middle" font-size="15" font-weight="700" fill="#bf7a1d">亿咖通</text>
+          <text x="880" y="108" text-anchor="middle" font-size="12" fill="#5f6f82">计算平台 + 操作系统 + SoC + 云服务，全球叙事较强</text>
+          <line x1="790" y1="120" x2="690" y2="214" stroke="#bf7a1d" stroke-width="2"/>
+          <line x1="930" y1="120" x2="970" y2="208" stroke="#bf7a1d" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="callout">
+        <b>生态含义：</b>同样做“智能汽车计算”，三家企业的商品形态不同。车联天下更像量产域控模块和项目交付能力；德赛西威是覆盖更宽的规模型 Tier 1；亿咖通更像围绕操作系统、计算平台和芯片伙伴构建的生态平台。
+      </div>
+    </section>
+
+    <section id="supply">
+      <h2>3. 供给消费关系：谁消费谁，谁受谁约束</h2>
+      <div class="grid industry-supply-grid">
+        <div class="span-7">
+          <h3>供需网络图</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 760 460" aria-label="供给消费网络图">
+              <defs>
+                <marker id="arrn" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#5f6f82"></path>
+                </marker>
+              </defs>
+              <rect x="55" y="48" width="160" height="70" rx="8" fill="#edf3ff" stroke="#9bb6ef"/>
+              <text x="135" y="78" text-anchor="middle" font-size="16" font-weight="700">芯片/软件平台</text>
+              <text x="135" y="101" text-anchor="middle" font-size="12" fill="#5f6f82">算力、OS、工具链</text>
+              <rect x="55" y="220" width="160" height="70" rx="8" fill="#f2f5f8" stroke="#c5ced8"/>
+              <text x="135" y="250" text-anchor="middle" font-size="16" font-weight="700">PCBA/制造</text>
+              <text x="135" y="273" text-anchor="middle" font-size="12" fill="#5f6f82">质量、交付、成本</text>
+              <rect x="310" y="135" width="180" height="90" rx="8" fill="#eef9f3" stroke="#99d1b1"/>
+              <text x="400" y="168" text-anchor="middle" font-size="18" font-weight="760">域控供应商</text>
+              <text x="400" y="193" text-anchor="middle" font-size="12" fill="#5f6f82">车联天下 / 德赛 / 亿咖通</text>
+              <rect x="575" y="48" width="150" height="70" rx="8" fill="#fff6e8" stroke="#e6c37f"/>
+              <text x="650" y="78" text-anchor="middle" font-size="16" font-weight="700">整车厂</text>
+              <text x="650" y="101" text-anchor="middle" font-size="12" fill="#5f6f82">定点、价格、账期</text>
+              <rect x="575" y="220" width="150" height="70" rx="8" fill="#f7f2ff" stroke="#c9b8ee"/>
+              <text x="650" y="250" text-anchor="middle" font-size="16" font-weight="700">消费者</text>
+              <text x="650" y="273" text-anchor="middle" font-size="12" fill="#5f6f82">体验、品牌、付费</text>
+              <rect x="310" y="370" width="180" height="70" rx="8" fill="#fff1f3" stroke="#e2a0aa"/>
+              <text x="400" y="400" text-anchor="middle" font-size="16" font-weight="700">法规/安全</text>
+              <text x="400" y="423" text-anchor="middle" font-size="12" fill="#5f6f82">功能安全、网络安全、数据</text>
+
+              <line x1="215" y1="82" x2="310" y2="156" stroke="#5f6f82" stroke-width="2" marker-end="url(#arrn)"/>
+              <line x1="215" y1="255" x2="310" y2="198" stroke="#5f6f82" stroke-width="2" marker-end="url(#arrn)"/>
+              <line x1="490" y1="168" x2="575" y2="92" stroke="#5f6f82" stroke-width="2" marker-end="url(#arrn)"/>
+              <line x1="650" y1="118" x2="650" y2="220" stroke="#5f6f82" stroke-width="2" marker-end="url(#arrn)"/>
+              <path d="M 576 257 C 510 320, 430 300, 410 226" fill="none" stroke="#1f8f5f" stroke-width="3" marker-end="url(#arrn)"/>
+              <line x1="400" y1="370" x2="400" y2="225" stroke="#b83d4a" stroke-width="2.3" marker-end="url(#arrn)"/>
+              <path d="M 575 92 C 520 10, 218 10, 165 48" fill="none" stroke="#bf7a1d" stroke-width="2.4" stroke-dasharray="7 5" marker-end="url(#arrn)"/>
+              <text x="383" y="34" text-anchor="middle" font-size="13" fill="#bf7a1d">OEM指定平台/供应链偏好会反向影响上游选择</text>
+              <text x="520" y="333" text-anchor="middle" font-size="13" fill="#1f8f5f">体验反馈形成需求拉力</text>
+            </svg>
+          </div>
+        </div>
+        <div class="span-5">
+          <h3>角色拆解</h3>
+          <table>
+            <thead><tr><th>角色</th><th>它消费什么</th><th>它输出什么</th></tr></thead>
+            <tbody>
+              <tr><td>车联天下</td><td>SoC、PCBA、车规元器件、OEM需求、研发人才</td><td>域控硬件、软件栈、车型项目交付</td></tr>
+              <tr><td>德赛西威</td><td>芯片、传感器、全球客户需求、海外本地化资源</td><td>智能座舱、智驾、网联服务、规模化 Tier 1 交付</td></tr>
+              <tr><td>亿咖通</td><td>吉利生态、SoC伙伴、软件平台能力、全球研发网络</td><td>计算平台、OS、云服务、SoC平台化方案</td></tr>
+              <tr><td>OEM</td><td>供应商研发/制造/质量能力</td><td>定点、销量、价格压力、回款节奏</td></tr>
+              <tr><td>消费者</td><td>智能座舱、智驾、品牌体验</td><td>销量投票、数据反馈、付费意愿</td></tr>
+            </tbody>
+          </table>
+          <p class="note">供需关系里最容易被忽略的是：消费者不直接向域控供应商付款，但消费者体验会通过整车厂采购决策传导回来。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="causal">
+      <h2>4. 因果回路图：生态的增长飞轮与约束回路</h2>
+      <p class="lead">智能汽车计算生态有四个关键回路：智能化渗透带来的装车需求，平台复用带来的成本摊薄，价格竞争带来的毛利压缩，以及海外合规带来的扩张延迟。</p>
+      <div class="svgbox">
+        <svg viewBox="0 0 1240 760" aria-label="系统动力学因果回路图">
+          <defs>
+            <marker id="arrcGreen" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f8f5f"></path>
+            </marker>
+            <marker id="arrcBlue" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#2458d3"></path>
+            </marker>
+            <marker id="arrcRed" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#b83d4a"></path>
+            </marker>
+            <marker id="arrcAmber" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#bf7a1d"></path>
+            </marker>
+          </defs>
+
+          <rect x="10" y="22" width="598" height="340" rx="10" fill="#fbfefd" stroke="#d9e1e8"/>
+          <text x="313" y="68" text-anchor="middle" font-size="22" font-weight="760" fill="#1f8f5f">R1 需求飞轮：智能化渗透</text>
+          <ellipse cx="313" cy="118" rx="108" ry="36" fill="#eef9f3" stroke="#99d1b1"/>
+          <text x="313" y="114" text-anchor="middle" font-size="15" font-weight="700">智能车销量</text>
+          <text x="313" y="136" text-anchor="middle" font-size="12" fill="#5f6f82">NEV/智能座舱渗透</text>
+          <ellipse cx="488" cy="196" rx="112" ry="36" fill="#eef9f3" stroke="#99d1b1"/>
+          <text x="488" y="192" text-anchor="middle" font-size="15" font-weight="700">域控装车需求</text>
+          <text x="488" y="214" text-anchor="middle" font-size="12" fill="#5f6f82">项目定点增加</text>
+          <ellipse cx="313" cy="278" rx="112" ry="36" fill="#eef9f3" stroke="#99d1b1"/>
+          <text x="313" y="274" text-anchor="middle" font-size="15" font-weight="700">供应商收入规模</text>
+          <text x="313" y="296" text-anchor="middle" font-size="12" fill="#5f6f82">研发/产能投入</text>
+          <ellipse cx="138" cy="196" rx="108" ry="36" fill="#eef9f3" stroke="#99d1b1"/>
+          <text x="138" y="192" text-anchor="middle" font-size="15" font-weight="700">功能体验改善</text>
+          <text x="138" y="214" text-anchor="middle" font-size="12" fill="#5f6f82">用户拉动OEM</text>
+          <path d="M 392 143 C 420 145, 422 154, 426 166" fill="none" stroke="#1f8f5f" stroke-width="2.2" marker-end="url(#arrcGreen)"/>
+          <path d="M 426 226 C 428 240, 412 247, 394 253" fill="none" stroke="#1f8f5f" stroke-width="2.2" marker-end="url(#arrcGreen)"/>
+          <path d="M 250 248 C 222 246, 209 237, 199 225" fill="none" stroke="#1f8f5f" stroke-width="2.2" marker-end="url(#arrcGreen)"/>
+          <path d="M 203 167 C 211 153, 224 148, 238 144" fill="none" stroke="#1f8f5f" stroke-width="2.2" marker-end="url(#arrcGreen)"/>
+          <text x="405" y="160" font-size="16" fill="#1f8f5f">+</text>
+          <text x="445" y="268" font-size="16" fill="#1f8f5f">+</text>
+          <text x="172" y="264" font-size="16" fill="#1f8f5f">+</text>
+          <text x="182" y="130" font-size="16" fill="#1f8f5f">+</text>
+          <text x="313" y="332" text-anchor="middle" font-size="13" fill="#1f8f5f">消费体验提升会继续拉动 OEM 增配智能化功能</text>
+
+          <rect x="632" y="22" width="590" height="340" rx="10" fill="#fbfcff" stroke="#d9e1e8"/>
+          <text x="927" y="68" text-anchor="middle" font-size="22" font-weight="760" fill="#2458d3">R2 平台飞轮：复用与学习</text>
+          <ellipse cx="927" cy="118" rx="112" ry="36" fill="#edf3ff" stroke="#9bb6ef"/>
+          <text x="927" y="114" text-anchor="middle" font-size="15" font-weight="700">量产项目经验</text>
+          <text x="927" y="136" text-anchor="middle" font-size="12" fill="#5f6f82">质量/验证资产</text>
+          <ellipse cx="1102" cy="196" rx="108" ry="36" fill="#edf3ff" stroke="#9bb6ef"/>
+          <text x="1102" y="192" text-anchor="middle" font-size="15" font-weight="700">平台复用率</text>
+          <text x="1102" y="214" text-anchor="middle" font-size="12" fill="#5f6f82">跨车型/跨客户</text>
+          <ellipse cx="927" cy="278" rx="116" ry="36" fill="#edf3ff" stroke="#9bb6ef"/>
+          <text x="927" y="274" text-anchor="middle" font-size="15" font-weight="700">交付周期/成本下降</text>
+          <text x="927" y="296" text-anchor="middle" font-size="12" fill="#5f6f82">边际研发摊薄</text>
+          <ellipse cx="752" cy="196" rx="108" ry="36" fill="#edf3ff" stroke="#9bb6ef"/>
+          <text x="752" y="192" text-anchor="middle" font-size="15" font-weight="700">新定点胜率</text>
+          <text x="752" y="214" text-anchor="middle" font-size="12" fill="#5f6f82">客户信任提高</text>
+          <path d="M 1006 143 C 1034 145, 1036 154, 1040 166" fill="none" stroke="#2458d3" stroke-width="2.2" marker-end="url(#arrcBlue)"/>
+          <path d="M 1040 226 C 1042 240, 1028 246, 1010 252" fill="none" stroke="#2458d3" stroke-width="2.2" marker-end="url(#arrcBlue)"/>
+          <path d="M 864 248 C 836 246, 823 237, 813 225" fill="none" stroke="#2458d3" stroke-width="2.2" marker-end="url(#arrcBlue)"/>
+          <path d="M 817 167 C 825 153, 838 148, 852 144" fill="none" stroke="#2458d3" stroke-width="2.2" marker-end="url(#arrcBlue)"/>
+          <text x="1020" y="160" font-size="16" fill="#2458d3">+</text>
+          <text x="1058" y="268" font-size="16" fill="#2458d3">+</text>
+          <text x="787" y="264" font-size="16" fill="#2458d3">+</text>
+          <text x="798" y="130" font-size="16" fill="#2458d3">+</text>
+          <text x="927" y="332" text-anchor="middle" font-size="13" fill="#2458d3">平台复用把单项目经验转成跨车型资产</text>
+
+          <rect x="10" y="392" width="598" height="340" rx="10" fill="#fffafa" stroke="#d9e1e8"/>
+          <text x="313" y="438" text-anchor="middle" font-size="22" font-weight="760" fill="#b83d4a">B1 价格刹车：同质化与年降</text>
+          <ellipse cx="313" cy="488" rx="110" ry="36" fill="#fff1f3" stroke="#e2a0aa"/>
+          <text x="313" y="484" text-anchor="middle" font-size="15" font-weight="700">出货/收入增长</text>
+          <text x="313" y="506" text-anchor="middle" font-size="12" fill="#5f6f82">竞争进入主流赛道</text>
+          <ellipse cx="488" cy="566" rx="112" ry="36" fill="#fff1f3" stroke="#e2a0aa"/>
+          <text x="488" y="562" text-anchor="middle" font-size="15" font-weight="700">同质化竞争暴露</text>
+          <text x="488" y="584" text-anchor="middle" font-size="12" fill="#5f6f82">替代供应商增多</text>
+          <ellipse cx="313" cy="648" rx="112" ry="36" fill="#fff1f3" stroke="#e2a0aa"/>
+          <text x="313" y="644" text-anchor="middle" font-size="15" font-weight="700">OEM年降压力</text>
+          <text x="313" y="666" text-anchor="middle" font-size="12" fill="#5f6f82">价格与账期挤压</text>
+          <ellipse cx="138" cy="566" rx="116" ry="36" fill="#fff1f3" stroke="#e2a0aa"/>
+          <text x="138" y="562" text-anchor="middle" font-size="15" font-weight="700">毛利/现金空间下降</text>
+          <text x="138" y="584" text-anchor="middle" font-size="12" fill="#5f6f82">研发扩张被抑制</text>
+          <path d="M 392 513 C 420 515, 422 524, 426 536" fill="none" stroke="#b83d4a" stroke-width="2.2" marker-end="url(#arrcRed)"/>
+          <path d="M 426 596 C 428 610, 412 617, 394 623" fill="none" stroke="#b83d4a" stroke-width="2.2" marker-end="url(#arrcRed)"/>
+          <path d="M 250 618 C 222 616, 209 607, 199 595" fill="none" stroke="#b83d4a" stroke-width="2.2" marker-end="url(#arrcRed)"/>
+          <path d="M 203 537 C 211 523, 224 518, 236 514" fill="none" stroke="#b83d4a" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#arrcRed)"/>
+          <text x="405" y="530" font-size="16" fill="#b83d4a">+</text>
+          <text x="445" y="638" font-size="16" fill="#b83d4a">+</text>
+          <text x="170" y="636" font-size="16" fill="#b83d4a">+</text>
+          <text x="180" y="502" font-size="16" fill="#b83d4a">−</text>
+          <text x="313" y="704" text-anchor="middle" font-size="13" fill="#b83d4a">负向链路表示：现金空间下降会反过来削弱继续扩张能力</text>
+
+          <rect x="632" y="392" width="590" height="340" rx="10" fill="#fffdf8" stroke="#d9e1e8"/>
+          <text x="927" y="438" text-anchor="middle" font-size="22" font-weight="760" fill="#bf7a1d">B2 海外延迟：合规与本地化</text>
+          <ellipse cx="927" cy="488" rx="112" ry="36" fill="#fff6e8" stroke="#e6c37f"/>
+          <text x="927" y="484" text-anchor="middle" font-size="15" font-weight="700">海外订单机会</text>
+          <text x="927" y="506" text-anchor="middle" font-size="12" fill="#5f6f82">中国车企出海/全球OEM</text>
+          <ellipse cx="1102" cy="566" rx="112" ry="36" fill="#fff6e8" stroke="#e6c37f"/>
+          <text x="1102" y="562" text-anchor="middle" font-size="15" font-weight="700">合规/本地化要求</text>
+          <text x="1102" y="584" text-anchor="middle" font-size="12" fill="#5f6f82">工厂、数据、认证</text>
+          <ellipse cx="927" cy="648" rx="116" ry="36" fill="#fff6e8" stroke="#e6c37f"/>
+          <text x="927" y="644" text-anchor="middle" font-size="15" font-weight="700">验证周期与交付成本</text>
+          <text x="927" y="666" text-anchor="middle" font-size="12" fill="#5f6f82">从定点到SOP更长</text>
+          <ellipse cx="752" cy="566" rx="112" ry="36" fill="#fff6e8" stroke="#e6c37f"/>
+          <text x="752" y="562" text-anchor="middle" font-size="15" font-weight="700">收入确认延迟</text>
+          <text x="752" y="584" text-anchor="middle" font-size="12" fill="#5f6f82">现金回收慢</text>
+          <path d="M 1006 513 C 1034 515, 1036 524, 1040 536" fill="none" stroke="#bf7a1d" stroke-width="2.2" marker-end="url(#arrcAmber)"/>
+          <path d="M 1040 596 C 1042 610, 1028 616, 1010 622" fill="none" stroke="#bf7a1d" stroke-width="2.2" marker-end="url(#arrcAmber)"/>
+          <path d="M 864 618 C 836 616, 823 607, 813 595" fill="none" stroke="#bf7a1d" stroke-width="2.2" marker-end="url(#arrcAmber)"/>
+          <path d="M 817 537 C 825 523, 838 518, 852 514" fill="none" stroke="#bf7a1d" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#arrcAmber)"/>
+          <text x="1020" y="530" font-size="16" fill="#bf7a1d">+</text>
+          <text x="1058" y="638" font-size="16" fill="#bf7a1d">+</text>
+          <text x="785" y="636" font-size="16" fill="#bf7a1d">+</text>
+          <text x="795" y="502" font-size="16" fill="#bf7a1d">−</text>
+          <text x="927" y="704" text-anchor="middle" font-size="13" fill="#bf7a1d">负向链路表示：确认延迟会反过来降低短期海外扩张速度</text>
+        </svg>
+      </div>
+    </section>
+
+    <section id="stock">
+      <h2>5. 存量流量图：从“定点”到“装车基础盘”的转化</h2>
+      <p class="lead">域控企业的真正资产不是某一年收入，而是已量产车型基础盘、可复用平台、客户信任、合规与质量资产。这些存量会被新项目流入增强，也会被车型换代、技术路线切换和客户自研流出削弱。</p>
+      <div class="svgbox">
+        <svg viewBox="0 0 1240 560" aria-label="智能汽车计算生态存量流量图">
+          <defs>
+            <marker id="arrs" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#5f6f82"></path>
+            </marker>
+          </defs>
+          <rect x="430" y="80" width="380" height="90" rx="8" fill="#edf3ff" stroke="#9bb6ef"/>
+          <text x="620" y="116" text-anchor="middle" font-size="19" font-weight="760">存量1：已量产车型基础盘</text>
+          <text x="620" y="145" text-anchor="middle" font-size="13" fill="#5f6f82">决定短中期出货、质量口碑和回款节奏</text>
+
+          <rect x="430" y="255" width="380" height="90" rx="8" fill="#eef9f3" stroke="#99d1b1"/>
+          <text x="620" y="291" text-anchor="middle" font-size="19" font-weight="760">存量2：可复用平台资产</text>
+          <text x="620" y="320" text-anchor="middle" font-size="13" fill="#5f6f82">OS、中间件、硬件平台、验证库、项目经验</text>
+
+          <rect x="430" y="430" width="380" height="90" rx="8" fill="#fff6e8" stroke="#e6c37f"/>
+          <text x="620" y="466" text-anchor="middle" font-size="19" font-weight="760">存量3：全球交付与合规资产</text>
+          <text x="620" y="495" text-anchor="middle" font-size="13" fill="#5f6f82">海外工厂、认证、本地团队、数据合规经验</text>
+
+          <rect x="56" y="100" width="230" height="50" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="171" y="131" text-anchor="middle" font-size="15" font-weight="700">新增车型定点</text>
+          <line x1="286" y1="125" x2="430" y2="125" stroke="#5f6f82" stroke-width="3" marker-end="url(#arrs)"/>
+          <text x="350" y="109" text-anchor="middle" font-size="13" fill="#5f6f82">流入</text>
+
+          <rect x="56" y="275" width="230" height="50" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="171" y="306" text-anchor="middle" font-size="15" font-weight="700">项目复盘与平台沉淀</text>
+          <line x1="286" y1="300" x2="430" y2="300" stroke="#5f6f82" stroke-width="3" marker-end="url(#arrs)"/>
+          <text x="350" y="284" text-anchor="middle" font-size="13" fill="#5f6f82">流入</text>
+
+          <rect x="56" y="450" width="230" height="50" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="171" y="481" text-anchor="middle" font-size="15" font-weight="700">海外本地化投入</text>
+          <line x1="286" y1="475" x2="430" y2="475" stroke="#5f6f82" stroke-width="3" marker-end="url(#arrs)"/>
+          <text x="350" y="459" text-anchor="middle" font-size="13" fill="#5f6f82">流入</text>
+
+          <rect x="945" y="100" width="230" height="50" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="1060" y="131" text-anchor="middle" font-size="15" font-weight="700">车型换代/项目结束</text>
+          <line x1="810" y1="125" x2="945" y2="125" stroke="#b83d4a" stroke-width="3" marker-end="url(#arrs)"/>
+          <text x="876" y="109" text-anchor="middle" font-size="13" fill="#b83d4a">流出</text>
+
+          <rect x="945" y="275" width="230" height="50" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="1060" y="306" text-anchor="middle" font-size="15" font-weight="700">架构切换/客户自研</text>
+          <line x1="810" y1="300" x2="945" y2="300" stroke="#b83d4a" stroke-width="3" marker-end="url(#arrs)"/>
+          <text x="876" y="284" text-anchor="middle" font-size="13" fill="#b83d4a">流出</text>
+
+          <rect x="945" y="450" width="230" height="50" rx="6" fill="#fff" stroke="#d9e1e8"/>
+          <text x="1060" y="481" text-anchor="middle" font-size="15" font-weight="700">地缘/认证/供应链中断</text>
+          <line x1="810" y1="475" x2="945" y2="475" stroke="#b83d4a" stroke-width="3" marker-end="url(#arrs)"/>
+          <text x="876" y="459" text-anchor="middle" font-size="13" fill="#b83d4a">流出</text>
+
+          <path d="M 620 170 C 620 205, 620 225, 620 255" fill="none" stroke="#1f8f5f" stroke-width="3" marker-end="url(#arrs)"/>
+          <path d="M 620 345 C 620 380, 620 400, 620 430" fill="none" stroke="#1f8f5f" stroke-width="3" marker-end="url(#arrs)"/>
+          <text x="658" y="218" font-size="13" fill="#1f8f5f">量产经验沉淀</text>
+          <text x="658" y="392" font-size="13" fill="#1f8f5f">平台能力出海化</text>
+        </svg>
+      </div>
+      <p class="note">车联天下目前的存量主要在前两层：已量产车型基础盘与座舱域控平台资产；德赛西威三层都更厚；亿咖通在平台资产和全球研发叙事上更强，但财务客户集中仍需继续消化。</p>
+    </section>
+
+    <section id="trend">
+      <h2>6. 行为趋势图：三家公司增长曲线背后的生态差异</h2>
+      <div class="grid trend-compare-grid">
+        <div class="span-6 trend-panel trend-chart-panel">
+          <h3>收入规模趋势</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 700 390" aria-label="三家公司收入趋势">
+              <line x1="86" y1="318" x2="660" y2="318" stroke="#9aa6b2"/>
+              <line x1="86" y1="48" x2="86" y2="318" stroke="#9aa6b2"/>
+              <text x="80" y="322" text-anchor="end" font-size="12" fill="#5f6f82">0</text>
+              <text x="80" y="254" text-anchor="end" font-size="12" fill="#5f6f82">80</text>
+              <text x="80" y="187" text-anchor="end" font-size="12" fill="#5f6f82">160</text>
+              <text x="80" y="119" text-anchor="end" font-size="12" fill="#5f6f82">240</text>
+              <text x="80" y="52" text-anchor="end" font-size="12" fill="#5f6f82">320</text>
+              <text x="86" y="28" font-size="13" fill="#5f6f82">单位：人民币亿元。亿咖通美元收入按约7.2折算，仅用于量级比较。</text>
+              <text x="150" y="346" text-anchor="middle" font-size="13">2023</text>
+              <text x="310" y="346" text-anchor="middle" font-size="13">2024</text>
+              <text x="470" y="346" text-anchor="middle" font-size="13">2025</text>
+
+              <polyline points="150,299 310,296 470,309" fill="none" stroke="#2458d3" stroke-width="4"/>
+              <circle cx="150" cy="299" r="5" fill="#2458d3"/><circle cx="310" cy="296" r="5" fill="#2458d3"/><circle cx="470" cy="309" r="5" fill="#2458d3"/>
+              <text x="552" y="303" text-anchor="middle" font-size="11" font-weight="750" fill="#2458d3">车联天下：22.98 → 26.56 → 10.39</text>
+
+              <polyline points="150,133 310,95 470,43" fill="none" stroke="#1f8f5f" stroke-width="4"/>
+              <circle cx="150" cy="133" r="5" fill="#1f8f5f"/><circle cx="310" cy="95" r="5" fill="#1f8f5f"/><circle cx="470" cy="43" r="5" fill="#1f8f5f"/>
+              <text x="552" y="67" text-anchor="middle" font-size="11" font-weight="750" fill="#1f8f5f">德赛西威：219.08 → 263.82 → 325.57</text>
+
+              <polyline points="150,289 310,276 470,267" fill="none" stroke="#bf7a1d" stroke-width="4"/>
+              <circle cx="150" cy="289" r="5" fill="#bf7a1d"/><circle cx="310" cy="276" r="5" fill="#bf7a1d"/><circle cx="470" cy="267" r="5" fill="#bf7a1d"/>
+              <text x="552" y="264" text-anchor="middle" font-size="11" font-weight="750" fill="#bf7a1d">亿咖通：约33.9 → 49.8 → 61.0</text>
+            </svg>
+          </div>
+          <div class="legend">
+            <span><i class="dot" style="background:var(--blue)"></i>车联天下</span>
+            <span><i class="dot" style="background:var(--green)"></i>德赛西威</span>
+            <span><i class="dot" style="background:var(--amber)"></i>亿咖通</span>
+          </div>
+        </div>
+        <div class="span-6 trend-panel trend-table-panel">
+          <h3>2025/最新口径比较</h3>
+          <div class="svgbox table-box trend-table-box">
+          <table>
+            <colgroup><col><col><col><col></colgroup>
+            <thead><tr><th>指标</th><th>车联天下</th><th>德赛西威</th><th>亿咖通</th></tr></thead>
+            <tbody>
+              <tr><td>最新收入</td><td>2025H1 10.39亿元</td><td>2025年 325.57亿元</td><td>2025年 8.479亿美元</td></tr>
+              <tr><td>盈利状态</td><td class="bad">经调整亏损 0.139亿元</td><td class="good">净利润 24.54亿元</td><td class="bad">净亏损 0.689亿美元</td></tr>
+              <tr><td>毛利率</td><td>2025H1 16.2%</td><td>2025年约20.9%</td><td>2025年约19.0%</td></tr>
+              <tr><td>海外收入</td><td>招股书地理口径为中国</td><td>2025年约24.10亿元，7.40%</td><td>SEC地理口径中国占95.3%；业绩稿称全球市场收入占28%</td></tr>
+              <tr><td>客户集中</td><td class="bad">2025H1前五大客户99.2%</td><td>大客户分散度较好</td><td class="warn">Geely Holding 2025占68.1%</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="span-6">
+          <h3>海外化趋势的行为假设</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 620 500" aria-label="海外化趋势假设">
+              <line x1="70" y1="400" x2="570" y2="400" stroke="#9aa6b2"/>
+              <line x1="70" y1="70" x2="70" y2="400" stroke="#9aa6b2"/>
+              <text x="70" y="432" text-anchor="middle" font-size="12">现在</text>
+              <text x="560" y="432" text-anchor="middle" font-size="12">未来</text>
+              <text x="85" y="56" font-size="13" fill="#5f6f82">海外收入/海外项目成熟度，概念趋势</text>
+              <path d="M 95 365 C 170 342, 235 318, 300 278 C 380 225, 455 158, 555 104" fill="none" stroke="#1f8f5f" stroke-width="4"/>
+              <rect x="318" y="126" width="244" height="38" rx="6" fill="#fff" opacity=".94" stroke="#dbe8e2"/>
+              <text x="330" y="142" font-size="13" font-weight="750" fill="#1f8f5f">德赛西威：本地团队+海外工厂</text>
+              <text x="330" y="158" font-size="12" fill="#1f8f5f">全球OEM路径更清晰</text>
+              <path d="M 95 352 C 180 318, 250 278, 315 230 C 410 164, 490 150, 555 136" fill="none" stroke="#bf7a1d" stroke-width="4"/>
+              <rect x="250" y="202" width="252" height="38" rx="6" fill="#fff" opacity=".94" stroke="#efe0c8"/>
+              <text x="262" y="218" font-size="13" font-weight="750" fill="#bf7a1d">亿咖通：全球叙事强</text>
+              <text x="262" y="234" font-size="12" fill="#bf7a1d">收入口径仍需持续跟踪</text>
+              <path d="M 95 382 C 185 377, 260 365, 335 338 C 430 304, 505 255, 555 220" fill="none" stroke="#2458d3" stroke-width="4" stroke-dasharray="8 6"/>
+              <rect x="176" y="324" width="284" height="38" rx="6" fill="#fff" opacity=".94" stroke="#d7def5"/>
+              <text x="188" y="340" font-size="13" font-weight="750" fill="#2458d3">车联天下：跟随中国OEM出海</text>
+              <text x="188" y="356" font-size="12" fill="#2458d3">直接海外收入尚处早期</text>
+            </svg>
+          </div>
+          <p class="note">这是行为假设图，不是财务预测。它表达的是三家公司海外化路径的速度、约束和确定性差异。</p>
+        </div>
+        <div class="span-6">
+          <h3>生态成熟度雷达</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 620 500" aria-label="生态成熟度雷达图" data-radar-chart="ecosystem-maturity">
+              <g transform="translate(310,255)">
+                <polygon points="0,-190 165,-95 165,95 0,190 -165,95 -165,-95" fill="#f8fafc" stroke="#d9e1e8"/>
+                <polygon points="0,-142 124,-71 124,71 0,142 -124,71 -124,-71" fill="none" stroke="#d9e1e8"/>
+                <polygon points="0,-95 82,-47 82,47 0,95 -82,47 -82,-47" fill="none" stroke="#d9e1e8"/>
+                <polygon points="0,-48 41,-24 41,24 0,48 -41,24 -41,-24" fill="none" stroke="#d9e1e8"/>
+                <line x1="0" y1="0" x2="0" y2="-200" stroke="#c5ced8"/>
+                <line x1="0" y1="0" x2="175" y2="-101" stroke="#c5ced8"/>
+                <line x1="0" y1="0" x2="175" y2="101" stroke="#c5ced8"/>
+                <line x1="0" y1="0" x2="0" y2="200" stroke="#c5ced8"/>
+                <line x1="0" y1="0" x2="-175" y2="101" stroke="#c5ced8"/>
+                <line x1="0" y1="0" x2="-175" y2="-101" stroke="#c5ced8"/>
+
+                <polygon class="radar-series" data-radar-series="desay" points="0,-152 140,-81 126,73 0,133 -99,57 -132,-76" fill="rgba(31,143,95,.18)" stroke="#1f8f5f" stroke-width="3"/>
+                <polygon class="radar-series" data-radar-series="ecarx" points="0,-95 91,-52 98,57 0,152 -132,76 -91,-52" fill="rgba(191,122,29,.16)" stroke="#bf7a1d" stroke-width="3"/>
+                <polygon class="radar-series" data-radar-series="autolink" points="0,-76 74,-43 56,32 0,57 -132,76 -107,-62" fill="rgba(36,88,211,.15)" stroke="#2458d3" stroke-width="3"/>
+
+                <text x="0" y="-220" text-anchor="middle" font-size="14" font-weight="700">收入规模</text>
+                <text x="202" y="-108" text-anchor="start" font-size="14" font-weight="700">产品广度</text>
+                <text x="202" y="116" text-anchor="start" font-size="14" font-weight="700">全球交付</text>
+                <text x="0" y="224" text-anchor="middle" font-size="14" font-weight="700">客户独立性</text>
+                <text x="-202" y="116" text-anchor="end" font-size="14" font-weight="700">平台/软件资产</text>
+                <text x="-202" y="-108" text-anchor="end" font-size="14" font-weight="700">量产质量资产</text>
+              </g>
+            </svg>
+          </div>
+          <div class="legend radar-toggle-legend" data-radar-controls="ecosystem-maturity">
+            <button class="radar-toggle" type="button" aria-pressed="true" data-radar-toggle="desay"><span class="dot" style="background:var(--green)"></span>德赛西威</button>
+            <button class="radar-toggle" type="button" aria-pressed="true" data-radar-toggle="ecarx"><span class="dot" style="background:var(--amber)"></span>亿咖通</button>
+            <button class="radar-toggle" type="button" aria-pressed="true" data-radar-toggle="autolink"><span class="dot" style="background:var(--blue)"></span>车联天下</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="position">
+      <h2>7. 坐标系：三家公司在中国与海外市场的位置差异</h2>
+      <div class="grid">
+        <div class="span-6">
+          <h3>中国市场：速度、成本、定制与规模</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 620 520" aria-label="中国市场竞争坐标">
+              <line x1="80" y1="440" x2="560" y2="440" stroke="#8d99a6" stroke-width="2"/>
+              <line x1="80" y1="440" x2="80" y2="60" stroke="#8d99a6" stroke-width="2"/>
+              <text x="555" y="470" text-anchor="end" font-size="13" fill="#5f6f82">产品/能力广度高</text>
+              <text x="38" y="250" text-anchor="middle" transform="rotate(-90 38 250)" font-size="13" fill="#5f6f82">规模与客户覆盖高</text>
+              <line x1="80" y1="250" x2="560" y2="250" stroke="#e1e6ec" stroke-dasharray="6 5"/>
+              <line x1="320" y1="60" x2="320" y2="440" stroke="#e1e6ec" stroke-dasharray="6 5"/>
+              <circle cx="470" cy="118" r="34" fill="rgba(31,143,95,.22)" stroke="#1f8f5f" stroke-width="3"/>
+              <text x="470" y="123" text-anchor="middle" font-size="14" font-weight="760" fill="#1f8f5f">德赛</text>
+              <circle cx="385" cy="230" r="31" fill="rgba(191,122,29,.20)" stroke="#bf7a1d" stroke-width="3"/>
+              <text x="385" y="235" text-anchor="middle" font-size="14" font-weight="760" fill="#bf7a1d">亿咖通</text>
+              <circle cx="260" cy="265" r="28" fill="rgba(36,88,211,.20)" stroke="#2458d3" stroke-width="3"/>
+              <text x="260" y="270" text-anchor="middle" font-size="14" font-weight="760" fill="#2458d3">车联</text>
+              <text x="108" y="95" font-size="13" fill="#5f6f82">中国市场规则：</text>
+              <text x="108" y="122" font-size="13" fill="#5f6f82">车型迭代快、价格敏感、定制强、SOP密集</text>
+              <text x="390" y="404" font-size="13" fill="#5f6f82">横轴：座舱→智驾→区域→中央计算覆盖</text>
+              <text x="105" y="404" font-size="13" fill="#5f6f82">纵轴：规模/客户/交付基础盘</text>
+            </svg>
+          </div>
+        </div>
+        <div class="span-6">
+          <h3>海外市场：合规、本地化、全球OEM验证</h3>
+          <div class="svgbox">
+            <svg viewBox="0 0 620 520" aria-label="海外市场竞争坐标">
+              <line x1="80" y1="440" x2="560" y2="440" stroke="#8d99a6" stroke-width="2"/>
+              <line x1="80" y1="440" x2="80" y2="60" stroke="#8d99a6" stroke-width="2"/>
+              <text x="555" y="470" text-anchor="end" font-size="13" fill="#5f6f82">全球客户/本地交付成熟</text>
+              <text x="38" y="250" text-anchor="middle" transform="rotate(-90 38 250)" font-size="13" fill="#5f6f82">海外收入确定性高</text>
+              <line x1="80" y1="250" x2="560" y2="250" stroke="#e1e6ec" stroke-dasharray="6 5"/>
+              <line x1="320" y1="60" x2="320" y2="440" stroke="#e1e6ec" stroke-dasharray="6 5"/>
+              <circle cx="455" cy="230" r="34" fill="rgba(31,143,95,.22)" stroke="#1f8f5f" stroke-width="3"/>
+              <text x="455" y="235" text-anchor="middle" font-size="14" font-weight="760" fill="#1f8f5f">德赛</text>
+              <circle cx="405" cy="300" r="31" fill="rgba(191,122,29,.20)" stroke="#bf7a1d" stroke-width="3"/>
+              <text x="405" y="305" text-anchor="middle" font-size="14" font-weight="760" fill="#bf7a1d">亿咖通</text>
+              <circle cx="210" cy="365" r="28" fill="rgba(36,88,211,.20)" stroke="#2458d3" stroke-width="3"/>
+              <text x="210" y="370" text-anchor="middle" font-size="14" font-weight="760" fill="#2458d3">车联</text>
+              <text x="108" y="95" font-size="13" fill="#5f6f82">海外市场规则：</text>
+              <text x="108" y="122" font-size="13" fill="#5f6f82">周期更长、合规更重、本地交付与全球客户背书更重要</text>
+              <text x="350" y="404" font-size="13" fill="#5f6f82">横轴：本地团队/工厂/全球OEM覆盖</text>
+              <text x="105" y="404" font-size="13" fill="#5f6f82">纵轴：收入已兑现程度</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <table class="position-market-table">
+        <colgroup><col><col style="width:29%"><col style="width:29%"><col style="width:29%"></colgroup>
+        <thead><tr><th>维度</th><th>车联天下</th><th>德赛西威</th><th>亿咖通</th></tr></thead>
+        <tbody>
+          <tr><td>中国市场优势</td><td>座舱域控量产放量快，2024 年出货 80.9 万套。</td><td>规模最大，三大业务线覆盖宽，2025 年收入 325.57 亿元。</td><td>背靠吉利生态，OS/计算平台/SoC叙事完整。</td></tr>
+          <tr><td>中国市场短板</td><td>客户与供应商集中，区域控制器仍早期。</td><td>规模大但需持续应对年降和多线研发投入。</td><td>仍需降低吉利系收入依赖并扩大外部客户。</td></tr>
+          <tr><td>海外市场优势</td><td>可跟随中国 OEM 出口车型进入海外。</td><td>海外本地团队、生产基地和全球 OEM 定点更清晰。</td><td>海外总部、全球研发和资本市场叙事强。</td></tr>
+          <tr><td>海外市场短板</td><td>招股书地理收入口径仍为中国；数据跨境与本地合规经验有限。</td><td>海外收入占比仍不高，距离全球 Tier 1 还有规模差距。</td><td>SEC地理口径中国收入仍高，全球化收入口径需持续验证。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="strategy">
+      <h2>8. 矩阵：三类生态策略</h2>
+      <p class="lead">三家公司不是简单同质竞争。它们分别代表三种生态策略：量产域控模块、全栈 Tier 1 规模平台、软件计算生态平台。</p>
+      <div class="svgbox industry-strategy-box">
+        <svg viewBox="0 45 1240 530" aria-label="生态策略矩阵">
+          <line x1="120" y1="530" x2="1120" y2="530" stroke="#8d99a6" stroke-width="2"/>
+          <line x1="120" y1="530" x2="120" y2="85" stroke="#8d99a6" stroke-width="2"/>
+          <text x="1120" y="560" text-anchor="end" font-size="14" fill="#5f6f82">软件平台化程度高</text>
+          <text x="108" y="92" text-anchor="end" font-size="14" fill="#5f6f82">量产硬件交付规模高</text>
+          <line x1="120" y1="305" x2="1120" y2="305" stroke="#e1e6ec" stroke-dasharray="7 5"/>
+          <line x1="620" y1="85" x2="620" y2="530" stroke="#e1e6ec" stroke-dasharray="7 5"/>
+          <text x="165" y="135" font-size="16" font-weight="760" fill="#344255">硬件规模型 Tier 1</text>
+          <text x="165" y="162" font-size="13" fill="#5f6f82">强在量产、客户覆盖、质量与供应链</text>
+          <text x="655" y="135" font-size="16" font-weight="760" fill="#344255">平台生态型玩家</text>
+          <text x="655" y="162" font-size="13" fill="#5f6f82">强在OS、计算平台、芯片伙伴和软件复用</text>
+          <text x="165" y="350" font-size="16" font-weight="760" fill="#344255">项目制模块供应商</text>
+          <text x="165" y="377" font-size="13" fill="#5f6f82">强在单域控交付，弱在平台溢价和全球化</text>
+          <text x="655" y="350" font-size="16" font-weight="760" fill="#344255">垂直整车生态内供应商</text>
+          <text x="655" y="377" font-size="13" fill="#5f6f82">强在生态协同，需证明外部客户扩张</text>
+
+          <circle cx="470" cy="175" r="42" fill="rgba(31,143,95,.20)" stroke="#1f8f5f" stroke-width="3"/>
+          <text x="470" y="181" text-anchor="middle" font-size="15" font-weight="760" fill="#1f8f5f">德赛西威</text>
+          <circle cx="835" cy="250" r="42" fill="rgba(191,122,29,.20)" stroke="#bf7a1d" stroke-width="3"/>
+          <text x="835" y="256" text-anchor="middle" font-size="15" font-weight="760" fill="#bf7a1d">亿咖通</text>
+          <circle cx="390" cy="410" r="38" fill="rgba(36,88,211,.20)" stroke="#2458d3" stroke-width="3"/>
+          <text x="390" y="416" text-anchor="middle" font-size="15" font-weight="760" fill="#2458d3">车联天下</text>
+          <path d="M 410 385 C 468 330, 548 295, 635 260" fill="none" stroke="#2458d3" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrm)"/>
+          <defs>
+            <marker id="arrm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#2458d3"></path>
+            </marker>
+          </defs>
+          <text x="455" y="300" font-size="13" fill="#2458d3">车联天下的上移路径：区域控制器 + 平台复用 + 多客户</text>
+        </svg>
+      </div>
+      <div class="quad">
+        <div class="mini-card"><b>车联天下要赢什么：</b>从“车型项目供应商”变成“平台复用供应商”，否则收入增长会继续被定制研发和营运资金消耗。</div>
+        <div class="mini-card"><b>德赛西威要赢什么：</b>从中国规模优势变成全球 Tier 1 的本地化交付能力，并把智能驾驶业务毛利守住。</div>
+        <div class="mini-card"><b>亿咖通要赢什么：</b>把软件平台和SoC生态从吉利系扩展到更多外部OEM，并让全球收入在财务口径下兑现。</div>
+        <div class="mini-card"><b>行业要验证什么：</b>OEM会不会把核心计算继续外包给中国供应商，还是在中央计算阶段加速自研或转向全球大厂。</div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <h2>9. 中国 vs 海外：生态规则差异</h2>
+      <table class="market-rules-table">
+        <colgroup><col><col style="width:25%"><col style="width:25%"><col style="width:40%"></colgroup>
+        <thead><tr><th>生态变量</th><th>中国市场</th><th>海外市场</th><th>对车联天下的含义</th></tr></thead>
+        <tbody>
+          <tr><td>车型迭代</td><td>快，供应商需要高响应和项目并行。</td><td>慢，验证周期长，SOP前置工作多。</td><td>中国市场利于快速放量；海外需要耐心和本地项目管理。</td></tr>
+          <tr><td>价格机制</td><td>年降压力强，OEM采购竞争充分。</td><td>价格不一定低，但合规和本地化成本高。</td><td>如果只跟随低价出海，毛利改善有限。</td></tr>
+          <tr><td>产品偏好</td><td>大屏、多模态座舱、城市NOA、快速OTA。</td><td>安全、稳定、法规适配、隐私与网络安全。</td><td>座舱体验优势需要转译成安全和合规语言。</td></tr>
+          <tr><td>客户关系</td><td>新势力和自主品牌愿意与本土供应商深度共创。</td><td>全球OEM供应商准入门槛高，历史交付背书重要。</td><td>德赛西威更有全球客户铺垫；车联天下更适合先随中国OEM海外车型渗透。</td></tr>
+          <tr><td>数据闭环</td><td>本土数据和云服务协同更顺。</td><td>数据跨境、隐私和本地部署更敏感。</td><td>招股书披露公司尚未提供跨境数据传输，这既降低当前风险，也说明海外数据闭环能力尚早。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="conclusion">
+      <h2>10. 对车联天下的生态结论</h2>
+      <div class="two-col">
+        <p><b>第一，车联天下的生态入口是硬件域控，不是独立软件平台。</b>它有 Autosee OS 和软件著作权，但收入主要来自车载计算解决方案。生态上更像把芯片、PCBA、基础软件和整车厂需求重新封装成“可量产计算模块”。</p>
+        <p><b>第二，它的上游依赖很强，尤其是PCBA/博世合作。</b>这给它带来车规制造背书和快速放量能力，但也把成本、交付和议价约束集中到供应端。</p>
+        <p><b>第三，它的下游需求真实，但客户集中让增长带有单点脆弱性。</b>2025H1 前五大客户收入占比 99.2%，说明客户数量扩张还没有充分转化为收入结构分散。</p>
+        <p><b>第四，海外不是简单复制中国打法。</b>中国打法重速度、成本和共创；海外打法重认证、数据、本地交付和全球客户准入。车联天下应先通过中国 OEM 出海车型积累海外装车，再考虑直接全球客户突破。</p>
+        <p><b>第五，与德赛西威和亿咖通相比，它最需要补的不是“概念”，而是生态存量。</b>包括更多量产车型、多源供应、更高平台复用率、区域控制器收入，以及可以被海外客户接受的合规与质量记录。</p>
+      </div>
+      <div class="callout">
+        <b>一句话：</b>车联天下是智能汽车计算生态里的“年轻量产节点”。它踩中了域控普及和整车计算迁移的大周期，但要从节点变成平台，必须把项目增长沉淀为可复用资产、现金自循环和全球合规能力。
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <h2>11. 后续跟踪仪表盘</h2>
+      <table>
+        <thead><tr><th>生态问题</th><th>领先指标</th><th>乐观信号</th><th>警惕信号</th></tr></thead>
+        <tbody>
+          <tr><td>是否成为平台型供应商</td><td>同一平台跨车型/客户复用率；研发费用率；交付周期。</td><td class="good">研发费用率下降但新定点增加。</td><td class="bad">每个新客户都需要高定制投入。</td></tr>
+          <tr><td>区域控制器是否成第二曲线</td><td>区域控制器收入、毛利、客户数。</td><td class="good">收入占比连续上升且毛利不低于座舱域控。</td><td class="bad">只停留在小额样件或试点收入。</td></tr>
+          <tr><td>上下游集中度是否改善</td><td>最大客户、前五大客户、最大供应商采购占比。</td><td class="good">最大客户低于40%，最大供应商低于50%。</td><td class="bad">出货增长但集中度维持高位。</td></tr>
+          <tr><td>海外生态是否打开</td><td>海外收入地理分部、海外SOP车型、当地认证/合作。</td><td class="good">随中国OEM出海后获得全球OEM直接定点。</td><td class="bad">海外只停留在客户出口车型间接覆盖。</td></tr>
+          <tr><td>生态现金流是否健康</td><td>经营现金流、应收账款、存货、应付账款。</td><td class="good">经营现金流随收入增长改善。</td><td class="bad">增长越快，营运资金缺口越大。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="sources">
+      <h2>12. 来源</h2>
+      <ul class="source-list">
+        <li><a href="https://www.hkexnews.hk/app/sehk/2025/107906/documents/sehk25112803068_c.pdf">港交所：无锡车联天下智能科技股份有限公司申请版本招股书，2025-11-28</a>。用于车联天下业务、产品、客户/供应商集中度、收入、出货、员工、地域收入与数据跨境披露。</li>
+        <li><a href="https://file.finance.sina.com.cn/211.154.219.97%3A9494/MRGG/CNSESZ_STOCK/2026/2026-3/2026-03-06/11983521.PDF">德赛西威：2025 年年度报告</a>。用于德赛西威收入、业务分部、海外收入、海外布局、全球客户和行业背景。</li>
+        <li><a href="https://www.sec.gov/Archives/edgar/data/1861974/000162828026021865/exc-20251231.htm">ECARX Holdings：2025 Form 20-F / SEC</a>。用于亿咖通收入、客户集中度、地域收入、产品平台、全球布局等披露。</li>
+        <li><a href="https://www.nasdaq.com/press-release/ecarx-announces-audited-2025-full-year-financial-results-2026-04-02">ECARX：2025 年经审计全年业绩公告，Nasdaq转载</a>。用于亿咖通 2025 年收入、毛利率、净亏损、全球市场收入和订单储备表述。</li>
+        <li><a href="https://www.eco.gov.cn/news_info/64238.html">中国经济网/中经网：2025 年中国汽车产销数据，2026-01-13</a>。用于中国汽车与新能源汽车宏观背景。</li>
+      </ul>
+      <p class="note">说明：亿咖通“SEC地理收入口径”与业绩公告中的“全球市场收入占比”口径不同，本报告将其作为两个不同信号处理，不直接合并。</p>
+    </section>
+  </main>
+<script>
+/* AUTOLINK_RADAR_TOGGLE_SCRIPT_START */
+(() => {
+  if (window.__autolinkRadarTogglesReady) return;
+  window.__autolinkRadarTogglesReady = true;
+  const syncButton = (button) => {
+    const controls = button.closest("[data-radar-controls]");
+    if (!controls) return;
+    const chart = controls.dataset.radarControls;
+    const series = button.dataset.radarToggle;
+    const active = button.getAttribute("aria-pressed") !== "false";
+    document
+      .querySelectorAll(`[data-radar-chart="${chart}"] [data-radar-series="${series}"]`)
+      .forEach((node) => node.classList.toggle("is-hidden", !active));
+    button.classList.toggle("is-off", !active);
+  };
+  document.querySelectorAll("[data-radar-toggle]").forEach((button) => {
+    if (!button.hasAttribute("aria-pressed")) button.setAttribute("aria-pressed", "true");
+    syncButton(button);
+    button.addEventListener("click", () => {
+      const active = button.getAttribute("aria-pressed") !== "false";
+      button.setAttribute("aria-pressed", active ? "false" : "true");
+      syncButton(button);
+    });
+  });
+})();
+/* AUTOLINK_RADAR_TOGGLE_SCRIPT_END */
+</script>
+</body>
+</html>

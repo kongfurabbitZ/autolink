@@ -1,0 +1,48 @@
+{
+  "series_name": "车联天下智能汽车计算链研究",
+  "overview_title": "车联天下智能汽车计算链研究总览：从生态位到经营质量与能力库存",
+  "overview_html": "/Users/qubowen/SynologyDrive/01.兔揽群书/个人数据/AI Workbench/annual-report-visual/reports/2026-05-16/autolink_integrated_series/autolink_integrated_series.html",
+  "reports": [
+    {
+      "key": "business",
+      "order": "01",
+      "label": "商业生态篇",
+      "path": "/Users/qubowen/SynologyDrive/01.兔揽群书/个人数据/AI Workbench/annual-report-visual/reports/2026-05-16/autolink_business_ecosystem_report/autolink_business_ecosystem_report.html",
+      "old_title": "车联天下商业生态报告：从域控节点看智能汽车计算链",
+      "new_title": "车联天下智能汽车计算链研究（一）：商业生态与价值节点",
+      "subtitle": "车联天下站在计算链的哪个商业节点上？",
+      "role": ""
+    },
+    {
+      "key": "industry",
+      "order": "02",
+      "label": "行业生态篇",
+      "path": "/Users/qubowen/SynologyDrive/01.兔揽群书/个人数据/AI Workbench/annual-report-visual/reports/2026-05-12/autolink_ecosystem_analysis/autolink_ecosystem_analysis.html",
+      "old_title": "车联天下行业生态报告：从域控供应商看智能汽车计算链",
+      "new_title": "车联天下智能汽车计算链研究（二）：供应商竞争与生态位",
+      "subtitle": "从域控供应商比较看平台化、规模化与海外化路径",
+      "role": "如何理解它与德赛西威、亿咖通等公司的竞争？"
+    },
+    {
+      "key": "operation",
+      "order": "03",
+      "label": "经营质量篇",
+      "path": "/Users/qubowen/SynologyDrive/01.兔揽群书/个人数据/AI Workbench/annual-report-visual/reports/2026-05-16/carlink.html",
+      "old_title": "车联天下长期洞察报告",
+      "new_title": "车联天下智能汽车计算链研究（三）：经营质量与平台化验证",
+      "subtitle": "看项目增长、现金压力与平台复用的可验证性",
+      "role": "车联天下自身经营如何支撑从项目型增长升级为平台型供应商？"
+    },
+    {
+      "key": "organization",
+      "order": "04",
+      "label": "组织能力篇",
+      "path": "/Users/qubowen/SynologyDrive/01.兔揽群书/个人数据/AI Workbench/annual-report-visual/reports/2026-05-15/hr_layout_comparison/hr_layout_comparison.html",
+      "old_title": "智能汽车企业的人力资源布局，正在从“招人”变成“能力库存管理”",
+      "new_title": "车联天下智能汽车计算链研究（四）：组织能力与能力库存",
+      "subtitle": "如何把人才转化为平台资产？要把项目增长变成平台能力，组织侧需要补充什么人才？",
+      "role": ""
+    }
+  ],
+  "artifact_policy": "HTML-only by default; retained PNG/PDF only on explicit request."
+}

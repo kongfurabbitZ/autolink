@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
+  <title>车联天下智能汽车计算链研究总览：从生态位到经营质量与能力库存</title>
+  <style>
+    :root {
+      --ink: #17202b;
+      --muted: #5b6877;
+      --line: #d8e0e8;
+      --paper: #f5f7fa;
+      --white: #fff;
+      --blue: #255fd5;
+      --teal: #008c8c;
+      --violet: #7a5cff;
+      --amber: #c47a1c;
+      --green: #24885b;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.62;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .hero {
+      background: #162232;
+      color: #fff;
+      padding: clamp(58px, 8vw, 92px) max(22px, 6vw) clamp(42px, 6vw, 72px);
+    }
+    .hero-inner { max-width: 1240px; margin: 0 auto; }
+    .kicker { color: #8fd0c9; font-size: 13px; font-weight: 850; letter-spacing: .04em; }
+    h1 { max-width: 1060px; margin: 0; font-size: clamp(35px, 5vw, 66px); line-height: 1.08; letter-spacing: 0; }
+    .hero p { max-width: 960px; margin: 22px 0 0; color: rgba(255,255,255,.86); font-size: clamp(17px, 2vw, 23px); }
+    .contact-strip { order: 3; display: flex; flex-wrap: wrap; gap: 18px; margin-top: 20px; align-items: center; }
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+      color: #fff;
+      background: transparent;
+      text-decoration: none;
+    }
+    .contact-item:hover { text-decoration: none; background: transparent; color: #bdf4ee; }
+    .contact-icon { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 999px; background: rgba(143,208,201,.16); color: #8fd0c9; flex: 0 0 auto; }
+    .contact-icon svg { display: block; width: 14px !important; min-width: 0 !important; height: 14px !important; stroke: currentColor; }
+    .contact-item small { display: block; color: rgba(255,255,255,.68); font-size: 11px; line-height: 1.2; }
+    .contact-item b { display: block; color: #fff; font-size: 14px; line-height: 1.25; margin-top: 2px; }
+    .hero-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 34px; }
+    .hero-stat { border: 1px solid rgba(255,255,255,.2); border-radius: 8px; padding: 15px; background: rgba(255,255,255,.06); }
+    .hero-stat b { display: block; font-size: 24px; line-height: 1.2; }
+    .hero-stat span { display: block; margin-top: 6px; color: rgba(255,255,255,.74); font-size: 13px; }
+    main { padding: 28px max(20px, 5vw) 78px; }
+    section { max-width: 1280px; margin: 0 auto 24px; padding: clamp(22px, 3vw, 34px); background: var(--white); border: 1px solid var(--line); border-radius: 8px; }
+    h2 { margin: 0 0 16px; font-size: clamp(25px, 3vw, 36px); line-height: 1.18; }
+    h3 { margin: 0 0 10px; font-size: 20px; line-height: 1.25; }
+    .lead { max-width: 980px; color: #334457; font-size: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; align-items: start; }
+    .span-12 { grid-column: span 12; }
+    .report-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+    .report-card { border: 1px solid var(--line); border-top: 5px solid var(--accent); border-radius: 8px; padding: 18px; background: #fbfcfd; min-height: 100%; display: flex; flex-direction: column; }
+    .report-order { color: var(--accent); font-size: 13px; font-weight: 850; }
+    .report-card p { color: #405167; }
+    dl { margin: 14px 0 18px; }
+    dl div { border-top: 1px solid #e4ebf2; padding: 9px 0; }
+    dt { color: #526377; font-size: 12px; font-weight: 850; }
+    dd { margin: 3px 0 0; color: #253344; font-size: 14px; }
+    .report-card a { display: inline-block; align-self: flex-start; margin-top: auto; border: 1px solid var(--accent); border-radius: 6px; padding: 8px 10px; color: var(--accent); font-weight: 800; }
+    .svgbox { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 10px; }
+    svg { display: block; width: 100%; min-width: 760px; height: auto; font-family: inherit; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; table-layout: fixed; }
+    th, td { border-bottom: 1px solid var(--line); padding: 12px 10px; text-align: left; vertical-align: top; }
+    th { background: #f0f4f8; color: #344255; font-weight: 850; }
+    td span { color: var(--muted); }
+    tbody tr:last-child td { border-bottom: 0; }
+    .logic-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .logic-item { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fbfcfd; }
+    .logic-item b { display: block; color: var(--blue); margin-bottom: 6px; }
+    @media (max-width: 980px) {
+      .hero-grid, .report-grid, .logic-list { grid-template-columns: 1fr; }
+      section { padding: 22px 16px; }
+    }
+    @media print {
+      body { background: #fff; }
+      section { break-inside: avoid; }
+    }
+/* AUTOLINK_STICKY_NAV_CSS_START */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(247,248,250,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 24px;
+}
+.nav-inner a {
+  color: var(--slate, #35475b);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 11px;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 730;
+  text-decoration: none;
+}
+.nav-inner a:hover {
+  text-decoration: none;
+  border-color: var(--blue, #255fd5);
+  color: var(--blue, #255fd5);
+}
+@media print {
+  .sticky-nav { display: none; }
+}
+/* AUTOLINK_STICKY_NAV_CSS_END */
+/* AUTOLINK_SERIES_CSS_START */
+.autolink-series-frame {
+  --series-ink: #17202b;
+  --series-muted: #5b6877;
+  --series-line: #d8e0e8;
+  --series-paper: #f6f8fb;
+  --series-white: #ffffff;
+  --series-accent: #255fd5;
+  color: var(--series-ink);
+  background: var(--series-white);
+  border-bottom: 1px solid var(--series-line);
+  padding: 18px max(22px, 5vw);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+}
+.autolink-series-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+  gap: 18px;
+  align-items: center;
+}
+.autolink-series-kicker {
+  color: var(--series-accent);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .04em;
+}
+.autolink-series-title {
+  margin-top: 5px;
+  font-size: 20px;
+  line-height: 1.28;
+  font-weight: 850;
+}
+.autolink-series-subtitle {
+  margin-top: 4px;
+  color: var(--series-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.autolink-series-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.autolink-series-links a {
+  border: 1px solid var(--series-line);
+  border-radius: 6px;
+  background: var(--series-paper);
+  color: var(--series-ink);
+  padding: 7px 9px;
+  font-size: 12px;
+  line-height: 1.2;
+  text-decoration: none;
+}
+.autolink-series-links a.is-current {
+  border-color: var(--series-accent);
+  background: color-mix(in srgb, var(--series-accent) 12%, white);
+  color: var(--series-accent);
+  font-weight: 800;
+}
+body main > section,
+body .content {
+  max-width: 1280px !important;
+}
+body > header.hero {
+  min-height: 640px !important;
+  padding: 70px max(28px, 6vw) 42px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  gap: 32px !important;
+}
+body > header.hero > .hero-inner,
+body > header.hero > div:first-child {
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+body > header.hero h1 {
+  order: 1;
+  margin: 0 !important;
+  max-width: 1060px !important;
+  font-size: clamp(38px, 5vw, 66px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0 !important;
+  font-weight: 850 !important;
+}
+body > header.hero p {
+  order: 2;
+  max-width: 960px !important;
+  margin: 22px 0 0 !important;
+  font-size: clamp(17px, 1.8vw, 23px) !important;
+  line-height: 1.52 !important;
+}
+body > header.hero .hero-meta {
+  order: 3;
+  gap: 10px !important;
+  margin-top: 24px !important;
+}
+body > header.hero .hero-grid {
+  order: 4;
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin: 42px auto 0 !important;
+}
+body > header.hero > .hero-meta {
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin: auto auto 0 !important;
+}
+body > header.hero .pill,
+body > header.hero .hero-pill {
+  border-radius: 6px !important;
+  padding: 7px 10px !important;
+  line-height: 1.35 !important;
+}
+@media (max-width: 860px) {
+  .autolink-series-inner { grid-template-columns: 1fr; }
+  .autolink-series-links { justify-content: flex-start; }
+  body > header.hero { min-height: auto !important; padding: 50px 18px 34px !important; }
+}
+/* AUTOLINK_SERIES_CSS_END */
+  </style>
+</head>
+<body>
+  <!-- AUTOLINK_SERIES_START -->
+<div class="autolink-series-frame" style="--series-accent:#255fd5">
+  <div class="autolink-series-inner">
+    <div>
+      <div class="autolink-series-kicker">车联天下智能汽车计算链研究 · 总览</div>
+      <div class="autolink-series-title">车联天下智能汽车计算链研究总览：从生态位到经营质量与能力库存</div>
+      <div class="autolink-series-subtitle">四篇研究统一入口｜商业生态、行业生态、经营质量、组织能力</div>
+    </div>
+    <nav class="autolink-series-links" aria-label="车联天下系列报告导航">
+      <a class="is-current" aria-current="page" href="autolink_integrated_series.html">总览</a><a href="../autolink_business_ecosystem_report/autolink_business_ecosystem_report.html">商业生态篇</a><a href="../../2026-05-12/autolink_ecosystem_analysis/autolink_ecosystem_analysis.html">行业生态篇</a><a href="../carlink.html">经营质量篇</a><a href="../../2026-05-15/hr_layout_comparison/hr_layout_comparison.html">组织能力篇</a>
+    </nav>
+  </div>
+</div>
+<!-- AUTOLINK_SERIES_END -->
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>车联天下智能汽车计算链研究总览：从生态位到经营质量与能力库存</h1>
+      <p>四篇研究统一到一个命题：车联天下不只是“做域控的供应商”，而是在智能汽车计算链中把生态位置、平台复用、经营质量、海外合规与组织能力连续积累的年轻量产节点。</p>
+      <div class="contact-strip" aria-label="报告联系人">
+        <div class="contact-item">
+          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></span>
+          <span><small>报告人</small><b>瞿博文</b></span>
+        </div>
+        <a class="contact-item" href="tel:16619862025">
+          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2.1z"/></svg></span>
+          <span><small>电话</small><b>166 1986 2025</b></span>
+        </a>
+        <a class="contact-item" href="mailto:bowen88500@126.com">
+          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <span><small>邮箱</small><b>bowen88500@126.com</b></span>
+        </a>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-stat"><b>商业生态</b><span>先看它位于哪条供需反馈链。</span></div>
+        <div class="hero-stat"><b>行业生态</b><span>再看它与规模型、平台型供应商的差异。</span></div>
+        <div class="hero-stat"><b>经营质量</b><span>再验证增长能否变成现金与复用。</span></div>
+        <div class="hero-stat"><b>组织能力</b><span>最后看招聘和 HR 如何变成能力库存。</span></div>
+      </div>
+    </div>
+  </header>
+  <!-- AUTOLINK_STICKY_NAV_START -->
+<nav class="sticky-nav" aria-label="报告导航">
+  <div class="nav-inner">
+    <a href="#thesis">总命题</a><a href="#reading">阅读顺序</a><a href="#structure">结构图</a><a href="#mechanism">机制图</a><a href="#decision">动态/决策</a>
+  </div>
+</nav>
+<!-- AUTOLINK_STICKY_NAV_END -->
+  <main>
+    <section id="thesis">
+      <h2>0. 总命题</h2>
+      <p class="lead">车联天下的核心问题不是“域控市场是否增长”，而是能否把生态位置转化为平台资产，把项目增长转化为经营质量，把中国 OEM 出海转化为真实海外组织能力，把招聘流量转化为能力库存。</p>
+      <div class="logic-list">
+        <div class="logic-item"><b>结构图</b>从上游算力/软件/制造到整车厂、用户体验和 OTA 反馈，定位车联天下的商业节点。</div>
+        <div class="logic-item"><b>机制图</b>用飞轮与约束回路解释为什么增长会同时带来复用机会、质量压力和现金流压力。</div>
+        <div class="logic-item"><b>动态图</b>把节点型供应商向平台型供应商的迁移拆成阶段，并用经营数据校验迁移质量。</div>
+        <div class="logic-item"><b>决策图</b>把优先补强项落在平台复用、经营现金、质量体系、海外本地化和组织学习五类存量。</div>
+      </div>
+    </section>
+
+    <section id="reading">
+      <h2>1. 四篇研究的阅读顺序</h2>
+      <div class="report-grid">
+
+      <article class="report-card" style="--accent:#255fd5">
+        <div class="report-order">01 · 商业生态篇</div>
+        <h3>车联天下智能汽车计算链研究（一）：商业生态与价值节点</h3>
+        <p>车联天下站在计算链的哪个商业节点上？</p>
+        <dl>
+          
+          <div><dt>重点</dt><dd>上游算力、基础软件、PCBA/制造、整车厂项目、终端体验与 OTA 反馈。</dd></div>
+          <div><dt>追问</dt><dd>项目增长能否沉淀为平台复用、质量信用、海外合规和现金自循环？</dd></div>
+          <div><dt>视觉骨架</dt><dd>结构图 + 机制图 + 动态图 + 决策图</dd></div>
+        </dl>
+        <a href="../autolink_business_ecosystem_report/autolink_business_ecosystem_report.html">打开本篇</a>
+      </article>
+
+      <article class="report-card" style="--accent:#008c8c">
+        <div class="report-order">02 · 行业生态篇</div>
+        <h3>车联天下智能汽车计算链研究（二）：供应商竞争与生态位</h3>
+        <p>从域控供应商比较看平台化、规模化与海外化路径</p>
+        <dl>
+          
+          <div><dt>定位</dt><dd>如何理解它与德赛西威、亿咖通等公司的竞争？</dd></div>
+          <div><dt>重点</dt><dd>域控供应商比较、三条流、增长飞轮、生态成熟度、中国与海外市场差异。</dd></div>
+          <div><dt>追问</dt><dd>车联天下是年轻量产节点，还是能上移为平台型供应商？</dd></div>
+          <div><dt>视觉骨架</dt><dd>三流结构图 + 因果回路图 + 存量流量图 + 策略矩阵</dd></div>
+        </dl>
+        <a href="../../2026-05-12/autolink_ecosystem_analysis/autolink_ecosystem_analysis.html">打开本篇</a>
+      </article>
+
+      <article class="report-card" style="--accent:#c47a1c">
+        <div class="report-order">03 · 经营质量篇</div>
+        <h3>车联天下智能汽车计算链研究（三）：经营质量与平台化验证</h3>
+        <p>看项目增长、现金压力与平台复用的可验证性</p>
+        <dl>
+          
+          <div><dt>定位</dt><dd>车联天下自身经营如何支撑从项目型增长升级为平台型供应商？</dd></div>
+          <div><dt>重点</dt><dd>收入、出货、毛利率、研发强度、经营现金流、客户/供应商集中度与长期情景。</dd></div>
+          <div><dt>追问</dt><dd>高增长是否正在转化为利润质量、现金自循环、客户多元化和架构迁移能力？</dd></div>
+          <div><dt>视觉骨架</dt><dd>经营指标动态图 + 长期反馈机制图 + 目标约束树 + 跟踪清单</dd></div>
+        </dl>
+        <a href="../carlink.html">打开本篇</a>
+      </article>
+
+      <article class="report-card" style="--accent:#7a5cff">
+        <div class="report-order">04 · 组织能力篇</div>
+        <h3>车联天下智能汽车计算链研究（四）：组织能力与能力库存</h3>
+        <p>如何把人才转化为平台资产？要把项目增长变成平台能力，组织侧需要补充什么人才？</p>
+        <dl>
+          
+          <div><dt>重点</dt><dd>研发密度、制造/全球复杂度、招聘信号、组织学习、海外 HRBP 与质量体系。</dd></div>
+          <div><dt>追问</dt><dd>招聘流量如何转成核心技术、量产质量、海外本地化与组织学习资产？</dd></div>
+          <div><dt>视觉骨架</dt><dd>人力结构图 + 组织坐标图 + 能力库存机制图 + 中外 HR 差异表</dd></div>
+        </dl>
+        <a href="../../2026-05-15/hr_layout_comparison/hr_layout_comparison.html">打开本篇</a>
+      </article>
+      </div>
+    </section>
+
+    <section id="structure">
+      <h2>2. 结构图：四篇不是并列，而是四层递进</h2>
+      <div class="svgbox">
+        <svg viewBox="0 0 1180 500" role="img" aria-label="四篇研究整体结构图">
+          <rect width="1180" height="500" fill="#fff"/>
+          <text x="34" y="48" font-size="22" font-weight="850" fill="#17202b">结构图：从外部生态到经营验证，再到内部能力库存</text>
+          <rect x="50" y="104" width="236" height="142" rx="10" fill="#f4f7ff" stroke="#255fd5" stroke-width="2.4"/>
+          <text x="168" y="143" text-anchor="middle" font-size="18" font-weight="850" fill="#255fd5">01 商业生态</text>
+          <text x="168" y="174" text-anchor="middle" font-size="14" fill="#405167">供给 · 消费 · 反馈</text>
+          <text x="168" y="202" text-anchor="middle" font-size="12.5" fill="#5b6877">站在哪个计算链节点？</text>
+          <rect x="340" y="104" width="236" height="142" rx="10" fill="#f0fbfb" stroke="#008c8c" stroke-width="2.4"/>
+          <text x="458" y="143" text-anchor="middle" font-size="18" font-weight="850" fill="#008c8c">02 行业生态</text>
+          <text x="458" y="174" text-anchor="middle" font-size="14" fill="#405167">规模 · 平台 · 海外</text>
+          <text x="458" y="202" text-anchor="middle" font-size="12.5" fill="#5b6877">与同类供应商差在哪里？</text>
+          <rect x="630" y="104" width="236" height="142" rx="10" fill="#fff8ed" stroke="#c47a1c" stroke-width="2.4"/>
+          <text x="748" y="143" text-anchor="middle" font-size="18" font-weight="850" fill="#c47a1c">03 经营质量</text>
+          <text x="748" y="174" text-anchor="middle" font-size="14" fill="#405167">收入 · 现金 · 集中度</text>
+          <text x="748" y="202" text-anchor="middle" font-size="12.5" fill="#5b6877">增长是否可自我循环？</text>
+          <rect x="920" y="104" width="236" height="142" rx="10" fill="#f7f3ff" stroke="#7a5cff" stroke-width="2.4"/>
+          <text x="1038" y="143" text-anchor="middle" font-size="18" font-weight="850" fill="#7a5cff">04 组织能力</text>
+          <text x="1038" y="174" text-anchor="middle" font-size="14" fill="#405167">人才 · 流程 · 学习</text>
+          <text x="1038" y="202" text-anchor="middle" font-size="12.5" fill="#5b6877">增长需要补什么库存？</text>
+          <path d="M286 175 L340 175" stroke="#344255" stroke-width="2.4" marker-end="url(#arr)"/>
+          <path d="M576 175 L630 175" stroke="#344255" stroke-width="2.4" marker-end="url(#arr)"/>
+          <path d="M866 175 L920 175" stroke="#344255" stroke-width="2.4" marker-end="url(#arr)"/>
+          <rect x="214" y="380" width="752" height="96" rx="12" fill="#fbfcfd" stroke="#d8e0e8"/>
+          <text x="590" y="416" text-anchor="middle" font-size="20" font-weight="850" fill="#17202b">共同落点：从“年轻量产节点”变成“可复用的平台型供应商”</text>
+          <text x="590" y="448" text-anchor="middle" font-size="14" fill="#405167">平台资产 + 质量信用 + 经营现金 + 海外合规 + 组织学习</text>
+          <path d="M168 246 C220 326 350 380 590 380" fill="none" stroke="#255fd5" stroke-width="2.3"/>
+          <path d="M458 246 C500 306 548 342 590 380" fill="none" stroke="#008c8c" stroke-width="2.3"/>
+          <path d="M748 246 C720 308 664 344 590 380" fill="none" stroke="#c47a1c" stroke-width="2.3"/>
+          <path d="M1038 246 C990 326 830 380 590 380" fill="none" stroke="#7a5cff" stroke-width="2.3"/>
+          <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#344255"/></marker></defs>
+        </svg>
+      </div>
+    </section>
+
+    <section id="mechanism">
+      <h2>3. 机制图：统一因果链</h2>
+      <div class="svgbox">
+        <svg viewBox="0 0 1180 720" role="img" aria-label="统一机制图">
+          <rect width="1180" height="720" fill="#fff"/>
+          <text x="34" y="48" font-size="22" font-weight="850" fill="#17202b">机制图：项目增长必须经过经营质量与能力库存闸门</text>
+          <g class="overview-mechanism-body" transform="translate(0 44)">
+          <path d="M196 154 C416 42 754 42 974 154 C1098 218 1098 438 974 506 C754 620 416 620 196 506 C72 438 72 218 196 154" fill="none" stroke="#e5ecf3" stroke-width="16"/>
+          <g fill="#fff" stroke-width="2.4">
+            <rect x="88" y="118" width="220" height="88" rx="10" stroke="#255fd5"/>
+            <rect x="480" y="50" width="220" height="88" rx="10" stroke="#008c8c"/>
+            <rect x="872" y="118" width="220" height="88" rx="10" stroke="#24885b"/>
+            <rect x="872" y="430" width="220" height="88" rx="10" stroke="#c47a1c"/>
+            <rect x="480" y="536" width="220" height="88" rx="10" stroke="#7a5cff"/>
+            <rect x="88" y="430" width="220" height="88" rx="10" stroke="#c64949"/>
+          </g>
+          <text x="198" y="151" text-anchor="middle" font-size="16" font-weight="850" fill="#255fd5">车型项目定点</text>
+          <text x="198" y="179" text-anchor="middle" font-size="12" fill="#5b6877">商业生态入口</text>
+          <text x="590" y="83" text-anchor="middle" font-size="16" font-weight="850" fill="#008c8c">量产基础盘</text>
+          <text x="590" y="111" text-anchor="middle" font-size="12" fill="#5b6877">行业竞争凭证</text>
+          <text x="982" y="151" text-anchor="middle" font-size="16" font-weight="850" fill="#24885b">平台复用资产</text>
+          <text x="982" y="179" text-anchor="middle" font-size="12" fill="#5b6877">从项目到平台</text>
+          <text x="982" y="463" text-anchor="middle" font-size="16" font-weight="850" fill="#c47a1c">质量与合规信用</text>
+          <text x="982" y="491" text-anchor="middle" font-size="12" fill="#5b6877">海外客户准入</text>
+          <text x="590" y="569" text-anchor="middle" font-size="16" font-weight="850" fill="#7a5cff">能力库存</text>
+          <text x="590" y="597" text-anchor="middle" font-size="12" fill="#5b6877">人才、流程、知识库</text>
+          <text x="198" y="463" text-anchor="middle" font-size="16" font-weight="850" fill="#c64949">现金与交付压力</text>
+          <text x="198" y="491" text-anchor="middle" font-size="12" fill="#5b6877">约束回路</text>
+          <text x="590" y="318" text-anchor="middle" font-size="18" font-weight="850" fill="#17202b">平台飞轮成立的条件</text>
+          <text x="590" y="350" text-anchor="middle" font-size="14" fill="#405167">每个项目都要留下可复用资产、现金改善线索和组织学习资产</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section id="decision">
+      <h2>4. 动态图与决策图</h2>
+      <div class="svgbox">
+        <svg viewBox="0 0 1180 500" role="img" aria-label="动态阶段图">
+          <rect width="1180" height="500" fill="#fff"/>
+          <text x="34" y="48" font-size="22" font-weight="850" fill="#17202b">动态图：从节点到平台的三阶段</text>
+          <text x="34" y="82" font-size="14" fill="#5b6877">读法：阶段不是替代关系，而是存量逐层叠加；越往右，越依赖平台复用、质量信用和组织出海。</text>
+          <line x1="154" y1="268" x2="1026" y2="268" stroke="#d8e0e8" stroke-width="10" stroke-linecap="round"/>
+          <path d="M154 268 C300 168 430 168 536 268 S772 368 1026 268" fill="none" stroke="#eaf0f6" stroke-width="46" stroke-linecap="round"/>
+          <circle cx="190" cy="268" r="28" fill="#255fd5"/>
+          <circle cx="590" cy="268" r="28" fill="#008c8c"/>
+          <circle cx="990" cy="268" r="28" fill="#7a5cff"/>
+          <rect x="72" y="128" width="244" height="92" rx="10" fill="#f4f7ff" stroke="#255fd5" stroke-width="2"/>
+          <text x="194" y="162" text-anchor="middle" font-size="18" font-weight="850" fill="#255fd5">1. 节点化</text>
+          <text x="194" y="192" text-anchor="middle" font-size="13" fill="#405167">座舱域控项目交付</text>
+          <rect x="468" y="128" width="244" height="92" rx="10" fill="#f0fbfb" stroke="#008c8c" stroke-width="2"/>
+          <text x="590" y="162" text-anchor="middle" font-size="18" font-weight="850" fill="#008c8c">2. 平台化</text>
+          <text x="590" y="192" text-anchor="middle" font-size="13" fill="#405167">OS / 中间件 / 架构复用</text>
+          <rect x="864" y="128" width="244" height="92" rx="10" fill="#f7f3ff" stroke="#7a5cff" stroke-width="2"/>
+          <text x="986" y="162" text-anchor="middle" font-size="18" font-weight="850" fill="#7a5cff">3. 全球化</text>
+          <text x="986" y="192" text-anchor="middle" font-size="13" fill="#405167">合规、本地服务与组织出海</text>
+          <rect x="92" y="376" width="996" height="104" rx="12" fill="#fbfcfd" stroke="#d8e0e8"/>
+          <text x="132" y="408" font-size="15" font-weight="850" fill="#17202b">判断标准</text>
+          <text x="132" y="436" font-size="13" fill="#405167">收入增长之外，持续跟踪平台复用率、经营现金流、海外 SOP、关键岗位稳定性、客户定点转量产比例。</text>
+          <text x="132" y="460" font-size="13" fill="#405167">如果这些指标没有同步改善，项目增长会反过来变成交付消耗、返工压力和组织倦怠。</text>
+        </svg>
+      </div>
+      <div class="svgbox">
+        <svg viewBox="0 0 1180 600" role="img" aria-label="决策优先级图">
+          <rect width="1180" height="600" fill="#fff"/>
+          <text x="34" y="48" font-size="22" font-weight="850" fill="#17202b">决策图：优先补四类生态存量</text>
+          <text x="34" y="82" font-size="14" fill="#5b6877">横轴表示战略杠杆，纵轴表示当前短板。右上角是最应该优先补的能力库存。</text>
+          <rect x="118" y="122" width="690" height="396" fill="#fbfcfd" stroke="#d8e0e8"/>
+          <line x1="463" y1="122" x2="463" y2="518" stroke="#d8e0e8" stroke-dasharray="7 7"/>
+          <line x1="118" y1="320" x2="808" y2="320" stroke="#d8e0e8" stroke-dasharray="7 7"/>
+          <text x="463" y="562" text-anchor="middle" font-size="13" font-weight="850" fill="#405167">战略杠杆强度 →</text>
+          <text x="68" y="320" text-anchor="middle" transform="rotate(-90 68 320)" font-size="13" font-weight="850" fill="#405167">当前短板强度 →</text>
+          <text x="136" y="150" font-size="12" fill="#5b6877">短板高</text>
+          <text x="728" y="500" font-size="12" fill="#5b6877">杠杆高</text>
+          <circle cx="650" cy="202" r="43" fill="#255fd5" opacity=".18" stroke="#255fd5" stroke-width="2.4"/>
+          <text x="650" y="199" text-anchor="middle" font-size="14" font-weight="850" fill="#255fd5">平台</text>
+          <text x="650" y="218" text-anchor="middle" font-size="14" font-weight="850" fill="#255fd5">复用</text>
+          <circle cx="710" cy="292" r="43" fill="#008c8c" opacity=".18" stroke="#008c8c" stroke-width="2.4"/>
+          <text x="710" y="289" text-anchor="middle" font-size="14" font-weight="850" fill="#008c8c">质量</text>
+          <text x="710" y="308" text-anchor="middle" font-size="14" font-weight="850" fill="#008c8c">体系</text>
+          <circle cx="592" cy="426" r="48" fill="#7a5cff" opacity=".18" stroke="#7a5cff" stroke-width="2.4"/>
+          <text x="592" y="423" text-anchor="middle" font-size="14" font-weight="850" fill="#7a5cff">组织</text>
+          <text x="592" y="442" text-anchor="middle" font-size="14" font-weight="850" fill="#7a5cff">学习</text>
+          <circle cx="736" cy="438" r="48" fill="#c47a1c" opacity=".18" stroke="#c47a1c" stroke-width="2.4"/>
+          <text x="736" y="435" text-anchor="middle" font-size="14" font-weight="850" fill="#c47a1c">海外</text>
+          <text x="736" y="454" text-anchor="middle" font-size="14" font-weight="850" fill="#c47a1c">本地化</text>
+          <g class="priority-card" data-card="platform">
+            <rect x="850" y="126" width="284" height="98" rx="9" fill="#f4f7ff" stroke="#255fd5"/>
+            <text x="876" y="156" font-size="14" font-weight="850" fill="#255fd5">优先级 A：平台复用</text>
+            <text x="876" y="184" font-size="11.5" fill="#405167">沉淀项目经验为模块、规范。</text>
+            <text x="876" y="206" font-size="11.5" fill="#405167">测试资产随车型持续复用。</text>
+          </g>
+          <g class="priority-card" data-card="quality">
+            <rect x="850" y="244" width="284" height="98" rx="9" fill="#f0fbfb" stroke="#008c8c"/>
+            <text x="876" y="274" font-size="14" font-weight="850" fill="#008c8c">优先级 A：质量体系</text>
+            <text x="876" y="302" font-size="11.5" fill="#405167">用 ASPICE 与功能安全</text>
+            <text x="876" y="324" font-size="11.5" fill="#405167">降低返工和客户验证成本。</text>
+          </g>
+          <g class="priority-card" data-card="learning">
+            <rect x="850" y="362" width="284" height="98" rx="9" fill="#f7f3ff" stroke="#7a5cff"/>
+            <text x="876" y="392" font-size="14" font-weight="850" fill="#7a5cff">优先级 B：组织学习</text>
+            <text x="876" y="420" font-size="11.5" fill="#405167">让招聘、复盘、知识库</text>
+            <text x="876" y="442" font-size="11.5" fill="#405167">连接到可盘点的能力库存。</text>
+          </g>
+          <g class="priority-card" data-card="overseas">
+            <rect x="850" y="480" width="284" height="98" rx="9" fill="#fff8ed" stroke="#c47a1c"/>
+            <text x="876" y="510" font-size="14" font-weight="850" fill="#c47a1c">优先级 B：海外本地化</text>
+            <text x="876" y="538" font-size="11.5" fill="#405167">从随车出海升级为</text>
+            <text x="876" y="560" font-size="11.5" fill="#405167">当地交付与合规能力。</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,7023 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="data:," />
+  <title>车联天下智能汽车计算链研究（一）：商业生态与价值节点</title>
+  <script src="echarts.min.js"></script>
+  <style>
+    :root {
+      --ink: #17202b;
+      --muted: #5b6877;
+      --soft: #eef3f7;
+      --line: #d7e0ea;
+      --paper: #f7f8fa;
+      --white: #ffffff;
+      --blue: #255fd5;
+      --teal: #008c8c;
+      --green: #24885b;
+      --amber: #c47a1c;
+      --coral: #c64949;
+      --violet: #6f5ab9;
+      --slate: #35475b;
+      --shadow: 0 14px 34px rgba(22, 32, 43, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.62;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .hero {
+      min-height: 640px;
+      color: #fff;
+      background:
+        linear-gradient(100deg, rgba(15, 28, 42, .96), rgba(19, 52, 61, .88) 54%, rgba(55, 70, 86, .76)),
+        radial-gradient(circle at 72% 22%, rgba(64, 176, 161, .36), transparent 28%),
+        linear-gradient(135deg, #132437, #243a4f);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 70px max(28px, 6vw) 42px;
+    }
+    .hero-inner { max-width: 1240px; width: 100%; margin: 0 auto; }
+    .hero h1 {
+      margin: 0;
+      max-width: 920px;
+      font-size: 58px;
+      line-height: 1.08;
+      letter-spacing: 0;
+      font-weight: 850;
+    }
+    .hero p {
+      max-width: 960px;
+      margin: 22px 0 0;
+      color: rgba(255,255,255,.88);
+      font-size: 22px;
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 28px 0 0;
+      color: rgba(255,255,255,.88);
+      font-size: 13px;
+    }
+    .hero-pill {
+      border: 1px solid rgba(255,255,255,.28);
+      background: rgba(255,255,255,.09);
+      border-radius: 7px;
+      padding: 7px 10px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 48px;
+    }
+    .hero-stat {
+      min-height: 132px;
+      border-top: 1px solid rgba(255,255,255,.30);
+      padding-top: 14px;
+    }
+    .hero-stat strong { display: block; font-size: 31px; line-height: 1.15; margin-bottom: 8px; }
+    .hero-stat span { display: block; color: rgba(255,255,255,.78); font-size: 13px; }
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247,248,250,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 24px;
+    }
+    .nav-inner a {
+      color: var(--slate);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 11px;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 730;
+      text-decoration: none;
+    }
+    .report-band {
+      width: 100%;
+      padding: 42px 24px;
+      border-bottom: 1px solid #e2e8ef;
+      background: #fff;
+    }
+    .report-band.alt { background: #f8fafc; }
+    .content { max-width: 1280px; margin: 0 auto; }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 34px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.28;
+      letter-spacing: 0;
+    }
+    p { margin: 0 0 12px; }
+    .lead { max-width: 980px; color: #334457; font-size: 18px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .span-3 { grid-column: span 3; }
+    .span-4 { grid-column: span 4; }
+    .span-5 { grid-column: span 5; }
+    .span-6 { grid-column: span 6; }
+    .span-7 { grid-column: span 7; }
+    .span-8 { grid-column: span 8; }
+    .span-12 { grid-column: span 12; }
+    .data-card,
+    .chart-panel,
+    .text-panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .data-card { padding: 18px; min-height: 154px; }
+    .data-card .label { color: var(--muted); font-size: 13px; font-weight: 760; }
+    .data-card strong { display: block; margin: 8px 0; font-size: 30px; line-height: 1.12; }
+    .data-card small { color: var(--muted); font-size: 13px; }
+    .chart-panel { padding: 18px; min-height: 460px; }
+    .text-panel { padding: 18px; }
+    .chart-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .chart-head p { color: var(--muted); font-size: 13px; margin: 5px 0 0; }
+    .chart-scroll { overflow-x: auto; width: 100%; }
+    .chart {
+      width: 100%;
+      min-width: 760px;
+      height: 430px;
+    }
+    .chart.tall { height: 560px; }
+    .chart.wide { height: 520px; }
+    .chart.medium { height: 380px; }
+    #causalChart { height: 620px; }
+    .ecosystem-chart-panel #ecosystemChart {
+      height: 430px;
+      min-height: 0;
+    }
+    .radar-panel .chart-scroll {
+      overflow-x: hidden;
+    }
+    .radar-panel .chart {
+      min-width: 0;
+      width: 100%;
+    }
+    .radar-panel #radarChart {
+      height: 390px;
+    }
+    .sankey-grid { align-items: stretch; }
+    .sankey-chart-panel {
+      display: flex;
+      flex-direction: column;
+    }
+    .sankey-chart-panel .chart-scroll {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+    }
+    .sankey-chart-panel .chart-scroll .chart {
+      flex: 1;
+    }
+    .sankey-ranking-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    #supplierSankey {
+      min-height: 560px;
+      height: 560px;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 18px 0 12px;
+    }
+    .button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--slate);
+      border-radius: 6px;
+      padding: 8px 11px;
+      font-size: 13px;
+      font-weight: 760;
+      cursor: pointer;
+    }
+    .button.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .callout {
+      border-left: 5px solid var(--teal);
+      background: #f1fbfb;
+      padding: 16px 18px;
+      border-radius: 7px;
+      margin-top: 18px;
+    }
+    .callout.warn { border-color: var(--amber); background: #fff7e9; }
+    .callout.danger { border-color: var(--coral); background: #fff3f3; }
+    .matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .matrix article {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 16px;
+    }
+    .matrix b { color: var(--ink); }
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: #edf2f7;
+      color: #46566a;
+      font-size: 12px;
+      font-weight: 760;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+    .tag.teal { background: #e9f8f6; color: var(--teal); }
+    .tag.blue { background: #edf3ff; color: var(--blue); }
+    .tag.amber { background: #fff4e3; color: var(--amber); }
+    .tag.coral { background: #fff0f0; color: var(--coral); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      padding: 10px 9px;
+    }
+    th {
+      background: #f1f5f9;
+      color: #3f4f61;
+      font-weight: 820;
+    }
+    .table-wrap { overflow-x: auto; margin-top: 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+    .table-wrap table { min-width: 900px; }
+    .ranking-table table { min-width: 0; table-layout: fixed; }
+    .ranking-table th,
+    .ranking-table td { padding: 10px 8px; overflow-wrap: anywhere; word-break: break-word; }
+    .ranking-table th:first-child,
+    .ranking-table td:first-child { width: 46px; min-width: 46px; max-width: 46px; text-align: center; white-space: nowrap; }
+    .ranking-table th:nth-child(2),
+    .ranking-table td:nth-child(2) { width: 48%; }
+    .ranking-table th:nth-child(3),
+    .ranking-table td:nth-child(3) { width: auto; }
+    .ranking-table .note { display: block; margin-top: 4px; line-height: 1.35; white-space: normal; }
+    .source-table table { min-width: 1100px; }
+    .source-table td:nth-child(3) { word-break: break-all; }
+    tr.added-autolink td { background: #f1fbfb; }
+    tr.added-autolink td:first-child { color: var(--teal); font-weight: 850; }
+    .company-card {
+      border-top: 5px solid var(--accent, var(--blue));
+    }
+    .company-card p { color: #3a4a5d; }
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .source-item {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 118px;
+    }
+    .source-item a { font-weight: 780; }
+    .source-item p { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .read-path {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .read-path div {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      min-height: 126px;
+    }
+    .read-path strong { display: block; margin-bottom: 6px; }
+    .read-path span { color: var(--muted); font-size: 13px; }
+    footer { padding: 30px 24px 54px; color: var(--muted); background: #fff; }
+    footer .content { border-top: 1px solid var(--line); padding-top: 18px; }
+    @media (max-width: 980px) {
+      .hero { padding: 42px 20px 28px; min-height: 620px; }
+      .hero h1 { font-size: 38px; }
+      .hero p { font-size: 18px; }
+      .hero-grid, .read-path, .source-grid, .matrix { grid-template-columns: 1fr; }
+      .span-3, .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: span 12; }
+      .chart-panel { padding: 14px; }
+      .chart { min-width: 700px; }
+      h2 { font-size: 28px; }
+    }
+    @media (max-width: 560px) {
+      .hero h1 { font-size: 34px; }
+      .report-band { padding: 34px 14px; }
+      .nav-inner { padding: 9px 14px; }
+      .chart { min-width: 640px; height: 390px; }
+      .chart.tall { height: 500px; }
+      .chart.wide { height: 500px; }
+      .data-card strong { font-size: 26px; }
+    }
+    @media print {
+      .sticky-nav { display: none; }
+      .button { display: none; }
+      .report-band { break-inside: avoid; }
+      .chart { min-width: 0; }
+      body { background: #fff; }
+    }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* AUTOLINK_SERIES_CSS_START */
+.autolink-series-frame {
+  --series-ink: #17202b;
+  --series-muted: #5b6877;
+  --series-line: #d8e0e8;
+  --series-paper: #f6f8fb;
+  --series-white: #ffffff;
+  --series-accent: #255fd5;
+  color: var(--series-ink);
+  background: var(--series-white);
+  border-bottom: 1px solid var(--series-line);
+  padding: 18px max(22px, 5vw);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+}
+.autolink-series-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+  gap: 18px;
+  align-items: center;
+}
+.autolink-series-kicker {
+  color: var(--series-accent);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .04em;
+}
+.autolink-series-title {
+  margin-top: 5px;
+  font-size: 20px;
+  line-height: 1.28;
+  font-weight: 850;
+}
+.autolink-series-subtitle {
+  margin-top: 4px;
+  color: var(--series-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.autolink-series-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.autolink-series-links a {
+  border: 1px solid var(--series-line);
+  border-radius: 6px;
+  background: var(--series-paper);
+  color: var(--series-ink);
+  padding: 7px 9px;
+  font-size: 12px;
+  line-height: 1.2;
+  text-decoration: none;
+}
+.autolink-series-links a.is-current {
+  border-color: var(--series-accent);
+  background: color-mix(in srgb, var(--series-accent) 12%, white);
+  color: var(--series-accent);
+  font-weight: 800;
+}
+body main > section,
+body .content {
+  max-width: 1280px !important;
+}
+body > header.hero {
+  min-height: 640px !important;
+  padding: 70px max(28px, 6vw) 42px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  gap: 32px !important;
+}
+body > header.hero > .hero-inner,
+body > header.hero > div:first-child {
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+body > header.hero h1 {
+  order: 1;
+  margin: 0 !important;
+  max-width: 1060px !important;
+  font-size: clamp(38px, 5vw, 66px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0 !important;
+  font-weight: 850 !important;
+}
+body > header.hero p {
+  order: 2;
+  max-width: 960px !important;
+  margin: 22px 0 0 !important;
+  font-size: clamp(17px, 1.8vw, 23px) !important;
+  line-height: 1.52 !important;
+}
+body > header.hero .hero-meta {
+  order: 3;
+  gap: 10px !important;
+  margin-top: 24px !important;
+}
+body > header.hero .hero-grid {
+  order: 4;
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin: 42px auto 0 !important;
+}
+body > header.hero > .hero-meta {
+  max-width: 1240px !important;
+  width: 100% !important;
+  margin: auto auto 0 !important;
+}
+body > header.hero .pill,
+body > header.hero .hero-pill {
+  border-radius: 6px !important;
+  padding: 7px 10px !important;
+  line-height: 1.35 !important;
+}
+@media (max-width: 860px) {
+  .autolink-series-inner { grid-template-columns: 1fr; }
+  .autolink-series-links { justify-content: flex-start; }
+  body > header.hero { min-height: auto !important; padding: 50px 18px 34px !important; }
+}
+/* AUTOLINK_SERIES_CSS_END */
+</style>
+</head>
+<body>
+<!-- AUTOLINK_SERIES_START -->
+<div class="autolink-series-frame" style="--series-accent:#255fd5">
+  <div class="autolink-series-inner">
+    <div>
+      <div class="autolink-series-kicker">车联天下智能汽车计算链研究 · 第 01 篇</div>
+      <div class="autolink-series-title">车联天下智能汽车计算链研究（一）：商业生态与价值节点</div>
+      <div class="autolink-series-subtitle">车联天下站在计算链的哪个商业节点上？</div>
+    </div>
+    <nav class="autolink-series-links" aria-label="车联天下系列报告导航">
+      <a class="" href="../autolink_integrated_series/autolink_integrated_series.html">总览</a><a class="is-current" href="autolink_business_ecosystem_report.html">商业生态篇</a><a class="" href="../../2026-05-12/autolink_ecosystem_analysis/autolink_ecosystem_analysis.html">行业生态篇</a><a class="" href="../carlink.html">经营质量篇</a><a class="" href="../../2026-05-15/hr_layout_comparison/hr_layout_comparison.html">组织能力篇</a>
+    </nav>
+  </div>
+</div>
+<!-- AUTOLINK_SERIES_END -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>车联天下智能汽车计算链研究（一）：商业生态与价值节点</h1>
+      <p>从域控节点看车载计算链的供给、消费与反馈闭环，把上游算力、基础软件、制造交付、整车厂消费、终端体验、OTA反馈与海外本地化放进同一套生态模型。</p>
+      <div class="hero-meta">
+        <span class="hero-pill">交付模式：交互式 HTML</span>
+        <span class="hero-pill">视角：结构图 · 机制图 · 动态图 · 决策图</span>
+        <span class="hero-pill">生成日期：2026-05-16</span>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-stat"><strong>约970万套</strong><span>按2025年份额反推的中国座舱域控装机量级，非公司披露口径。</span></div>
+        <div class="hero-stat"><strong>5.8%</strong><span>车联天下2025年中国座舱域控装机份额，位列前十。</span></div>
+        <div class="hero-stat"><strong>200万台+</strong><span>AL-C1 SA8155P智能座舱域控累计出货公开表述。</span></div>
+        <div class="hero-stat"><strong>126国</strong><span>车联天下产品随客户车型出口覆盖国家与地区公开表述。</span></div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="sticky-nav" aria-label="报告导航">
+    <div class="nav-inner">
+      <a href="#map">阅读地图</a>
+      <a href="#ecosystem">供给消费关系</a>
+      <a href="#sankey">Top10桑基图</a>
+      <a href="#dynamics">系统动力学</a>
+      <a href="#competition">竞品对比</a>
+      <a href="#strategy">决策杠杆</a>
+      <a href="#sources">来源与口径</a>
+    </div>
+  </nav>
+
+  <section class="report-band" id="map">
+    <div class="content">
+      <h2>0. 读图结论</h2>
+      <p class="lead">车联天下不是直接面对消费者收费的软件平台，而是把芯片、PCBA、基础软件、显示/摄像头、整车厂需求重新封装成“可量产的车载计算模块”。它的核心问题不是有没有踩中智能座舱大周期，而是能否把每个车型项目沉淀成可复用资产、质量信用和海外合规能力。</p>
+      <div class="read-path">
+        <div><strong>供给侧</strong><span>高通/芯驰/瑞萨等SoC、QNX/AUTOSAR/Android、自研OS、PCBA与车规级质量体系共同决定交付能力。</span></div>
+        <div><strong>消费侧</strong><span>整车厂以车型定点和SOP量产消费车联天下能力；终端用户通过体验和故障反馈间接决定下一轮定点。</span></div>
+        <div><strong>竞争侧</strong><span>德赛西威吃规模与客户广度，亿咖通吃平台和吉利全球生态，镁佳科技吃集成式域控技术，均胜电子吃全球矩阵。</span></div>
+        <div><strong>动态侧</strong><span>增长会同时打开R1平台复用飞轮，也触发B1定制碎片化约束；海外扩张会把本地服务和合规变成新的存量。</span></div>
+      </div>
+      <div class="callout">
+        <b>口径提醒：</b>桑基图中的宽度表示“公开关系强度 × 所选维度权重”，不代表真实采购金额。排名分为公开装机/财务指标和生态评分两类，所有评分在来源与口径区单独说明。
+      </div>
+    </div>
+  </section>
+
+  <section class="report-band alt" id="ecosystem">
+    <div class="content">
+      <h2>1. 商业生态：谁供给，谁消费，谁反馈</h2>
+      <p class="lead">车联天下在生态中的位置是“域控与整车智能化工程节点”：上游供应的是算力、基础软件、制造与交互部件；下游消费它的是整车厂项目；真正闭环来自终端用户体验和OTA数据。</p>
+      <div class="grid">
+        <div class="chart-panel span-8 ecosystem-chart-panel">
+          <div class="chart-head">
+            <div>
+              <h3>结构图：上游供给 → 域控供应商 → OEM → 终端体验</h3>
+              <p>数值按2025年座舱域控装机份额附近拆分，用于示意相对生态量级，不代表收入或合同金额。</p>
+            </div>
+          </div>
+          <div class="chart-scroll"><div class="chart tall" id="ecosystemChart"></div></div>
+        </div>
+        <div class="text-panel span-4">
+          <h3>车联天下的商品形态</h3>
+          <p><span class="tag blue">硬件载体</span> 智能座舱域控、舱泊一体、舱驾融合、区域控制器。</p>
+          <p><span class="tag teal">软件资产</span> OS/中间件适配、车联网、摄像头与显示算法、OTA与场景服务。</p>
+          <p><span class="tag amber">交付资产</span> 量产项目管理、车规质量、供应链响应、语言/海外适配。</p>
+          <p><span class="tag coral">商业约束</span> OEM年降、前装账期、客户集中、定制研发碎片化。</p>
+          <div class="callout warn">
+            <b>关键判断：</b>车联天下更像“可量产计算模块+工程交付能力”的供应商，而不是完全脱离硬件的独立软件平台。它要上移，必须提高平台复用率和外部客户密度。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="report-band" id="sankey">
+    <div class="content">
+      <h2>2. 行业Top10供应商 × Top10车企桑基图</h2>
+      <p class="lead">默认显示中国智能座舱域控生态中的10个主要整车客户节点；切换到“全球扩展”后，会加入大众、丰田、奔驰、宝马、沃尔沃、Lotus/smart/Proton等海外或吉利全球品牌节点。</p>
+      <div class="controls" role="group" aria-label="维度切换">
+        <button class="button active" data-dimension="composite">综合生态位</button>
+        <button class="button" data-dimension="shipments">装机/出货</button>
+        <button class="button" data-dimension="revenue">营收规模</button>
+        <button class="button" data-dimension="profit">盈利韧性</button>
+        <button class="button" data-dimension="global">海外能力</button>
+        <button class="button active" data-region="china">中国Top10车企</button>
+        <button class="button" data-region="global">全球扩展</button>
+      </div>
+      <div class="grid sankey-grid">
+        <div class="chart-panel span-8 sankey-chart-panel">
+          <div class="chart-head">
+            <div>
+              <h3 id="sankeyTitle">综合生态位：供应商到车企关系</h3>
+              <p id="sankeyMeta">读取中</p>
+            </div>
+          </div>
+          <div class="chart-scroll"><div class="chart tall" id="supplierSankey"></div></div>
+        </div>
+        <div class="text-panel span-4 sankey-ranking-panel">
+          <h3>当前维度排名</h3>
+          <div class="table-wrap ranking-table"><table id="rankingTable"></table></div>
+          <p class="note">“营收规模”使用公开公司/汽车电子口径做标准化，不等于纯座舱域控收入；“盈利韧性”和“综合生态位”为模型评分。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="report-band alt" id="dynamics">
+    <div class="content">
+      <h2>3. 系统动力学：为什么增长会同时带来飞轮和约束</h2>
+      <p class="lead">这部分按 system-dynamics 技能输出：选用结构图、机制图、动态图、决策图。核心动态问题是：车联天下如何从座舱域控项目节点，变成可持续的平台型智能汽车电子供应商？</p>
+      <div class="grid">
+        <div class="data-card span-3"><div class="label">R1 飞轮</div><strong>装机 → 复用</strong><small>装车经验和数据沉淀为平台资产，提高下一轮定点胜率。</small></div>
+        <div class="data-card span-3"><div class="label">B1 约束</div><strong>定制 → 碎片</strong><small>客户需求越多，若复用不足，研发被项目碎片化吞噬。</small></div>
+        <div class="data-card span-3"><div class="label">B2 延迟</div><strong>海外 → 合规</strong><small>海外收入兑现滞后于车型出海，需要本地服务与认证存量。</small></div>
+        <div class="data-card span-3"><div class="label">杠杆</div><strong>平台化率</strong><small>比单纯增加项目更重要的是标准模块和质量闭环。</small></div>
+        <div class="chart-panel span-12">
+          <div class="chart-head"><div><h3>机制图：核心因果回路</h3><p>彩色说明框放在主节点外侧：R1 看上方复用飞轮，B1 看下方定制约束，B2 看右下海外延迟；彩色虚线仅作指向，不再叠加文字。</p></div></div>
+          <div class="chart-scroll"><div class="chart wide" id="causalChart"></div></div>
+        </div>
+        <div class="chart-panel span-12">
+          <div class="chart-head"><div><h3>存量流量图：哪些积累真正改变生态位</h3><p>项目数量不是唯一存量；平台资产、质量信用、海外能力和现金跑道同样决定上限。</p></div></div>
+          <div class="chart-scroll"><div class="chart wide" id="stockFlowChart"></div></div>
+        </div>
+        <div class="chart-panel span-12">
+          <div class="chart-head"><div><h3>动态图：2022-2027 行为趋势指数</h3><p>指数化趋势用于显示结构压力，不作为精确市场预测。</p></div></div>
+          <div class="chart-scroll"><div class="chart medium" id="botChart"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="report-band" id="competition">
+    <div class="content">
+      <h2>4. 车联天下与核心竞争对手：中外市场差异</h2>
+      <p class="lead">中国市场重速度、成本和共创；海外市场重认证、供应商准入、本地交付与质量记录。相同的域控能力，在两个市场会被完全不同的约束函数筛选。</p>
+      <div class="grid">
+        <div class="chart-panel span-6 radar-panel">
+          <div class="chart-head"><div><h3>雷达图：五家公司生态能力</h3><p>分数为公开资料编码，强调相对生态位，不是投资评级。</p></div></div>
+          <div class="chart-scroll radar-scroll"><div class="chart medium" id="radarChart"></div></div>
+        </div>
+        <div class="chart-panel span-6">
+          <div class="chart-head"><div><h3>坐标系：中国响应速度 × 海外复杂度</h3><p>越靠右越接近全球Tier1交付；越靠上越能贴近中国车企快速共创。</p></div></div>
+          <div class="chart-scroll"><div class="chart medium" id="positionChart"></div></div>
+        </div>
+      </div>
+      <div class="matrix">
+        <article><h3>中国市场筛选函数</h3><p><b>目标：</b>车型快速上量、功能体验差异化、BOM成本压缩。</p><p><b>约束：</b>短交付周期、多车型并行、车企年降、定制需求密集。</p><p><b>赢家特征：</b>本土响应、平台适配、多SoC兼容、项目经理和系统工程能力强。</p></article>
+        <article><h3>海外市场筛选函数</h3><p><b>目标：</b>全球平台可靠上线，合规、质量、数据和本地服务可审计。</p><p><b>约束：</b>认证周期长、供应商准入严、文化和法律差异、现场服务成本高。</p><p><b>赢家特征：</b>全球客户背书、本地团队、ASPICE/功能安全/网络安全体系、可追溯质量记录。</p></article>
+      </div>
+      <div class="grid">
+        <div class="text-panel company-card span-4" style="--accent:var(--teal)"><h3>车联天下</h3><p>在中国市场有座舱域控装机和主流自主客户基础，海外更多是随客户车型出海。下一跳要补全球客户直接准入、海外本地服务与平台复用。</p></div>
+        <div class="text-panel company-card span-4" style="--accent:var(--blue)"><h3>德赛西威</h3><p>中国规模优势明显，智能座舱收入和智驾收入双轮驱动；海外收入与西班牙等本地化布局使其更接近全球Tier1打法。</p></div>
+        <div class="text-panel company-card span-4" style="--accent:var(--slate)"><h3>均胜电子</h3><p>全球矩阵、汽车安全和电子业务规模大，海外客户深；但在本报告所聚焦的座舱域控生态中，它是广义竞争者而非最直接同类。</p></div>
+        <div class="text-panel company-card span-6" style="--accent:var(--amber)"><h3>亿咖通</h3><p>平台、OS和吉利全球品牌生态是强项。其挑战是从关联生态向更多外部OEM扩张，同时把收入增长、毛利和现金流变成更稳定的财务表现。</p></div>
+        <div class="text-panel company-card span-6" style="--accent:var(--coral)"><h3>镁佳科技</h3><p>智能座舱+X集成式域控有技术弹性，客户和定点增长快；但规模、亏损、客户集中和代工链条仍是其从研发型组织走向规模型供应商的压力。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="report-band alt" id="strategy">
+    <div class="content">
+      <h2>5. 决策图：车联天下应优先补哪几类生态存量</h2>
+      <div class="grid">
+        <div class="text-panel span-4">
+          <h3>目标</h3>
+          <p>从“座舱域控量产节点”上移为“多域融合平台供应商”，并在IPO后形成更稳定现金自循环。</p>
+          <h3>硬约束</h3>
+          <p>客户年降、供应链账期、车规质量、研发人力、海外认证、本地服务能力。</p>
+        </div>
+        <div class="text-panel span-4">
+          <h3>资源</h3>
+          <p>AL-C1大规模装机、AL-C2/AL-A1产品迭代、主流自主客户基础、无锡/芜湖研发交付、海外语言与车型出海经验。</p>
+          <h3>替代方案</h3>
+          <p>A. 继续项目制扩客户；B. 提高平台复用率；C. 跟随中国OEM出海；D. 直接突破海外OEM。</p>
+        </div>
+        <div class="text-panel span-4">
+          <h3>建议排序</h3>
+          <p><b>第一：</b>平台复用率和质量闭环。<br><b>第二：</b>围绕奇瑞、吉利、广汽、长城等客户做海外车型样板。<br><b>第三：</b>选择1-2个海外客户做本地化深耕，而不是广撒网。</p>
+        </div>
+      </div>
+      <div class="callout danger">
+        <b>最大脆弱点：</b>如果新增定点只增加项目数量，却没有同步增加可复用模块、质量信用和现金周转能力，增长会把公司推入“收入上升、研发碎片化、毛利承压、现金消耗”的平衡回路。
+      </div>
+    </div>
+  </section>
+
+  <section class="report-band" id="sources">
+    <div class="content">
+      <h2>6. 数据可靠性、模型脆弱点与来源</h2>
+      <div class="grid">
+        <div class="text-panel span-4">
+          <h3>数据直接支持</h3>
+          <p>公司年报/招股书、官网产品页面、盖世汽车研究院转引装机份额、ECARX公告、德赛/均胜/华阳公开财务数据。</p>
+        </div>
+        <div class="text-panel span-4">
+          <h3>结构推断</h3>
+          <p>供应商-车企关系强度、全球化能力、平台复用潜力、海外合规门槛等，均为公开证据编码后的模型变量。</p>
+        </div>
+        <div class="text-panel span-4">
+          <h3>高不确定假设</h3>
+          <p>未披露采购金额、真实BOM份额、单车型供应商切换、海外客户直接定点、供应商内部毛利和项目现金流。</p>
+        </div>
+      </div>
+      <div class="table-wrap source-table">
+        <table>
+          <thead><tr><th>来源</th><th>用途</th><th>链接</th></tr></thead>
+          <tbody id="sourceRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="content">
+      <p>本报告为研究和经营分析用途。桑基图宽度为模型权重，不代表正式采购金额或合同规模；排名和评分应与原始来源、公司公告和后续访谈交叉验证。</p>
+    </div>
+  </footer>
+
+  <script>
+    const CONFIG = {
+  "generatedAt": "2026-05-16",
+  "title": "车联天下智能汽车计算链研究（一）：商业生态与价值节点",
+  "subtitle": "从智能座舱域控供应商出发，观察上游供给、整车厂消费、海外扩张、竞品替代与系统动力学反馈。",
+  "sources": [
+    {
+      "id": "autolink_home",
+      "title": "车联天下官网：公司与智能座舱域控定位",
+      "url": "https://www.auto-link.com.cn/",
+      "use": "车联天下业务定位、产品线、2024年中国智能座舱域控制器按收入第二的表述。"
+    },
+    {
+      "id": "autolink_product",
+      "title": "车联天下官网：智能座舱域控产品",
+      "url": "https://www.auto-link.com.cn/product/cabin.html",
+      "use": "AL-I1/AL-C1/AL-C2/AL-A1 等产品组合、芯片与上游伙伴。"
+    },
+    {
+      "id": "autolink_alc1",
+      "title": "盖世汽车：车联天下 SA8155P 智能座舱域控出货突破200万台",
+      "url": "https://auto.gasgoo.com/news/202507/9I70428701C601.shtml",
+      "use": "AL-C1累计出货、客户车型、80个车型项目开发定点、14种语言、126个国家和地区。"
+    },
+    {
+      "id": "autolink_hkex",
+      "title": "港交所：无锡车联天下智能科技股份有限公司申请版本",
+      "url": "https://www.hkexnews.hk/app/sehk/2025/107906/documents/sehk25112803068_c.pdf",
+      "use": "收入、人员、客户/供应商集中度、产品与上市申请口径。"
+    },
+    {
+      "id": "gasgoo_2025_cockpit_rank",
+      "title": "盖世汽车研究院 / 上证报转引：2025年智能座舱供应商装机量",
+      "url": "https://finance.sina.com.cn/roll/2026-02-10/doc-inhmitai5498322.shtml",
+      "use": "2025年中国座舱域控供应商装机份额：德赛西威16.1%、博世8.4%、亿咖通7.5%。"
+    },
+    {
+      "id": "eefocus_2025_cockpit_rank",
+      "title": "与非网转引盖世汽车研究院：2025年1-12月智能座舱供应商装机量排行榜",
+      "url": "https://www.eefocus.com/article/1959364.html",
+      "use": "座舱域控Top10供应商排序与份额区间：车联天下、蜂巢电子、华阳通用、镁佳科技、哈曼进入前十。"
+    },
+    {
+      "id": "desay_2025",
+      "title": "新浪财经：德赛西威2025年报解读",
+      "url": "https://finance.sina.com.cn/stock/aigc/stockfs/2026-03-06/doc-inhqrfcn2593686.shtml",
+      "use": "德赛西威2025年收入、智能座舱/智能驾驶分部收入、现金流变化。"
+    },
+    {
+      "id": "desay_customer",
+      "title": "114IC：德赛西威智能座舱客户与新项目",
+      "url": "https://www.114ic.com/info/391788.html",
+      "use": "德赛西威在理想、小米等客户量产以及新增客户覆盖的公开表述。"
+    },
+    {
+      "id": "joyson_2025",
+      "title": "Joyson Electronics FY2025 results",
+      "url": "https://www.joyson.com/en/web/index.php/news/info/1196.html",
+      "use": "均胜电子2025年收入、归母净利增长、全球汽车电子与安全业务底座。"
+    },
+    {
+      "id": "ecarx_2025",
+      "title": "ECARX Announces Audited 2025 Full-Year Financial Results",
+      "url": "https://www.prnewswire.com/news-releases/ecarx-announces-audited-2025-full-year-financial-results-302732843.html",
+      "use": "亿咖通2025年收入、毛利率、服务车辆、品牌/OEM数量与全球化口径。"
+    },
+    {
+      "id": "meg_ipo",
+      "title": "新浪财经：镁佳冲刺港交所",
+      "url": "https://finance.sina.com.cn/stock/hkstock/hkzmt/2025-06-30/doc-infcwekm6285606.shtml",
+      "use": "镁佳科技客户、定点数量、交付件数、收入与亏损。"
+    },
+    {
+      "id": "foryou_2025",
+      "title": "新浪科技：华阳集团2025年营收与汽车电子产品线",
+      "url": "https://finance.sina.com.cn/tech/roll/2026-03-29/doc-inhssmvt0284048.shtml?froms=ggmp",
+      "use": "华阳集团2025年收入、利润、智能座舱与辅助驾驶产品线。"
+    }
+  ],
+  "suppliers": [
+    {
+      "name": "德赛西威",
+      "short": "Desay SV",
+      "type": "中国规模型Tier 1",
+      "main_products": "智能座舱、智能驾驶、网联服务、舱驾融合",
+      "ship_rank": 1,
+      "ship_share_pct": 16.1,
+      "ship_units_k": 1563,
+      "revenue_rmb_bn": 325.57,
+      "profit_metric_pct": 7.5,
+      "profit_label": "归母净利率约7.5%",
+      "global_score": 76,
+      "platform_score": 82,
+      "customer_score": 92,
+      "evidence": "2025年座舱域控份额第一；智能座舱收入205.85亿元。",
+      "shipment_score": 100.0,
+      "revenue_score": 61.7,
+      "profit_score": 100.0,
+      "composite_score": 87.2,
+      "risk_score": 8.4
+    },
+    {
+      "name": "博世",
+      "short": "Bosch",
+      "type": "全球Tier 1",
+      "main_products": "车载计算、传感器、软件、底盘/动力系统、座舱域控配套",
+      "ship_rank": 2,
+      "ship_share_pct": 8.4,
+      "ship_units_k": 815,
+      "revenue_rmb_bn": null,
+      "profit_metric_pct": 4.0,
+      "profit_label": "集团口径不可比，按成熟Tier1盈利韧性评分",
+      "global_score": 96,
+      "platform_score": 88,
+      "customer_score": 96,
+      "evidence": "2025年中国座舱域控装机份额第二，全球Tier1客户覆盖最广。",
+      "shipment_score": 53.7,
+      "revenue_score": 45.0,
+      "profit_score": 90.0,
+      "composite_score": 75.4,
+      "risk_score": 6.7
+    },
+    {
+      "name": "亿咖通",
+      "short": "ECARX",
+      "type": "平台型智能汽车科技",
+      "main_products": "计算平台、座舱域控、OS/中间件、云与全球软件平台",
+      "ship_rank": 3,
+      "ship_share_pct": 7.5,
+      "ship_units_k": 723,
+      "revenue_rmb_bn": 61.05,
+      "profit_metric_pct": 0.3,
+      "profit_label": "2025年接近盈亏平衡，毛利率19%",
+      "global_score": 82,
+      "platform_score": 92,
+      "customer_score": 78,
+      "evidence": "服务超1100万辆车；合作28个品牌、18家OEM；2025年收入8.479亿美元。",
+      "shipment_score": 48.3,
+      "revenue_score": 26.3,
+      "profit_score": 79.4,
+      "composite_score": 65.5,
+      "risk_score": 20.4
+    },
+    {
+      "name": "和硕/广达",
+      "short": "Pegatron/Quanta",
+      "type": "电子制造+特斯拉链",
+      "main_products": "座舱计算/电子制造配套，强绑定特斯拉供应链",
+      "ship_rank": 4,
+      "ship_share_pct": 6.5,
+      "ship_units_k": 631,
+      "revenue_rmb_bn": null,
+      "profit_metric_pct": 3.0,
+      "profit_label": "消费电子制造口径不可比",
+      "global_score": 72,
+      "platform_score": 48,
+      "customer_score": 38,
+      "evidence": "座舱域控榜单第二梯队，主要由特斯拉装机带动。",
+      "shipment_score": 42.3,
+      "revenue_score": 45.0,
+      "profit_score": 87.1,
+      "composite_score": 53.0,
+      "risk_score": 31.4
+    },
+    {
+      "name": "华为",
+      "short": "Huawei",
+      "type": "ICT平台+车BU生态",
+      "main_products": "鸿蒙座舱、车云、ADS、车载计算、智能汽车解决方案",
+      "ship_rank": 5,
+      "ship_share_pct": 6.4,
+      "ship_units_k": 622,
+      "revenue_rmb_bn": null,
+      "profit_metric_pct": null,
+      "profit_label": "车BU未完全可比披露",
+      "global_score": 64,
+      "platform_score": 96,
+      "customer_score": 80,
+      "evidence": "榜单中唯一未设独立汽车电子公司的科技巨头，鸿蒙智行生态带动装机。",
+      "shipment_score": 41.7,
+      "revenue_score": 45.0,
+      "profit_score": 45.0,
+      "composite_score": 60.6,
+      "risk_score": 39.8
+    },
+    {
+      "name": "车联天下",
+      "short": "AutoLink",
+      "type": "本土域控成长型Tier 1",
+      "main_products": "智能座舱域控、舱泊一体、舱驾融合、区域控制器、软件/显示/摄像头",
+      "ship_rank": 6,
+      "ship_share_pct": 5.8,
+      "ship_units_k": 563,
+      "revenue_rmb_bn": 26.56,
+      "profit_metric_pct": -38.1,
+      "profit_label": "上市前投入期，经营亏损口径较重",
+      "global_score": 54,
+      "platform_score": 74,
+      "customer_score": 72,
+      "evidence": "AL-C1累计出货突破200万台，客户车型出口至126个国家和地区。",
+      "shipment_score": 38.0,
+      "revenue_score": 21.7,
+      "profit_score": -30.3,
+      "composite_score": 37.9,
+      "risk_score": 78.5
+    },
+    {
+      "name": "蜂巢电子",
+      "short": "Hive Electronics",
+      "type": "整车集团关联供应链",
+      "main_products": "座舱域控、车载电子、集团内外供应链配套",
+      "ship_rank": 7,
+      "ship_share_pct": 5.7,
+      "ship_units_k": 553,
+      "revenue_rmb_bn": null,
+      "profit_metric_pct": null,
+      "profit_label": "公开财务口径有限",
+      "global_score": 48,
+      "platform_score": 60,
+      "customer_score": 44,
+      "evidence": "2025年中国座舱域控装机前十，集团关联客户贡献高。",
+      "shipment_score": 37.4,
+      "revenue_score": 45.0,
+      "profit_score": 45.0,
+      "composite_score": 45.7,
+      "risk_score": 54.5
+    },
+    {
+      "name": "华阳通用",
+      "short": "Foryou",
+      "type": "智能座舱平台型供应商",
+      "main_products": "HUD、座舱域控、车载显示、数字声学、智能计算单元",
+      "ship_rank": 8,
+      "ship_share_pct": 5.3,
+      "ship_units_k": 514,
+      "revenue_rmb_bn": 130.48,
+      "profit_metric_pct": 6.0,
+      "profit_label": "归母净利率约6.0%",
+      "global_score": 58,
+      "platform_score": 76,
+      "customer_score": 74,
+      "evidence": "2025年收入130.48亿元；客户向头部自主与新势力拓展。",
+      "shipment_score": 35.0,
+      "revenue_score": 35.6,
+      "profit_score": 95.7,
+      "composite_score": 60.7,
+      "risk_score": 20.2
+    },
+    {
+      "name": "镁佳科技",
+      "short": "Megatronix",
+      "type": "智能座舱+X集成式域控",
+      "main_products": "智能座舱+ADAS泊车/驾驶/车联网/OTA的一体化域控",
+      "ship_rank": 9,
+      "ship_share_pct": 4.9,
+      "ship_units_k": 476,
+      "revenue_rmb_bn": 14.2,
+      "profit_metric_pct": -20.5,
+      "profit_label": "2024年仍亏损，亏损率约20%",
+      "global_score": 46,
+      "platform_score": 78,
+      "customer_score": 70,
+      "evidence": "2024年交付超63万件；客户含奇瑞、长安、东风、日产、福特等。",
+      "shipment_score": 32.6,
+      "revenue_score": 20.0,
+      "profit_score": 20.0,
+      "composite_score": 43.9,
+      "risk_score": 58.5
+    },
+    {
+      "name": "哈曼",
+      "short": "HARMAN",
+      "type": "全球座舱体验供应商",
+      "main_products": "数字座舱、车载音响、联网汽车软件、车载显示与云服务",
+      "ship_rank": 10,
+      "ship_share_pct": 4.8,
+      "ship_units_k": 466,
+      "revenue_rmb_bn": null,
+      "profit_metric_pct": 5.0,
+      "profit_label": "三星旗下业务口径不可比",
+      "global_score": 94,
+      "platform_score": 84,
+      "customer_score": 92,
+      "evidence": "2025年中国座舱域控装机前十，海外OEM与豪华品牌客户广。",
+      "shipment_score": 32.0,
+      "revenue_score": 45.0,
+      "profit_score": 92.9,
+      "composite_score": 69.1,
+      "risk_score": 7.1
+    },
+    {
+      "name": "均胜电子",
+      "short": "Joyson",
+      "type": "全球汽车电子+安全系统",
+      "main_products": "汽车安全、汽车电子、智能座舱部件、中央计算单元、智能网联",
+      "ship_rank": null,
+      "ship_share_pct": 2.8,
+      "ship_units_k": 272,
+      "revenue_rmb_bn": 611.83,
+      "profit_metric_pct": 2.2,
+      "profit_label": "归母净利率约2.2%",
+      "global_score": 92,
+      "platform_score": 70,
+      "customer_score": 88,
+      "evidence": "2025年营收611.83亿元，汽车电子与汽车安全全球化布局深。",
+      "shipment_score": 20.0,
+      "revenue_score": 100.0,
+      "profit_score": 84.9,
+      "composite_score": 70.6,
+      "risk_score": 12.4
+    }
+  ],
+  "oemTop10": [
+    {
+      "name": "比亚迪",
+      "short": "BYD",
+      "region": "中国",
+      "archetype": "规模新能源平台"
+    },
+    {
+      "name": "吉利/极氪/领克",
+      "short": "Geely",
+      "region": "中国+海外",
+      "archetype": "多品牌全球化"
+    },
+    {
+      "name": "奇瑞/捷途",
+      "short": "Chery",
+      "region": "中国+海外",
+      "archetype": "出口韧性平台"
+    },
+    {
+      "name": "广汽/埃安",
+      "short": "GAC",
+      "region": "中国",
+      "archetype": "区域强势平台"
+    },
+    {
+      "name": "长城汽车",
+      "short": "GWM",
+      "region": "中国+海外",
+      "archetype": "SUV/海外平台"
+    },
+    {
+      "name": "长安/深蓝/阿维塔",
+      "short": "Changan",
+      "region": "中国",
+      "archetype": "央企多品牌"
+    },
+    {
+      "name": "上汽/上汽大众",
+      "short": "SAIC/VW",
+      "region": "中国+合资",
+      "archetype": "合资+自主混合"
+    },
+    {
+      "name": "特斯拉中国",
+      "short": "Tesla China",
+      "region": "中国+全球",
+      "archetype": "垂直整合"
+    },
+    {
+      "name": "理想汽车",
+      "short": "Li Auto",
+      "region": "中国",
+      "archetype": "新势力高端家庭"
+    },
+    {
+      "name": "赛力斯/问界",
+      "short": "AITO",
+      "region": "中国",
+      "archetype": "华为生态伙伴"
+    }
+  ],
+  "globalOemExtra": [
+    {
+      "name": "大众集团",
+      "short": "VW Group",
+      "region": "海外",
+      "archetype": "全球平台"
+    },
+    {
+      "name": "丰田/雷克萨斯",
+      "short": "Toyota",
+      "region": "海外",
+      "archetype": "全球稳健平台"
+    },
+    {
+      "name": "奔驰",
+      "short": "Mercedes",
+      "region": "海外",
+      "archetype": "豪华车"
+    },
+    {
+      "name": "宝马",
+      "short": "BMW",
+      "region": "海外",
+      "archetype": "豪华车"
+    },
+    {
+      "name": "沃尔沃/Polestar",
+      "short": "Volvo",
+      "region": "海外+吉利",
+      "archetype": "安全与全球化"
+    },
+    {
+      "name": "Lotus / smart / Proton",
+      "short": "Lotus smart Proton",
+      "region": "海外+吉利",
+      "archetype": "吉利全球品牌"
+    },
+    {
+      "name": "日产/本田/福特",
+      "short": "Nissan Honda Ford",
+      "region": "海外+合资",
+      "archetype": "跨国合资客户"
+    }
+  ],
+  "links": [
+    {
+      "supplier": "车联天下",
+      "oem": "比亚迪",
+      "strength": 7,
+      "product": "AL-C1/座舱域控",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "车联天下",
+      "oem": "吉利/极氪/领克",
+      "strength": 8,
+      "product": "座舱域控/出海车型",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "车联天下",
+      "oem": "奇瑞/捷途",
+      "strength": 9,
+      "product": "AL-C1/AL-C2",
+      "scope": "公开客户+车型公告"
+    },
+    {
+      "supplier": "车联天下",
+      "oem": "广汽/埃安",
+      "strength": 8,
+      "product": "座舱域控",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "车联天下",
+      "oem": "长城汽车",
+      "strength": 8,
+      "product": "AL-C1",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "车联天下",
+      "oem": "长安/深蓝/阿维塔",
+      "strength": 5,
+      "product": "座舱域控",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "车联天下",
+      "oem": "上汽/上汽大众",
+      "strength": 3,
+      "product": "潜在/相关生态",
+      "scope": "弱信号"
+    },
+    {
+      "supplier": "车联天下",
+      "oem": "大众集团",
+      "strength": 2,
+      "product": "随中国客户出海/弱信号",
+      "scope": "结构推断"
+    },
+    {
+      "supplier": "车联天下",
+      "oem": "Lotus / smart / Proton",
+      "strength": 2,
+      "product": "全球客户接触/弱信号",
+      "scope": "结构推断"
+    },
+    {
+      "supplier": "德赛西威",
+      "oem": "理想汽车",
+      "strength": 9,
+      "product": "智能座舱量产",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "德赛西威",
+      "oem": "吉利/极氪/领克",
+      "strength": 7,
+      "product": "座舱/智驾",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "德赛西威",
+      "oem": "奇瑞/捷途",
+      "strength": 6,
+      "product": "座舱/智驾",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "德赛西威",
+      "oem": "长城汽车",
+      "strength": 6,
+      "product": "座舱/智驾",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "德赛西威",
+      "oem": "广汽/埃安",
+      "strength": 6,
+      "product": "HUD/座舱",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "德赛西威",
+      "oem": "上汽/上汽大众",
+      "strength": 7,
+      "product": "座舱/海外客户",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "德赛西威",
+      "oem": "丰田/雷克萨斯",
+      "strength": 7,
+      "product": "座舱/海外客户",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "德赛西威",
+      "oem": "沃尔沃/Polestar",
+      "strength": 5,
+      "product": "智能座舱",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "德赛西威",
+      "oem": "奔驰",
+      "strength": 5,
+      "product": "智能座舱/网联",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "博世",
+      "oem": "大众集团",
+      "strength": 9,
+      "product": "车载电子/计算平台",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "博世",
+      "oem": "奔驰",
+      "strength": 8,
+      "product": "车载电子/计算平台",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "博世",
+      "oem": "宝马",
+      "strength": 8,
+      "product": "车载电子/计算平台",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "博世",
+      "oem": "丰田/雷克萨斯",
+      "strength": 7,
+      "product": "车载电子/计算平台",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "博世",
+      "oem": "吉利/极氪/领克",
+      "strength": 6,
+      "product": "座舱/底层平台",
+      "scope": "中国公开链"
+    },
+    {
+      "supplier": "博世",
+      "oem": "比亚迪",
+      "strength": 5,
+      "product": "座舱/车载电子",
+      "scope": "中国公开链"
+    },
+    {
+      "supplier": "亿咖通",
+      "oem": "吉利/极氪/领克",
+      "strength": 10,
+      "product": "Antora/OS/座舱平台",
+      "scope": "关联生态+公开客户"
+    },
+    {
+      "supplier": "亿咖通",
+      "oem": "沃尔沃/Polestar",
+      "strength": 8,
+      "product": "全球智能座舱平台",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "亿咖通",
+      "oem": "Lotus / smart / Proton",
+      "strength": 9,
+      "product": "全球平台/座舱软件",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "亿咖通",
+      "oem": "上汽/上汽大众",
+      "strength": 3,
+      "product": "潜在平台合作",
+      "scope": "弱信号"
+    },
+    {
+      "supplier": "和硕/广达",
+      "oem": "特斯拉中国",
+      "strength": 10,
+      "product": "座舱计算/电子制造",
+      "scope": "供应链强绑定"
+    },
+    {
+      "supplier": "华为",
+      "oem": "赛力斯/问界",
+      "strength": 10,
+      "product": "鸿蒙座舱/ADS/车云",
+      "scope": "生态强绑定"
+    },
+    {
+      "supplier": "华为",
+      "oem": "奇瑞/捷途",
+      "strength": 7,
+      "product": "鸿蒙智行/智界",
+      "scope": "生态合作"
+    },
+    {
+      "supplier": "华为",
+      "oem": "长安/深蓝/阿维塔",
+      "strength": 8,
+      "product": "阿维塔/HI模式",
+      "scope": "生态合作"
+    },
+    {
+      "supplier": "华为",
+      "oem": "上汽/上汽大众",
+      "strength": 4,
+      "product": "尚界/合作车型",
+      "scope": "生态合作"
+    },
+    {
+      "supplier": "华为",
+      "oem": "比亚迪",
+      "strength": 2,
+      "product": "智能化生态弱信号",
+      "scope": "弱信号"
+    },
+    {
+      "supplier": "蜂巢电子",
+      "oem": "长城汽车",
+      "strength": 10,
+      "product": "座舱域控/集团供应链",
+      "scope": "集团关联"
+    },
+    {
+      "supplier": "华阳通用",
+      "oem": "长安/深蓝/阿维塔",
+      "strength": 8,
+      "product": "座舱域控/HUD",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "华阳通用",
+      "oem": "奇瑞/捷途",
+      "strength": 8,
+      "product": "座舱域控/HUD",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "华阳通用",
+      "oem": "吉利/极氪/领克",
+      "strength": 6,
+      "product": "座舱/HUD/车载显示",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "华阳通用",
+      "oem": "赛力斯/问界",
+      "strength": 6,
+      "product": "智能座舱电子",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "华阳通用",
+      "oem": "比亚迪",
+      "strength": 5,
+      "product": "智能座舱电子",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "镁佳科技",
+      "oem": "奇瑞/捷途",
+      "strength": 9,
+      "product": "智能座舱+X域控",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "镁佳科技",
+      "oem": "长安/深蓝/阿维塔",
+      "strength": 9,
+      "product": "深蓝/集成式域控",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "镁佳科技",
+      "oem": "日产/本田/福特",
+      "strength": 5,
+      "product": "域控方案",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "镁佳科技",
+      "oem": "理想汽车",
+      "strength": 4,
+      "product": "经Tier1进入供应链",
+      "scope": "公开历史"
+    },
+    {
+      "supplier": "哈曼",
+      "oem": "大众集团",
+      "strength": 8,
+      "product": "数字座舱/车载体验",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "哈曼",
+      "oem": "奔驰",
+      "strength": 8,
+      "product": "数字座舱/车载体验",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "哈曼",
+      "oem": "宝马",
+      "strength": 7,
+      "product": "数字座舱/车载体验",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "哈曼",
+      "oem": "丰田/雷克萨斯",
+      "strength": 6,
+      "product": "数字座舱/车载体验",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "均胜电子",
+      "oem": "大众集团",
+      "strength": 9,
+      "product": "汽车安全/电子/智能网联",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "均胜电子",
+      "oem": "宝马",
+      "strength": 8,
+      "product": "汽车安全/电子/智能网联",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "均胜电子",
+      "oem": "奔驰",
+      "strength": 8,
+      "product": "汽车安全/电子/智能网联",
+      "scope": "全球供应链"
+    },
+    {
+      "supplier": "均胜电子",
+      "oem": "上汽/上汽大众",
+      "strength": 6,
+      "product": "汽车电子/安全",
+      "scope": "公开客户"
+    },
+    {
+      "supplier": "均胜电子",
+      "oem": "吉利/极氪/领克",
+      "strength": 5,
+      "product": "汽车电子/安全",
+      "scope": "公开客户"
+    }
+  ],
+  "rankings": {
+    "shipments": [
+      {
+        "rank": 1,
+        "displayRank": 1,
+        "isAddedAutolink": false,
+        "name": "德赛西威",
+        "short": "Desay SV",
+        "metric": 16.1,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "智能座舱、智能驾驶、网联服务、舱驾融合"
+      },
+      {
+        "rank": 2,
+        "displayRank": 2,
+        "isAddedAutolink": false,
+        "name": "博世",
+        "short": "Bosch",
+        "metric": 8.4,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "车载计算、传感器、软件、底盘/动力系统、座舱域控配套"
+      },
+      {
+        "rank": 3,
+        "displayRank": 3,
+        "isAddedAutolink": false,
+        "name": "亿咖通",
+        "short": "ECARX",
+        "metric": 7.5,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "计算平台、座舱域控、OS/中间件、云与全球软件平台"
+      },
+      {
+        "rank": 4,
+        "displayRank": 4,
+        "isAddedAutolink": false,
+        "name": "和硕/广达",
+        "short": "Pegatron/Quanta",
+        "metric": 6.5,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "座舱计算/电子制造配套，强绑定特斯拉供应链"
+      },
+      {
+        "rank": 5,
+        "displayRank": 5,
+        "isAddedAutolink": false,
+        "name": "华为",
+        "short": "Huawei",
+        "metric": 6.4,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "鸿蒙座舱、车云、ADS、车载计算、智能汽车解决方案"
+      },
+      {
+        "rank": 6,
+        "displayRank": 6,
+        "isAddedAutolink": false,
+        "name": "车联天下",
+        "short": "AutoLink",
+        "metric": 5.8,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "智能座舱域控、舱泊一体、舱驾融合、区域控制器、软件/显示/摄像头"
+      },
+      {
+        "rank": 7,
+        "displayRank": 7,
+        "isAddedAutolink": false,
+        "name": "蜂巢电子",
+        "short": "Hive Electronics",
+        "metric": 5.7,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "座舱域控、车载电子、集团内外供应链配套"
+      },
+      {
+        "rank": 8,
+        "displayRank": 8,
+        "isAddedAutolink": false,
+        "name": "华阳通用",
+        "short": "Foryou",
+        "metric": 5.3,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "HUD、座舱域控、车载显示、数字声学、智能计算单元"
+      },
+      {
+        "rank": 9,
+        "displayRank": 9,
+        "isAddedAutolink": false,
+        "name": "镁佳科技",
+        "short": "Megatronix",
+        "metric": 4.9,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "智能座舱+ADAS泊车/驾驶/车联网/OTA的一体化域控"
+      },
+      {
+        "rank": 10,
+        "displayRank": 10,
+        "isAddedAutolink": false,
+        "name": "哈曼",
+        "short": "HARMAN",
+        "metric": 4.8,
+        "unit": "%",
+        "basis": "公开装机份额",
+        "product": "数字座舱、车载音响、联网汽车软件、车载显示与云服务"
+      }
+    ],
+    "revenue": [
+      {
+        "rank": 1,
+        "displayRank": 1,
+        "isAddedAutolink": false,
+        "name": "均胜电子",
+        "short": "Joyson",
+        "metric": 100.0,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "汽车安全、汽车电子、智能座舱部件、中央计算单元、智能网联"
+      },
+      {
+        "rank": 2,
+        "displayRank": 2,
+        "isAddedAutolink": false,
+        "name": "德赛西威",
+        "short": "Desay SV",
+        "metric": 61.7,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "智能座舱、智能驾驶、网联服务、舱驾融合"
+      },
+      {
+        "rank": 3,
+        "displayRank": 3,
+        "isAddedAutolink": false,
+        "name": "博世",
+        "short": "Bosch",
+        "metric": 45.0,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "车载计算、传感器、软件、底盘/动力系统、座舱域控配套"
+      },
+      {
+        "rank": 4,
+        "displayRank": 4,
+        "isAddedAutolink": false,
+        "name": "和硕/广达",
+        "short": "Pegatron/Quanta",
+        "metric": 45.0,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "座舱计算/电子制造配套，强绑定特斯拉供应链"
+      },
+      {
+        "rank": 5,
+        "displayRank": 5,
+        "isAddedAutolink": false,
+        "name": "华为",
+        "short": "Huawei",
+        "metric": 45.0,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "鸿蒙座舱、车云、ADS、车载计算、智能汽车解决方案"
+      },
+      {
+        "rank": 6,
+        "displayRank": 6,
+        "isAddedAutolink": false,
+        "name": "蜂巢电子",
+        "short": "Hive Electronics",
+        "metric": 45.0,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "座舱域控、车载电子、集团内外供应链配套"
+      },
+      {
+        "rank": 7,
+        "displayRank": 7,
+        "isAddedAutolink": false,
+        "name": "哈曼",
+        "short": "HARMAN",
+        "metric": 45.0,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "数字座舱、车载音响、联网汽车软件、车载显示与云服务"
+      },
+      {
+        "rank": 8,
+        "displayRank": 8,
+        "isAddedAutolink": false,
+        "name": "华阳通用",
+        "short": "Foryou",
+        "metric": 35.6,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "HUD、座舱域控、车载显示、数字声学、智能计算单元"
+      },
+      {
+        "rank": 9,
+        "displayRank": 9,
+        "isAddedAutolink": false,
+        "name": "亿咖通",
+        "short": "ECARX",
+        "metric": 26.3,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "计算平台、座舱域控、OS/中间件、云与全球软件平台"
+      },
+      {
+        "rank": 10,
+        "displayRank": 10,
+        "isAddedAutolink": false,
+        "name": "车联天下",
+        "short": "AutoLink",
+        "metric": 21.7,
+        "unit": "分",
+        "basis": "公司/汽车电子可比性有限，转为标准化得分",
+        "product": "智能座舱域控、舱泊一体、舱驾融合、区域控制器、软件/显示/摄像头"
+      }
+    ],
+    "profit": [
+      {
+        "rank": 1,
+        "displayRank": 1,
+        "isAddedAutolink": false,
+        "name": "德赛西威",
+        "short": "Desay SV",
+        "metric": 100.0,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "智能座舱、智能驾驶、网联服务、舱驾融合"
+      },
+      {
+        "rank": 2,
+        "displayRank": 2,
+        "isAddedAutolink": false,
+        "name": "华阳通用",
+        "short": "Foryou",
+        "metric": 95.7,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "HUD、座舱域控、车载显示、数字声学、智能计算单元"
+      },
+      {
+        "rank": 3,
+        "displayRank": 3,
+        "isAddedAutolink": false,
+        "name": "哈曼",
+        "short": "HARMAN",
+        "metric": 92.9,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "数字座舱、车载音响、联网汽车软件、车载显示与云服务"
+      },
+      {
+        "rank": 4,
+        "displayRank": 4,
+        "isAddedAutolink": false,
+        "name": "博世",
+        "short": "Bosch",
+        "metric": 90.0,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "车载计算、传感器、软件、底盘/动力系统、座舱域控配套"
+      },
+      {
+        "rank": 5,
+        "displayRank": 5,
+        "isAddedAutolink": false,
+        "name": "和硕/广达",
+        "short": "Pegatron/Quanta",
+        "metric": 87.1,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "座舱计算/电子制造配套，强绑定特斯拉供应链"
+      },
+      {
+        "rank": 6,
+        "displayRank": 6,
+        "isAddedAutolink": false,
+        "name": "均胜电子",
+        "short": "Joyson",
+        "metric": 84.9,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "汽车安全、汽车电子、智能座舱部件、中央计算单元、智能网联"
+      },
+      {
+        "rank": 7,
+        "displayRank": 7,
+        "isAddedAutolink": false,
+        "name": "亿咖通",
+        "short": "ECARX",
+        "metric": 79.4,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "计算平台、座舱域控、OS/中间件、云与全球软件平台"
+      },
+      {
+        "rank": 8,
+        "displayRank": 8,
+        "isAddedAutolink": false,
+        "name": "华为",
+        "short": "Huawei",
+        "metric": 45.0,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "鸿蒙座舱、车云、ADS、车载计算、智能汽车解决方案"
+      },
+      {
+        "rank": 9,
+        "displayRank": 9,
+        "isAddedAutolink": false,
+        "name": "蜂巢电子",
+        "short": "Hive Electronics",
+        "metric": 45.0,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "座舱域控、车载电子、集团内外供应链配套"
+      },
+      {
+        "rank": 10,
+        "displayRank": 10,
+        "isAddedAutolink": false,
+        "name": "镁佳科技",
+        "short": "Megatronix",
+        "metric": 20.0,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "智能座舱+ADAS泊车/驾驶/车联网/OTA的一体化域控"
+      },
+      {
+        "rank": 11,
+        "displayRank": 11,
+        "isAddedAutolink": true,
+        "name": "车联天下",
+        "short": "AutoLink",
+        "metric": -30.3,
+        "unit": "分",
+        "basis": "净利率/经营韧性标准化得分",
+        "product": "智能座舱域控、舱泊一体、舱驾融合、区域控制器、软件/显示/摄像头"
+      }
+    ],
+    "global": [
+      {
+        "rank": 1,
+        "displayRank": 1,
+        "isAddedAutolink": false,
+        "name": "博世",
+        "short": "Bosch",
+        "metric": 96.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "车载计算、传感器、软件、底盘/动力系统、座舱域控配套"
+      },
+      {
+        "rank": 2,
+        "displayRank": 2,
+        "isAddedAutolink": false,
+        "name": "哈曼",
+        "short": "HARMAN",
+        "metric": 94.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "数字座舱、车载音响、联网汽车软件、车载显示与云服务"
+      },
+      {
+        "rank": 3,
+        "displayRank": 3,
+        "isAddedAutolink": false,
+        "name": "均胜电子",
+        "short": "Joyson",
+        "metric": 92.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "汽车安全、汽车电子、智能座舱部件、中央计算单元、智能网联"
+      },
+      {
+        "rank": 4,
+        "displayRank": 4,
+        "isAddedAutolink": false,
+        "name": "亿咖通",
+        "short": "ECARX",
+        "metric": 82.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "计算平台、座舱域控、OS/中间件、云与全球软件平台"
+      },
+      {
+        "rank": 5,
+        "displayRank": 5,
+        "isAddedAutolink": false,
+        "name": "德赛西威",
+        "short": "Desay SV",
+        "metric": 76.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "智能座舱、智能驾驶、网联服务、舱驾融合"
+      },
+      {
+        "rank": 6,
+        "displayRank": 6,
+        "isAddedAutolink": false,
+        "name": "和硕/广达",
+        "short": "Pegatron/Quanta",
+        "metric": 72.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "座舱计算/电子制造配套，强绑定特斯拉供应链"
+      },
+      {
+        "rank": 7,
+        "displayRank": 7,
+        "isAddedAutolink": false,
+        "name": "华为",
+        "short": "Huawei",
+        "metric": 64.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "鸿蒙座舱、车云、ADS、车载计算、智能汽车解决方案"
+      },
+      {
+        "rank": 8,
+        "displayRank": 8,
+        "isAddedAutolink": false,
+        "name": "华阳通用",
+        "short": "Foryou",
+        "metric": 58.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "HUD、座舱域控、车载显示、数字声学、智能计算单元"
+      },
+      {
+        "rank": 9,
+        "displayRank": 9,
+        "isAddedAutolink": false,
+        "name": "车联天下",
+        "short": "AutoLink",
+        "metric": 54.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "智能座舱域控、舱泊一体、舱驾融合、区域控制器、软件/显示/摄像头"
+      },
+      {
+        "rank": 10,
+        "displayRank": 10,
+        "isAddedAutolink": false,
+        "name": "蜂巢电子",
+        "short": "Hive Electronics",
+        "metric": 48.0,
+        "unit": "分",
+        "basis": "海外客户、当地交付与合规能力评分",
+        "product": "座舱域控、车载电子、集团内外供应链配套"
+      }
+    ],
+    "composite": [
+      {
+        "rank": 1,
+        "displayRank": 1,
+        "isAddedAutolink": false,
+        "name": "德赛西威",
+        "short": "Desay SV",
+        "metric": 87.2,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "智能座舱、智能驾驶、网联服务、舱驾融合"
+      },
+      {
+        "rank": 2,
+        "displayRank": 2,
+        "isAddedAutolink": false,
+        "name": "博世",
+        "short": "Bosch",
+        "metric": 75.4,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "车载计算、传感器、软件、底盘/动力系统、座舱域控配套"
+      },
+      {
+        "rank": 3,
+        "displayRank": 3,
+        "isAddedAutolink": false,
+        "name": "均胜电子",
+        "short": "Joyson",
+        "metric": 70.6,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "汽车安全、汽车电子、智能座舱部件、中央计算单元、智能网联"
+      },
+      {
+        "rank": 4,
+        "displayRank": 4,
+        "isAddedAutolink": false,
+        "name": "哈曼",
+        "short": "HARMAN",
+        "metric": 69.1,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "数字座舱、车载音响、联网汽车软件、车载显示与云服务"
+      },
+      {
+        "rank": 5,
+        "displayRank": 5,
+        "isAddedAutolink": false,
+        "name": "亿咖通",
+        "short": "ECARX",
+        "metric": 65.5,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "计算平台、座舱域控、OS/中间件、云与全球软件平台"
+      },
+      {
+        "rank": 6,
+        "displayRank": 6,
+        "isAddedAutolink": false,
+        "name": "华阳通用",
+        "short": "Foryou",
+        "metric": 60.7,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "HUD、座舱域控、车载显示、数字声学、智能计算单元"
+      },
+      {
+        "rank": 7,
+        "displayRank": 7,
+        "isAddedAutolink": false,
+        "name": "华为",
+        "short": "Huawei",
+        "metric": 60.6,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "鸿蒙座舱、车云、ADS、车载计算、智能汽车解决方案"
+      },
+      {
+        "rank": 8,
+        "displayRank": 8,
+        "isAddedAutolink": false,
+        "name": "和硕/广达",
+        "short": "Pegatron/Quanta",
+        "metric": 53.0,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "座舱计算/电子制造配套，强绑定特斯拉供应链"
+      },
+      {
+        "rank": 9,
+        "displayRank": 9,
+        "isAddedAutolink": false,
+        "name": "蜂巢电子",
+        "short": "Hive Electronics",
+        "metric": 45.7,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "座舱域控、车载电子、集团内外供应链配套"
+      },
+      {
+        "rank": 10,
+        "displayRank": 10,
+        "isAddedAutolink": false,
+        "name": "镁佳科技",
+        "short": "Megatronix",
+        "metric": 43.9,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "智能座舱+ADAS泊车/驾驶/车联网/OTA的一体化域控"
+      },
+      {
+        "rank": 11,
+        "displayRank": 11,
+        "isAddedAutolink": true,
+        "name": "车联天下",
+        "short": "AutoLink",
+        "metric": 37.9,
+        "unit": "分",
+        "basis": "装机、规模、盈利、客户、平台、全球化加权",
+        "product": "智能座舱域控、舱泊一体、舱驾融合、区域控制器、软件/显示/摄像头"
+      }
+    ]
+  },
+  "sankeyViews": {
+    "china": {
+      "shipments": {
+        "nodes": [
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "镁佳科技"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 18.0,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 9.7,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 8.5,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 8.3,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 7.5,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 6.8,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 6.7,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 6.4,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "奇瑞/捷途",
+            "value": 5.9,
+            "rawStrength": 9,
+            "product": "智能座舱+X域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "长安/深蓝/阿维塔",
+            "value": 5.9,
+            "rawStrength": 9,
+            "product": "深蓝/集成式域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 5.8,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 5.6,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 5.6,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 5.4,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 5.3,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 4.2,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 4.2,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 3.8,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 3.5,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 3.3,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 2.9,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "理想汽车",
+            "value": 2.6,
+            "rawStrength": 4,
+            "product": "经Tier1进入供应链",
+            "scope": "公开历史"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 2.3,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 1.7,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          }
+        ],
+        "supplierCount": 9,
+        "oemCount": 10
+      },
+      "revenue": {
+        "nodes": [
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "均胜电子"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "均胜电子",
+            "target": "上汽/上汽大众",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 11.1,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "吉利/极氪/领克",
+            "value": 10.0,
+            "rawStrength": 5,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 8.6,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 8.6,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 7.4,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 7.4,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 7.4,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 7.2,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 6.3,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 5.7,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 5.7,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 5.4,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 5.3,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 4.5,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 4.3,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 4.3,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 3.9,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 3.6,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 3.6,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 3.5,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 3.5,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 3.5,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 3.0,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 2.2,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 1.8,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 1.6,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 1.3,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          }
+        ],
+        "supplierCount": 9,
+        "oemCount": 10
+      },
+      "profit": {
+        "nodes": [
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "均胜电子"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "镁佳科技"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 18.0,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 17.4,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 15.9,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 15.3,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 15.3,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 11.5,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 11.5,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 10.8,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "上汽/上汽大众",
+            "value": 10.2,
+            "rawStrength": 6,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 9.6,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 9.0,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "均胜电子",
+            "target": "吉利/极氪/领克",
+            "value": 8.5,
+            "rawStrength": 5,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 7.2,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 6.3,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 4.8,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 3.6,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "奇瑞/捷途",
+            "value": 3.6,
+            "rawStrength": 9,
+            "product": "智能座舱+X域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "长安/深蓝/阿维塔",
+            "value": 3.6,
+            "rawStrength": 9,
+            "product": "深蓝/集成式域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 1.8,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "理想汽车",
+            "value": 1.6,
+            "rawStrength": 4,
+            "product": "经Tier1进入供应链",
+            "scope": "公开历史"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 1.0,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 1.0,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 1.0,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 1.0,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 1.0,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 1.0,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 1.0,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          }
+        ],
+        "supplierCount": 10,
+        "oemCount": 10
+      },
+      "global": {
+        "nodes": [
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "均胜电子"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 16.4,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 14.4,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 13.7,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 12.8,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 11.5,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "上汽/上汽大众",
+            "value": 11.0,
+            "rawStrength": 6,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 10.6,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 10.6,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 10.2,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 9.7,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 9.6,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 9.6,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 9.3,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 9.3,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "吉利/极氪/领克",
+            "value": 9.2,
+            "rawStrength": 5,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 9.1,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 9.1,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 9.1,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 9.0,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 8.6,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 8.6,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 8.6,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 7.6,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 7.0,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 7.0,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 5.8,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 5.4,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 5.1,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 4.9,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 3.2,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 2.6,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          }
+        ],
+        "supplierCount": 9,
+        "oemCount": 10
+      },
+      "composite": {
+        "nodes": [
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "均胜电子"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "镁佳科技"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 15.7,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 13.1,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 12.2,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 12.2,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 12.1,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 10.6,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 10.5,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 10.5,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 10.5,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 9.7,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 9.7,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 9.7,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 9.1,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 9.0,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 8.5,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "均胜电子",
+            "target": "上汽/上汽大众",
+            "value": 8.5,
+            "rawStrength": 6,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "奇瑞/捷途",
+            "value": 7.9,
+            "rawStrength": 9,
+            "product": "智能座舱+X域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "长安/深蓝/阿维塔",
+            "value": 7.9,
+            "rawStrength": 9,
+            "product": "深蓝/集成式域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 7.5,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 7.3,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 7.3,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "吉利/极氪/领克",
+            "value": 7.1,
+            "rawStrength": 5,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 6.8,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 6.1,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 5.3,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 4.8,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 3.9,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 3.8,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "理想汽车",
+            "value": 3.5,
+            "rawStrength": 4,
+            "product": "经Tier1进入供应链",
+            "scope": "公开历史"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 2.4,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 2.3,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          }
+        ],
+        "supplierCount": 10,
+        "oemCount": 10
+      }
+    },
+    "global": {
+      "shipments": {
+        "nodes": [
+          {
+            "name": "Lotus / smart / Proton"
+          },
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "丰田/雷克萨斯"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "哈曼"
+          },
+          {
+            "name": "大众集团"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "奔驰"
+          },
+          {
+            "name": "宝马"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "日产/本田/福特"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "沃尔沃/Polestar"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "镁佳科技"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 18.0,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "丰田/雷克萨斯",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "沃尔沃/Polestar",
+            "value": 10.0,
+            "rawStrength": 5,
+            "product": "智能座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奔驰",
+            "value": 10.0,
+            "rawStrength": 5,
+            "product": "智能座舱/网联",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "大众集团",
+            "value": 9.7,
+            "rawStrength": 9,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 9.7,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "亿咖通",
+            "target": "Lotus / smart / Proton",
+            "value": 8.7,
+            "rawStrength": 9,
+            "product": "全球平台/座舱软件",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "奔驰",
+            "value": 8.6,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "博世",
+            "target": "宝马",
+            "value": 8.6,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 8.5,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 8.3,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "亿咖通",
+            "target": "沃尔沃/Polestar",
+            "value": 7.7,
+            "rawStrength": 8,
+            "product": "全球智能座舱平台",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "丰田/雷克萨斯",
+            "value": 7.5,
+            "rawStrength": 7,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 7.5,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 6.8,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 6.7,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 6.4,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "奇瑞/捷途",
+            "value": 5.9,
+            "rawStrength": 9,
+            "product": "智能座舱+X域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "长安/深蓝/阿维塔",
+            "value": 5.9,
+            "rawStrength": 9,
+            "product": "深蓝/集成式域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 5.8,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 5.6,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 5.6,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 5.4,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 5.3,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "哈曼",
+            "target": "大众集团",
+            "value": 5.1,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "奔驰",
+            "value": 5.1,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "宝马",
+            "value": 4.5,
+            "rawStrength": 7,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 4.2,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 4.2,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 3.8,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "哈曼",
+            "target": "丰田/雷克萨斯",
+            "value": 3.8,
+            "rawStrength": 6,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 3.5,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 3.3,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "日产/本田/福特",
+            "value": 3.3,
+            "rawStrength": 5,
+            "product": "域控方案",
+            "scope": "公开客户"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 2.9,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "理想汽车",
+            "value": 2.6,
+            "rawStrength": 4,
+            "product": "经Tier1进入供应链",
+            "scope": "公开历史"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 2.3,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 1.7,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "大众集团",
+            "value": 1.5,
+            "rawStrength": 2,
+            "product": "随中国客户出海/弱信号",
+            "scope": "结构推断"
+          },
+          {
+            "source": "车联天下",
+            "target": "Lotus / smart / Proton",
+            "value": 1.5,
+            "rawStrength": 2,
+            "product": "全球客户接触/弱信号",
+            "scope": "结构推断"
+          }
+        ],
+        "supplierCount": 10,
+        "oemCount": 17
+      },
+      "revenue": {
+        "nodes": [
+          {
+            "name": "Lotus / smart / Proton"
+          },
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "丰田/雷克萨斯"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "哈曼"
+          },
+          {
+            "name": "均胜电子"
+          },
+          {
+            "name": "大众集团"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "奔驰"
+          },
+          {
+            "name": "宝马"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "沃尔沃/Polestar"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "均胜电子",
+            "target": "大众集团",
+            "value": 18.0,
+            "rawStrength": 9,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "宝马",
+            "value": 16.0,
+            "rawStrength": 8,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "奔驰",
+            "value": 16.0,
+            "rawStrength": 8,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "上汽/上汽大众",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 11.1,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "吉利/极氪/领克",
+            "value": 10.0,
+            "rawStrength": 5,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 8.6,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 8.6,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "丰田/雷克萨斯",
+            "value": 8.6,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "大众集团",
+            "value": 8.1,
+            "rawStrength": 9,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 7.4,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 7.4,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 7.4,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "奔驰",
+            "value": 7.2,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "博世",
+            "target": "宝马",
+            "value": 7.2,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 7.2,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "哈曼",
+            "target": "大众集团",
+            "value": 7.2,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "奔驰",
+            "value": 7.2,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "博世",
+            "target": "丰田/雷克萨斯",
+            "value": 6.3,
+            "rawStrength": 7,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 6.3,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "哈曼",
+            "target": "宝马",
+            "value": 6.3,
+            "rawStrength": 7,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "德赛西威",
+            "target": "沃尔沃/Polestar",
+            "value": 6.2,
+            "rawStrength": 5,
+            "product": "智能座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奔驰",
+            "value": 6.2,
+            "rawStrength": 5,
+            "product": "智能座舱/网联",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 5.7,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 5.7,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 5.4,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "哈曼",
+            "target": "丰田/雷克萨斯",
+            "value": 5.4,
+            "rawStrength": 6,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 5.3,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "亿咖通",
+            "target": "Lotus / smart / Proton",
+            "value": 4.7,
+            "rawStrength": 9,
+            "product": "全球平台/座舱软件",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 4.5,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 4.3,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 4.3,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "亿咖通",
+            "target": "沃尔沃/Polestar",
+            "value": 4.2,
+            "rawStrength": 8,
+            "product": "全球智能座舱平台",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 3.9,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 3.6,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 3.6,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 3.5,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 3.5,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 3.5,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 3.0,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 2.2,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 1.8,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 1.6,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 1.3,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "大众集团",
+            "value": 1.0,
+            "rawStrength": 2,
+            "product": "随中国客户出海/弱信号",
+            "scope": "结构推断"
+          },
+          {
+            "source": "车联天下",
+            "target": "Lotus / smart / Proton",
+            "value": 1.0,
+            "rawStrength": 2,
+            "product": "全球客户接触/弱信号",
+            "scope": "结构推断"
+          }
+        ],
+        "supplierCount": 10,
+        "oemCount": 16
+      },
+      "profit": {
+        "nodes": [
+          {
+            "name": "Lotus / smart / Proton"
+          },
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "丰田/雷克萨斯"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "哈曼"
+          },
+          {
+            "name": "均胜电子"
+          },
+          {
+            "name": "大众集团"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "奔驰"
+          },
+          {
+            "name": "宝马"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "日产/本田/福特"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "沃尔沃/Polestar"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "镁佳科技"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 18.0,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 17.4,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "博世",
+            "target": "大众集团",
+            "value": 16.2,
+            "rawStrength": 9,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 15.9,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 15.3,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 15.3,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "大众集团",
+            "value": 15.3,
+            "rawStrength": 9,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "大众集团",
+            "value": 14.9,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "奔驰",
+            "value": 14.9,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "博世",
+            "target": "奔驰",
+            "value": 14.4,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "博世",
+            "target": "宝马",
+            "value": 14.4,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "Lotus / smart / Proton",
+            "value": 14.3,
+            "rawStrength": 9,
+            "product": "全球平台/座舱软件",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "丰田/雷克萨斯",
+            "value": 14.0,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "宝马",
+            "value": 13.6,
+            "rawStrength": 8,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "奔驰",
+            "value": 13.6,
+            "rawStrength": 8,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "宝马",
+            "value": 13.0,
+            "rawStrength": 7,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "沃尔沃/Polestar",
+            "value": 12.7,
+            "rawStrength": 8,
+            "product": "全球智能座舱平台",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "丰田/雷克萨斯",
+            "value": 12.6,
+            "rawStrength": 7,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 12.0,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 11.5,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 11.5,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "哈曼",
+            "target": "丰田/雷克萨斯",
+            "value": 11.1,
+            "rawStrength": 6,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 10.8,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "上汽/上汽大众",
+            "value": 10.2,
+            "rawStrength": 6,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "沃尔沃/Polestar",
+            "value": 10.0,
+            "rawStrength": 5,
+            "product": "智能座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奔驰",
+            "value": 10.0,
+            "rawStrength": 5,
+            "product": "智能座舱/网联",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 9.6,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 9.0,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 9.0,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "均胜电子",
+            "target": "吉利/极氪/领克",
+            "value": 8.5,
+            "rawStrength": 5,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 7.2,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 6.3,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 4.8,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 3.6,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "奇瑞/捷途",
+            "value": 3.6,
+            "rawStrength": 9,
+            "product": "智能座舱+X域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "长安/深蓝/阿维塔",
+            "value": 3.6,
+            "rawStrength": 9,
+            "product": "深蓝/集成式域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "日产/本田/福特",
+            "value": 2.0,
+            "rawStrength": 5,
+            "product": "域控方案",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 1.8,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "理想汽车",
+            "value": 1.6,
+            "rawStrength": 4,
+            "product": "经Tier1进入供应链",
+            "scope": "公开历史"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 1.0,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 1.0,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 1.0,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 1.0,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 1.0,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 1.0,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 1.0,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "大众集团",
+            "value": 1.0,
+            "rawStrength": 2,
+            "product": "随中国客户出海/弱信号",
+            "scope": "结构推断"
+          },
+          {
+            "source": "车联天下",
+            "target": "Lotus / smart / Proton",
+            "value": 1.0,
+            "rawStrength": 2,
+            "product": "全球客户接触/弱信号",
+            "scope": "结构推断"
+          }
+        ],
+        "supplierCount": 11,
+        "oemCount": 17
+      },
+      "global": {
+        "nodes": [
+          {
+            "name": "Lotus / smart / Proton"
+          },
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "丰田/雷克萨斯"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "哈曼"
+          },
+          {
+            "name": "均胜电子"
+          },
+          {
+            "name": "大众集团"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "奔驰"
+          },
+          {
+            "name": "宝马"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "沃尔沃/Polestar"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "博世",
+            "target": "大众集团",
+            "value": 17.3,
+            "rawStrength": 9,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "大众集团",
+            "value": 16.6,
+            "rawStrength": 9,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 16.4,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "奔驰",
+            "value": 15.4,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "博世",
+            "target": "宝马",
+            "value": 15.4,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "大众集团",
+            "value": 15.0,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "奔驰",
+            "value": 15.0,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "Lotus / smart / Proton",
+            "value": 14.8,
+            "rawStrength": 9,
+            "product": "全球平台/座舱软件",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "宝马",
+            "value": 14.7,
+            "rawStrength": 8,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "奔驰",
+            "value": 14.7,
+            "rawStrength": 8,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 14.4,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 13.7,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "丰田/雷克萨斯",
+            "value": 13.4,
+            "rawStrength": 7,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "宝马",
+            "value": 13.2,
+            "rawStrength": 7,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "沃尔沃/Polestar",
+            "value": 13.1,
+            "rawStrength": 8,
+            "product": "全球智能座舱平台",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 12.8,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 11.5,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "哈曼",
+            "target": "丰田/雷克萨斯",
+            "value": 11.3,
+            "rawStrength": 6,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "上汽/上汽大众",
+            "value": 11.0,
+            "rawStrength": 6,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 10.6,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 10.6,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "丰田/雷克萨斯",
+            "value": 10.6,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 10.2,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 9.7,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 9.6,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 9.6,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 9.3,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 9.3,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "吉利/极氪/领克",
+            "value": 9.2,
+            "rawStrength": 5,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 9.1,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 9.1,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 9.1,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 9.0,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 8.6,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 8.6,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 8.6,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 7.6,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "沃尔沃/Polestar",
+            "value": 7.6,
+            "rawStrength": 5,
+            "product": "智能座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奔驰",
+            "value": 7.6,
+            "rawStrength": 5,
+            "product": "智能座舱/网联",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 7.0,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 7.0,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 5.8,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 5.4,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 5.1,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 4.9,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 3.2,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 2.6,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "大众集团",
+            "value": 2.2,
+            "rawStrength": 2,
+            "product": "随中国客户出海/弱信号",
+            "scope": "结构推断"
+          },
+          {
+            "source": "车联天下",
+            "target": "Lotus / smart / Proton",
+            "value": 2.2,
+            "rawStrength": 2,
+            "product": "全球客户接触/弱信号",
+            "scope": "结构推断"
+          }
+        ],
+        "supplierCount": 10,
+        "oemCount": 16
+      },
+      "composite": {
+        "nodes": [
+          {
+            "name": "Lotus / smart / Proton"
+          },
+          {
+            "name": "上汽/上汽大众"
+          },
+          {
+            "name": "丰田/雷克萨斯"
+          },
+          {
+            "name": "亿咖通"
+          },
+          {
+            "name": "华为"
+          },
+          {
+            "name": "华阳通用"
+          },
+          {
+            "name": "博世"
+          },
+          {
+            "name": "吉利/极氪/领克"
+          },
+          {
+            "name": "和硕/广达"
+          },
+          {
+            "name": "哈曼"
+          },
+          {
+            "name": "均胜电子"
+          },
+          {
+            "name": "大众集团"
+          },
+          {
+            "name": "奇瑞/捷途"
+          },
+          {
+            "name": "奔驰"
+          },
+          {
+            "name": "宝马"
+          },
+          {
+            "name": "广汽/埃安"
+          },
+          {
+            "name": "德赛西威"
+          },
+          {
+            "name": "日产/本田/福特"
+          },
+          {
+            "name": "比亚迪"
+          },
+          {
+            "name": "沃尔沃/Polestar"
+          },
+          {
+            "name": "特斯拉中国"
+          },
+          {
+            "name": "理想汽车"
+          },
+          {
+            "name": "蜂巢电子"
+          },
+          {
+            "name": "赛力斯/问界"
+          },
+          {
+            "name": "车联天下"
+          },
+          {
+            "name": "镁佳科技"
+          },
+          {
+            "name": "长城汽车"
+          },
+          {
+            "name": "长安/深蓝/阿维塔"
+          }
+        ],
+        "links": [
+          {
+            "source": "德赛西威",
+            "target": "理想汽车",
+            "value": 15.7,
+            "rawStrength": 9,
+            "product": "智能座舱量产",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "大众集团",
+            "value": 13.6,
+            "rawStrength": 9,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "亿咖通",
+            "target": "吉利/极氪/领克",
+            "value": 13.1,
+            "rawStrength": 10,
+            "product": "Antora/OS/座舱平台",
+            "scope": "关联生态+公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "大众集团",
+            "value": 12.7,
+            "rawStrength": 9,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "德赛西威",
+            "target": "吉利/极氪/领克",
+            "value": 12.2,
+            "rawStrength": 7,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "上汽/上汽大众",
+            "value": 12.2,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "丰田/雷克萨斯",
+            "value": 12.2,
+            "rawStrength": 7,
+            "product": "座舱/海外客户",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "奔驰",
+            "value": 12.1,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "博世",
+            "target": "宝马",
+            "value": 12.1,
+            "rawStrength": 8,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "华为",
+            "target": "赛力斯/问界",
+            "value": 12.1,
+            "rawStrength": 10,
+            "product": "鸿蒙座舱/ADS/车云",
+            "scope": "生态强绑定"
+          },
+          {
+            "source": "亿咖通",
+            "target": "Lotus / smart / Proton",
+            "value": 11.8,
+            "rawStrength": 9,
+            "product": "全球平台/座舱软件",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "宝马",
+            "value": 11.3,
+            "rawStrength": 8,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "均胜电子",
+            "target": "奔驰",
+            "value": 11.3,
+            "rawStrength": 8,
+            "product": "汽车安全/电子/智能网联",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "大众集团",
+            "value": 11.1,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "哈曼",
+            "target": "奔驰",
+            "value": 11.1,
+            "rawStrength": 8,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "博世",
+            "target": "丰田/雷克萨斯",
+            "value": 10.6,
+            "rawStrength": 7,
+            "product": "车载电子/计算平台",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "和硕/广达",
+            "target": "特斯拉中国",
+            "value": 10.6,
+            "rawStrength": 10,
+            "product": "座舱计算/电子制造",
+            "scope": "供应链强绑定"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奇瑞/捷途",
+            "value": 10.5,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "长城汽车",
+            "value": 10.5,
+            "rawStrength": 6,
+            "product": "座舱/智驾",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "广汽/埃安",
+            "value": 10.5,
+            "rawStrength": 6,
+            "product": "HUD/座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "亿咖通",
+            "target": "沃尔沃/Polestar",
+            "value": 10.5,
+            "rawStrength": 8,
+            "product": "全球智能座舱平台",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "长安/深蓝/阿维塔",
+            "value": 9.7,
+            "rawStrength": 8,
+            "product": "阿维塔/HI模式",
+            "scope": "生态合作"
+          },
+          {
+            "source": "华阳通用",
+            "target": "长安/深蓝/阿维塔",
+            "value": 9.7,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "奇瑞/捷途",
+            "value": 9.7,
+            "rawStrength": 8,
+            "product": "座舱域控/HUD",
+            "scope": "公开客户"
+          },
+          {
+            "source": "哈曼",
+            "target": "宝马",
+            "value": 9.7,
+            "rawStrength": 7,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "蜂巢电子",
+            "target": "长城汽车",
+            "value": 9.1,
+            "rawStrength": 10,
+            "product": "座舱域控/集团供应链",
+            "scope": "集团关联"
+          },
+          {
+            "source": "博世",
+            "target": "吉利/极氪/领克",
+            "value": 9.0,
+            "rawStrength": 6,
+            "product": "座舱/底层平台",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "德赛西威",
+            "target": "沃尔沃/Polestar",
+            "value": 8.7,
+            "rawStrength": 5,
+            "product": "智能座舱",
+            "scope": "公开客户"
+          },
+          {
+            "source": "德赛西威",
+            "target": "奔驰",
+            "value": 8.7,
+            "rawStrength": 5,
+            "product": "智能座舱/网联",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "奇瑞/捷途",
+            "value": 8.5,
+            "rawStrength": 7,
+            "product": "鸿蒙智行/智界",
+            "scope": "生态合作"
+          },
+          {
+            "source": "均胜电子",
+            "target": "上汽/上汽大众",
+            "value": 8.5,
+            "rawStrength": 6,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "哈曼",
+            "target": "丰田/雷克萨斯",
+            "value": 8.3,
+            "rawStrength": 6,
+            "product": "数字座舱/车载体验",
+            "scope": "全球供应链"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "奇瑞/捷途",
+            "value": 7.9,
+            "rawStrength": 9,
+            "product": "智能座舱+X域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "长安/深蓝/阿维塔",
+            "value": 7.9,
+            "rawStrength": 9,
+            "product": "深蓝/集成式域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "博世",
+            "target": "比亚迪",
+            "value": 7.5,
+            "rawStrength": 5,
+            "product": "座舱/车载电子",
+            "scope": "中国公开链"
+          },
+          {
+            "source": "华阳通用",
+            "target": "吉利/极氪/领克",
+            "value": 7.3,
+            "rawStrength": 6,
+            "product": "座舱/HUD/车载显示",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "赛力斯/问界",
+            "value": 7.3,
+            "rawStrength": 6,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "均胜电子",
+            "target": "吉利/极氪/领克",
+            "value": 7.1,
+            "rawStrength": 5,
+            "product": "汽车电子/安全",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "奇瑞/捷途",
+            "value": 6.8,
+            "rawStrength": 9,
+            "product": "AL-C1/AL-C2",
+            "scope": "公开客户+车型公告"
+          },
+          {
+            "source": "车联天下",
+            "target": "吉利/极氪/领克",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "座舱域控/出海车型",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "广汽/埃安",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "长城汽车",
+            "value": 6.1,
+            "rawStrength": 8,
+            "product": "AL-C1",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华阳通用",
+            "target": "比亚迪",
+            "value": 6.1,
+            "rawStrength": 5,
+            "product": "智能座舱电子",
+            "scope": "公开客户"
+          },
+          {
+            "source": "车联天下",
+            "target": "比亚迪",
+            "value": 5.3,
+            "rawStrength": 7,
+            "product": "AL-C1/座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "华为",
+            "target": "上汽/上汽大众",
+            "value": 4.8,
+            "rawStrength": 4,
+            "product": "尚界/合作车型",
+            "scope": "生态合作"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "日产/本田/福特",
+            "value": 4.4,
+            "rawStrength": 5,
+            "product": "域控方案",
+            "scope": "公开客户"
+          },
+          {
+            "source": "亿咖通",
+            "target": "上汽/上汽大众",
+            "value": 3.9,
+            "rawStrength": 3,
+            "product": "潜在平台合作",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "长安/深蓝/阿维塔",
+            "value": 3.8,
+            "rawStrength": 5,
+            "product": "座舱域控",
+            "scope": "公开客户"
+          },
+          {
+            "source": "镁佳科技",
+            "target": "理想汽车",
+            "value": 3.5,
+            "rawStrength": 4,
+            "product": "经Tier1进入供应链",
+            "scope": "公开历史"
+          },
+          {
+            "source": "华为",
+            "target": "比亚迪",
+            "value": 2.4,
+            "rawStrength": 2,
+            "product": "智能化生态弱信号",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "上汽/上汽大众",
+            "value": 2.3,
+            "rawStrength": 3,
+            "product": "潜在/相关生态",
+            "scope": "弱信号"
+          },
+          {
+            "source": "车联天下",
+            "target": "大众集团",
+            "value": 1.5,
+            "rawStrength": 2,
+            "product": "随中国客户出海/弱信号",
+            "scope": "结构推断"
+          },
+          {
+            "source": "车联天下",
+            "target": "Lotus / smart / Proton",
+            "value": 1.5,
+            "rawStrength": 2,
+            "product": "全球客户接触/弱信号",
+            "scope": "结构推断"
+          }
+        ],
+        "supplierCount": 11,
+        "oemCount": 17
+      }
+    }
+  },
+  "ecosystemFlow": {
+    "nodes": [
+      {
+        "name": "SoC/芯片"
+      },
+      {
+        "name": "OS/中间件"
+      },
+      {
+        "name": "PCBA/制造"
+      },
+      {
+        "name": "显示/摄像头/声学"
+      },
+      {
+        "name": "地图/内容/云"
+      },
+      {
+        "name": "车联天下"
+      },
+      {
+        "name": "德赛西威"
+      },
+      {
+        "name": "亿咖通"
+      },
+      {
+        "name": "华阳通用"
+      },
+      {
+        "name": "镁佳科技"
+      },
+      {
+        "name": "整车平台"
+      },
+      {
+        "name": "海外本地化"
+      },
+      {
+        "name": "驾驶员/乘员体验"
+      },
+      {
+        "name": "OTA与用户数据"
+      },
+      {
+        "name": "下一代定点"
+      }
+    ],
+    "links": [
+      {
+        "source": "SoC/芯片",
+        "target": "车联天下",
+        "value": 1.6,
+        "note": "按车联天下2025座舱域控装机份额5.8%拆分"
+      },
+      {
+        "source": "OS/中间件",
+        "target": "车联天下",
+        "value": 1.2,
+        "note": "按车联天下2025座舱域控装机份额5.8%拆分"
+      },
+      {
+        "source": "PCBA/制造",
+        "target": "车联天下",
+        "value": 1.4,
+        "note": "按车联天下2025座舱域控装机份额5.8%拆分"
+      },
+      {
+        "source": "显示/摄像头/声学",
+        "target": "车联天下",
+        "value": 1.0,
+        "note": "按车联天下2025座舱域控装机份额5.8%拆分"
+      },
+      {
+        "source": "地图/内容/云",
+        "target": "车联天下",
+        "value": 0.6,
+        "note": "按车联天下2025座舱域控装机份额5.8%拆分"
+      },
+      {
+        "source": "SoC/芯片",
+        "target": "德赛西威",
+        "value": 4.5,
+        "note": "按德赛西威2025座舱域控装机份额16.1%拆分"
+      },
+      {
+        "source": "OS/中间件",
+        "target": "德赛西威",
+        "value": 3.5,
+        "note": "按德赛西威2025座舱域控装机份额16.1%拆分"
+      },
+      {
+        "source": "PCBA/制造",
+        "target": "德赛西威",
+        "value": 3.3,
+        "note": "按德赛西威2025座舱域控装机份额16.1%拆分"
+      },
+      {
+        "source": "显示/摄像头/声学",
+        "target": "德赛西威",
+        "value": 3.0,
+        "note": "按德赛西威2025座舱域控装机份额16.1%拆分"
+      },
+      {
+        "source": "地图/内容/云",
+        "target": "德赛西威",
+        "value": 1.8,
+        "note": "按德赛西威2025座舱域控装机份额16.1%拆分"
+      },
+      {
+        "source": "SoC/芯片",
+        "target": "亿咖通",
+        "value": 1.8,
+        "note": "按亿咖通2025座舱域控装机份额7.5%拆分"
+      },
+      {
+        "source": "OS/中间件",
+        "target": "亿咖通",
+        "value": 2.6,
+        "note": "按亿咖通2025座舱域控装机份额7.5%拆分"
+      },
+      {
+        "source": "PCBA/制造",
+        "target": "亿咖通",
+        "value": 1.0,
+        "note": "按亿咖通2025座舱域控装机份额7.5%拆分"
+      },
+      {
+        "source": "显示/摄像头/声学",
+        "target": "亿咖通",
+        "value": 0.9,
+        "note": "按亿咖通2025座舱域控装机份额7.5%拆分"
+      },
+      {
+        "source": "地图/内容/云",
+        "target": "亿咖通",
+        "value": 1.2,
+        "note": "按亿咖通2025座舱域控装机份额7.5%拆分"
+      },
+      {
+        "source": "SoC/芯片",
+        "target": "华阳通用",
+        "value": 1.4,
+        "note": "按华阳通用2025座舱域控装机份额5.3%拆分"
+      },
+      {
+        "source": "OS/中间件",
+        "target": "华阳通用",
+        "value": 0.8,
+        "note": "按华阳通用2025座舱域控装机份额5.3%拆分"
+      },
+      {
+        "source": "PCBA/制造",
+        "target": "华阳通用",
+        "value": 1.4,
+        "note": "按华阳通用2025座舱域控装机份额5.3%拆分"
+      },
+      {
+        "source": "显示/摄像头/声学",
+        "target": "华阳通用",
+        "value": 1.4,
+        "note": "按华阳通用2025座舱域控装机份额5.3%拆分"
+      },
+      {
+        "source": "地图/内容/云",
+        "target": "华阳通用",
+        "value": 0.3,
+        "note": "按华阳通用2025座舱域控装机份额5.3%拆分"
+      },
+      {
+        "source": "SoC/芯片",
+        "target": "镁佳科技",
+        "value": 1.4,
+        "note": "按镁佳科技2025座舱域控装机份额4.9%拆分"
+      },
+      {
+        "source": "OS/中间件",
+        "target": "镁佳科技",
+        "value": 1.4,
+        "note": "按镁佳科技2025座舱域控装机份额4.9%拆分"
+      },
+      {
+        "source": "PCBA/制造",
+        "target": "镁佳科技",
+        "value": 0.8,
+        "note": "按镁佳科技2025座舱域控装机份额4.9%拆分"
+      },
+      {
+        "source": "显示/摄像头/声学",
+        "target": "镁佳科技",
+        "value": 0.7,
+        "note": "按镁佳科技2025座舱域控装机份额4.9%拆分"
+      },
+      {
+        "source": "地图/内容/云",
+        "target": "镁佳科技",
+        "value": 0.6,
+        "note": "按镁佳科技2025座舱域控装机份额4.9%拆分"
+      },
+      {
+        "source": "车联天下",
+        "target": "整车平台",
+        "value": 5.8,
+        "note": "2025座舱域控装机份额5.8%"
+      },
+      {
+        "source": "德赛西威",
+        "target": "整车平台",
+        "value": 16.1,
+        "note": "2025座舱域控装机份额16.1%"
+      },
+      {
+        "source": "亿咖通",
+        "target": "整车平台",
+        "value": 7.5,
+        "note": "2025座舱域控装机份额7.5%"
+      },
+      {
+        "source": "华阳通用",
+        "target": "整车平台",
+        "value": 5.3,
+        "note": "2025座舱域控装机份额5.3%"
+      },
+      {
+        "source": "镁佳科技",
+        "target": "整车平台",
+        "value": 4.9,
+        "note": "2025座舱域控装机份额4.9%"
+      },
+      {
+        "source": "整车平台",
+        "target": "驾驶员/乘员体验",
+        "value": 39.6,
+        "note": "上述五家供应商份额合计，用作体验消费流示意"
+      },
+      {
+        "source": "整车平台",
+        "target": "海外本地化",
+        "value": 9.0,
+        "note": "随中国OEM出海和全球客户适配"
+      },
+      {
+        "source": "海外本地化",
+        "target": "驾驶员/乘员体验",
+        "value": 7.0,
+        "note": "语言/法规/服务适配"
+      },
+      {
+        "source": "驾驶员/乘员体验",
+        "target": "OTA与用户数据",
+        "value": 30.0,
+        "note": "行为、故障、偏好反馈"
+      },
+      {
+        "source": "OTA与用户数据",
+        "target": "下一代定点",
+        "value": 24.0,
+        "note": "体验闭环提升定点胜率"
+      }
+    ]
+  },
+  "competitorScores": [
+    {
+      "name": "车联天下",
+      "scale": 42,
+      "china_fit": 86,
+      "overseas": 54,
+      "platform": 74,
+      "profit": 28,
+      "customer": 72,
+      "role": "年轻量产节点：要把项目增长沉淀为平台复用和现金自循环。"
+    },
+    {
+      "name": "德赛西威",
+      "scale": 88,
+      "china_fit": 92,
+      "overseas": 76,
+      "platform": 82,
+      "profit": 76,
+      "customer": 92,
+      "role": "规模型Tier 1：座舱基本盘与智驾成长共同拉动。"
+    },
+    {
+      "name": "均胜电子",
+      "scale": 95,
+      "china_fit": 62,
+      "overseas": 92,
+      "platform": 70,
+      "profit": 56,
+      "customer": 88,
+      "role": "跨国矩阵型供应商：全球客户深，但座舱域控不是唯一主轴。"
+    },
+    {
+      "name": "亿咖通",
+      "scale": 58,
+      "china_fit": 78,
+      "overseas": 82,
+      "platform": 92,
+      "profit": 52,
+      "customer": 78,
+      "role": "平台型公司：吉利生态起家，正在把平台卖向更多全球OEM。"
+    },
+    {
+      "name": "镁佳科技",
+      "scale": 36,
+      "china_fit": 82,
+      "overseas": 46,
+      "platform": 78,
+      "profit": 34,
+      "customer": 70,
+      "role": "智能座舱+X集成式域控：技术强，仍在规模与盈利爬坡。"
+    }
+  ],
+  "botSeries": {
+    "years": [
+      "2022",
+      "2023",
+      "2024",
+      "2025",
+      "2026E",
+      "2027E"
+    ],
+    "series": [
+      {
+        "name": "中国座舱域控渗透强度",
+        "data": [
+          34,
+          47,
+          63,
+          82,
+          91,
+          98
+        ],
+        "note": "方向性指数：由2025年约970万套座舱域控装机和国产化趋势外推。"
+      },
+      {
+        "name": "平台复用压力",
+        "data": [
+          28,
+          42,
+          59,
+          74,
+          88,
+          96
+        ],
+        "note": "结构推断：项目制交付越多，越需要复用资产抵消研发碎片化。"
+      },
+      {
+        "name": "价格/年降压力",
+        "data": [
+          38,
+          48,
+          61,
+          76,
+          84,
+          91
+        ],
+        "note": "结构推断：车企价格战和供应链年降会压缩毛利。"
+      },
+      {
+        "name": "海外合规与本地化门槛",
+        "data": [
+          22,
+          30,
+          43,
+          57,
+          70,
+          83
+        ],
+        "note": "结构推断：从随中国OEM出海进入直接全球客户时，认证/数据/本地服务难度上升。"
+      }
+    ]
+  },
+  "dimensionLabels": {
+    "shipments": "装机/出货",
+    "revenue": "营收规模",
+    "profit": "盈利韧性",
+    "global": "海外能力",
+    "composite": "综合生态位"
+  },
+  "systemDynamics": {
+    "skills": {
+      "main": "system-dynamics",
+      "delivery": "report",
+      "visualCategories": [
+        "结构图",
+        "机制图",
+        "动态图",
+        "决策图"
+      ],
+      "reason": "本任务关心车联天下在座舱域控生态中的供需结构、反馈回路、积累变量与长期杠杆点。"
+    },
+    "boundary": {
+      "question": "车联天下如何从座舱域控项目节点，变成可持续的平台型智能汽车电子供应商？",
+      "inside": "上游芯片/OS/制造、域控产品、OEM定点、用户体验、OTA反馈、现金与组织能力、海外本地化。",
+      "outside": "整车厂全部财务、智驾算法独立市场、非汽车消费电子业务。",
+      "horizon": "2026-2030，覆盖IPO后现金跑道、舱泊/舱驾量产、随中国OEM出海到直接全球客户的窗口。"
+    }
+  }
+};
+    const charts = {};
+    const palette = ["#255fd5", "#008c8c", "#c47a1c", "#c64949", "#6f5ab9", "#24885b", "#35475b", "#2d9cdb", "#d85b2a", "#759b24", "#7f7f7f"];
+    let activeDimension = "composite";
+    let activeRegion = "china";
+
+    function init(id) {
+      const el = document.getElementById(id);
+      charts[id] = echarts.init(el, null, { renderer: "canvas" });
+      return charts[id];
+    }
+
+    function money(value) {
+      if (value === null || value === undefined || Number.isNaN(value)) return "未披露";
+      return `${value.toFixed(1)}亿元`;
+    }
+
+    function renderEcosystem() {
+      const chart = init("ecosystemChart");
+      chart.setOption({
+        color: palette,
+        tooltip: {
+          trigger: "item",
+          confine: true,
+          formatter: p => p.dataType === "edge"
+            ? `${p.data.source} → ${p.data.target}<br/>强度：${p.data.value}<br/>${p.data.note || ""}`
+            : p.name
+        },
+        series: [{
+          type: "sankey",
+          data: CONFIG.ecosystemFlow.nodes,
+          links: CONFIG.ecosystemFlow.links,
+          nodeWidth: 17,
+          nodeGap: 13,
+          left: 16,
+          right: 90,
+          top: 18,
+          bottom: 12,
+          draggable: false,
+          emphasis: { focus: "adjacency" },
+          lineStyle: { color: "gradient", opacity: .33, curveness: .46 },
+          label: { color: "#17202b", fontSize: 12, fontWeight: 700, overflow: "break", width: 110 }
+        }]
+      });
+    }
+
+    function renderSupplierSankey() {
+      const chart = charts.supplierSankey || init("supplierSankey");
+      const view = CONFIG.sankeyViews[activeRegion][activeDimension];
+      const label = CONFIG.dimensionLabels[activeDimension];
+      const regionLabel = activeRegion === "china" ? "中国Top10车企" : "全球扩展";
+      document.getElementById("sankeyTitle").textContent = `${label}：供应商到车企关系`;
+      const addedAutolink = CONFIG.rankings[activeDimension].find(row => row.isAddedAutolink);
+      const supplierLabel = addedAutolink ? `含车联天下实际Rank ${addedAutolink.rank}，共${view.supplierCount}家供应商` : `${view.supplierCount}家供应商`;
+      document.getElementById("sankeyMeta").textContent = `${regionLabel}，${supplierLabel}，${view.oemCount}个车企/品牌节点。宽度=公开关系强度×${label}权重。`;
+      renderRankingTable();
+      queueSankeyHeightSync();
+      chart.resize();
+      chart.setOption({
+        color: palette,
+        tooltip: {
+          trigger: "item",
+          confine: true,
+          formatter: p => {
+            if (p.dataType === "edge") {
+              return `${p.data.source} → ${p.data.target}<br/>产品/服务：${p.data.product}<br/>关系口径：${p.data.scope}<br/>模型权重：${p.data.value}`;
+            }
+            const supplier = CONFIG.suppliers.find(s => s.name === p.name);
+            if (supplier) return `${supplier.name}<br/>${supplier.type}<br/>产品：${supplier.main_products}`;
+            return p.name;
+          }
+        },
+        series: [{
+          type: "sankey",
+          data: view.nodes,
+          links: view.links,
+          nodeWidth: 17,
+          nodeGap: 10,
+          left: 10,
+          right: 132,
+          top: 12,
+          bottom: 12,
+          draggable: false,
+          emphasis: { focus: "adjacency" },
+          lineStyle: { color: "gradient", opacity: .35, curveness: .5 },
+          label: { color: "#17202b", fontSize: 12, fontWeight: 750, overflow: "break", width: 126 }
+        }]
+      }, true);
+    }
+
+    function renderRankingTable() {
+      const rows = CONFIG.rankings[activeDimension];
+      const table = document.getElementById("rankingTable");
+      table.innerHTML = `<colgroup><col class="rank-col"><col class="company-col"><col class="metric-col"></colgroup><thead><tr><th>Rank</th><th>企业</th><th>数值</th></tr></thead><tbody>${
+        rows.map(row => `<tr class="${row.isAddedAutolink ? "added-autolink" : ""}"><td class="rank-cell">${row.rank}</td><td><b>${row.name}</b><br/><span class="note">${row.product}</span></td><td>${row.metric}${row.unit}<br/><span class="note">${row.basis}</span></td></tr>`).join("")
+      }</tbody>`;
+    }
+
+    function syncSankeyHeight() {
+      const chartEl = document.getElementById("supplierSankey");
+      const section = document.getElementById("sankey");
+      const chartPanel = section?.querySelector(".sankey-chart-panel");
+      const rankingPanel = section?.querySelector(".sankey-ranking-panel");
+      if (!chartEl || !chartPanel || !rankingPanel) return;
+      const style = getComputedStyle(chartPanel);
+      const verticalPadding = (parseFloat(style.paddingTop) || 0) + (parseFloat(style.paddingBottom) || 0);
+      const head = chartPanel.querySelector(".chart-head");
+      const headHeight = head ? head.getBoundingClientRect().height : 0;
+      const rankHeight = Math.max(rankingPanel.getBoundingClientRect().height, rankingPanel.scrollHeight);
+      const target = Math.max(560, Math.ceil(rankHeight - verticalPadding - headHeight - 14));
+      chartEl.style.height = `${target}px`;
+      if (charts.supplierSankey) charts.supplierSankey.resize();
+    }
+
+    function queueSankeyHeightSync() {
+      syncSankeyHeight();
+      requestAnimationFrame(() => {
+        syncSankeyHeight();
+        setTimeout(syncSankeyHeight, 120);
+      });
+    }
+
+    function renderCausal() {
+      const chart = init("causalChart");
+      const loopR1 = "R1 复用飞轮\n装机反馈\n复用定点";
+      const loopB1 = "B1 定制约束\n定制碎片\n复用下降";
+      const loopB2 = "B2 海外延迟\n合规准入\n定点滞后";
+      const nodes = [
+        { name: "装机规模", x: 90, y: 310, value: "stock" },
+        { name: "用户体验/质量反馈", x: 275, y: 150, value: "indicator" },
+        { name: "平台复用资产", x: 520, y: 150, value: "stock" },
+        { name: "车型定点胜率", x: 780, y: 310, value: "flow" },
+        { name: "新增订单/收入", x: 520, y: 310, value: "flow" },
+        { name: "客户定制需求", x: 275, y: 450, value: "aux" },
+        { name: "研发碎片化", x: 520, y: 450, value: "aux" },
+        { name: "毛利/现金压力", x: 780, y: 450, value: "stock" },
+        { name: "海外合规存量", x: 1040, y: 160, value: "stock" },
+        { name: "海外客户准入", x: 1040, y: 350, value: "flow" },
+        { name: loopR1, x: 520, y: 42, value: "loop", symbol: "roundRect", symbolSize: [250, 86], itemStyle: { color: "#e9f8f6", borderColor: "#008c8c", borderWidth: 2.8 }, label: { show: true, position: "inside", color: "#006f69", fontSize: 12, fontWeight: 850, lineHeight: 20, width: 226, overflow: "break", align: "center", verticalAlign: "middle" } },
+        { name: loopB1, x: 500, y: 565, value: "loop", symbol: "roundRect", symbolSize: [250, 86], itemStyle: { color: "#fff4e3", borderColor: "#c47a1c", borderWidth: 2.8 }, label: { show: true, position: "inside", color: "#9a5f12", fontSize: 12, fontWeight: 850, lineHeight: 20, width: 226, overflow: "break", align: "center", verticalAlign: "middle" } },
+        { name: loopB2, x: 900, y: 565, value: "loop", symbol: "roundRect", symbolSize: [250, 86], itemStyle: { color: "#edf3ff", borderColor: "#255fd5", borderWidth: 2.8 }, label: { show: true, position: "inside", color: "#214fae", fontSize: 12, fontWeight: 850, lineHeight: 20, width: 226, overflow: "break", align: "center", verticalAlign: "middle" } },
+      ];
+      const links = [
+        ["装机规模", "用户体验/质量反馈", "+"],
+        ["用户体验/质量反馈", "平台复用资产", "+"],
+        ["平台复用资产", "车型定点胜率", "+"],
+        ["车型定点胜率", "新增订单/收入", "+"],
+        ["新增订单/收入", "装机规模", "+"],
+        ["车型定点胜率", "客户定制需求", "+"],
+        ["客户定制需求", "研发碎片化", "+"],
+        ["研发碎片化", "平台复用资产", "-"],
+        ["研发碎片化", "毛利/现金压力", "+"],
+        ["毛利/现金压力", "车型定点胜率", "-"],
+        ["装机规模", "海外合规存量", "+ 延迟"],
+        ["海外合规存量", "海外客户准入", "+"],
+        ["海外客户准入", "车型定点胜率", "+ 延迟"],
+        ["毛利/现金压力", "海外合规存量", "-"],
+        [loopR1, "平台复用资产", "", "#008c8c", "dashed"],
+        [loopB1, "研发碎片化", "", "#c47a1c", "dashed"],
+        [loopB2, "海外客户准入", "", "#255fd5", "dashed"],
+      ].map(([source, target, label, color, type]) => ({
+        source,
+        target,
+        label: { show: Boolean(label), formatter: label, color: color || (label.includes("-") ? "#c64949" : "#24885b") },
+        lineStyle: color ? { color, width: 2, type, opacity: .75, curveness: .18 } : undefined,
+      }));
+      chart.setOption({
+        tooltip: { trigger: "item", confine: true },
+        series: [{
+          type: "graph",
+          layout: "none",
+          roam: false,
+          data: nodes.map(n => ({ symbolSize: n.symbolSize || 88, symbol: n.symbol || "circle", itemStyle: n.itemStyle || { color: n.value === "stock" ? "#edf3ff" : "#f8fafc", borderColor: "#8aa0b7", borderWidth: 1 }, label: n.label || {}, ...n })),
+          links,
+          edgeSymbol: ["none", "arrow"],
+          edgeSymbolSize: 9,
+          lineStyle: { color: "#73859a", width: 1.5, curveness: .22 },
+          label: { show: true, fontSize: 12, fontWeight: 780, color: "#17202b", overflow: "break", width: 78 },
+          edgeLabel: { fontSize: 12, fontWeight: 800 },
+        }]
+      });
+    }
+
+    function renderStockFlow() {
+      const chart = init("stockFlowChart");
+      chart.setOption({
+        tooltip: { trigger: "item", confine: true },
+        series: [{
+          type: "sankey",
+          data: [
+            "新车型定点", "SOP量产", "装机保有量", "OTA/故障反馈", "平台资产存量", "质量信用", "海外合规能力", "现金跑道", "下一代订单", "定制消耗"
+          ].map(name => ({ name })),
+          links: [
+            { source: "新车型定点", target: "SOP量产", value: 8 },
+            { source: "SOP量产", target: "装机保有量", value: 10 },
+            { source: "装机保有量", target: "OTA/故障反馈", value: 7 },
+            { source: "OTA/故障反馈", target: "平台资产存量", value: 6 },
+            { source: "平台资产存量", target: "下一代订单", value: 7 },
+            { source: "SOP量产", target: "质量信用", value: 6 },
+            { source: "质量信用", target: "下一代订单", value: 6 },
+            { source: "海外合规能力", target: "下一代订单", value: 4 },
+            { source: "现金跑道", target: "平台资产存量", value: 5 },
+            { source: "新车型定点", target: "定制消耗", value: 5 },
+            { source: "定制消耗", target: "现金跑道", value: 4 }
+          ],
+          nodeWidth: 16,
+          nodeGap: 12,
+          left: 24,
+          right: 150,
+          top: 20,
+          bottom: 18,
+          lineStyle: { color: "gradient", opacity: .36, curveness: .46 },
+          label: { color: "#17202b", fontSize: 12, fontWeight: 750, overflow: "break", width: 138 }
+        }]
+      });
+    }
+
+    function renderBot() {
+      const chart = init("botChart");
+      chart.setOption({
+        color: palette,
+        tooltip: { trigger: "axis", confine: true },
+        legend: { top: 0, type: "scroll", textStyle: { color: "#35475b" } },
+        grid: { left: 45, right: 24, bottom: 42, top: 56 },
+        xAxis: { type: "category", data: CONFIG.botSeries.years, axisLabel: { color: "#5b6877" } },
+        yAxis: { type: "value", name: "指数", min: 0, max: 110, axisLabel: { color: "#5b6877" }, splitLine: { lineStyle: { color: "#e6edf3" } } },
+        series: CONFIG.botSeries.series.map(item => ({
+          name: item.name,
+          type: "line",
+          smooth: true,
+          symbolSize: 7,
+          lineStyle: { width: 3 },
+          areaStyle: { opacity: .06 },
+          data: item.data
+        }))
+      });
+    }
+
+    function renderRadar() {
+      const chart = init("radarChart");
+      const indicators = [
+        { name: "规模", max: 100 },
+        { name: "中国响应", max: 100 },
+        { name: "海外能力", max: 100 },
+        { name: "平台复用", max: 100 },
+        { name: "盈利韧性", max: 100 },
+        { name: "客户广度", max: 100 },
+      ];
+      chart.setOption({
+        color: palette,
+        tooltip: { confine: true },
+        legend: { bottom: 0, type: "scroll", left: "center" },
+        radar: { indicator: indicators, center: ["50%", "48%"], radius: "52%", axisName: { color: "#35475b", fontWeight: 700 }, splitLine: { lineStyle: { color: "#dce4ec" } }, splitArea: { areaStyle: { color: ["#fff", "#f7fafc"] } } },
+        series: [{
+          type: "radar",
+          data: CONFIG.competitorScores.map(item => ({
+            name: item.name,
+            value: [item.scale, item.china_fit, item.overseas, item.platform, item.profit, item.customer],
+            areaStyle: { opacity: .08 }
+          }))
+        }]
+      });
+    }
+
+    function renderPosition() {
+      const chart = init("positionChart");
+      chart.setOption({
+        color: palette,
+        tooltip: { formatter: p => `${p.data.name}<br/>中国响应：${p.data.value[0]}<br/>海外复杂度：${p.data.value[1]}<br/>${p.data.role}`, confine: true },
+        grid: { left: 54, right: 100, top: 28, bottom: 52 },
+        xAxis: { type: "value", min: 20, max: 110, name: "中国响应速度", splitLine: { lineStyle: { color: "#e6edf3" } }, axisLabel: { color: "#5b6877", formatter: value => value >= 100 ? "" : value } },
+        yAxis: { type: "value", min: 20, max: 105, name: "海外复杂度承载", splitLine: { lineStyle: { color: "#e6edf3" } }, axisLabel: { color: "#5b6877" } },
+        series: [{
+          type: "scatter",
+          symbolSize: item => Math.max(18, item[2] / 2.4),
+          data: CONFIG.competitorScores.map(item => ({
+            name: item.name,
+            role: item.role,
+            value: [item.china_fit, item.overseas, item.scale],
+            label: { position: item.china_fit >= 86 ? "left" : "right" }
+          })),
+          label: { show: true, formatter: "{b}", position: "right", distance: 6, color: "#17202b", fontWeight: 800 },
+          labelLayout: { hideOverlap: true, moveOverlap: "shiftY" },
+          itemStyle: { opacity: .86 }
+        }]
+      });
+    }
+
+    function renderSources() {
+      document.getElementById("sourceRows").innerHTML = CONFIG.sources.map(source => `
+        <tr><td><b>${source.title}</b></td><td>${source.use}</td><td><a href="${source.url}">${source.url}</a></td></tr>
+      `).join("");
+    }
+
+    function bindControls() {
+      document.querySelectorAll("[data-dimension]").forEach(button => {
+        button.addEventListener("click", () => {
+          activeDimension = button.dataset.dimension;
+          document.querySelectorAll("[data-dimension]").forEach(btn => btn.classList.toggle("active", btn === button));
+          renderSupplierSankey();
+        });
+      });
+      document.querySelectorAll("[data-region]").forEach(button => {
+        button.addEventListener("click", () => {
+          activeRegion = button.dataset.region;
+          document.querySelectorAll("[data-region]").forEach(btn => btn.classList.toggle("active", btn === button));
+          renderSupplierSankey();
+        });
+      });
+    }
+
+    function resizeAll() {
+      queueSankeyHeightSync();
+      Object.values(charts).forEach(chart => chart.resize());
+    }
+
+    window.addEventListener("resize", resizeAll);
+    renderSources();
+    renderEcosystem();
+    renderSupplierSankey();
+    renderCausal();
+    renderStockFlow();
+    renderBot();
+    renderRadar();
+    renderPosition();
+    bindControls();
+    setTimeout(() => { resizeAll(); window.__REPORT_READY = true; }, 500);
+  </script>
+</body>
+</html>

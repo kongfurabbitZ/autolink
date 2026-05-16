@@ -1,0 +1,252 @@
+{
+  "overview": {
+    "section4_found": true,
+    "section2_structure_found": true,
+    "section3_mechanism_found": true,
+    "section3_mechanism_body_shifted": true,
+    "section3_mechanism_viewbox_expanded": true,
+    "section3_mechanism_ring_nodes": true,
+    "section2_structure_viewbox": {
+      "width": 1180,
+      "height": 500
+    },
+    "section2_structure_height_compact": true,
+    "section2_convergence_card_balanced": true,
+    "section2_convergence_card_padding": {
+      "top_visual": 20.0,
+      "bottom_visual": 24.5,
+      "height": 96.0
+    },
+    "section4_svg_count": 2,
+    "section4_uses_full_width_svgboxes": true,
+    "section4_min_viewbox_width": 1180,
+    "section4_heights_compact": true,
+    "dynamic_judgment_clear_of_curve": true,
+    "dynamic_judgment_bottom_padding": true,
+    "section4_viewboxes": [
+      {
+        "width": 1180,
+        "height": 500
+      },
+      {
+        "width": 1180,
+        "height": 600
+      }
+    ],
+    "no_process_sections": true,
+    "priority_card_text_bounds": {
+      "passed": true,
+      "card_count": 4,
+      "min_horizontal_padding": 24.0,
+      "min_vertical_padding": 12.0,
+      "violations": []
+    },
+    "reading_order_buttons": {
+      "section_found": true,
+      "card_count": 4,
+      "button_count": 4,
+      "card_uses_flex_column": true,
+      "button_uses_auto_margin": true
+    },
+    "overview_contact": {
+      "contact_strip_present": true,
+      "name_present": true,
+      "phone_present": true,
+      "email_present": true,
+      "icon_count": 3,
+      "contact_ordered_after_subtitle": true,
+      "contact_border_removed": true,
+      "contact_dom_between_subtitle_and_cards": true
+    },
+    "overview_hero_stats": {
+      "hero_found": true,
+      "hero_stat_count": 4,
+      "series_kicker_present": true,
+      "hero_kicker_removed": true,
+      "no_delivery_jargon": true,
+      "four_column_grid": true
+    },
+    "overview_nav": {
+      "single_series_band": true,
+      "series_frame_present": true,
+      "nav_present": true,
+      "uses_expected_nav_labels": true,
+      "link_count": 5,
+      "current_overview_marked": true,
+      "series_css_present": true
+    },
+    "overview_sticky_nav": {
+      "sticky_nav_present": true,
+      "uses_business_nav_css": true,
+      "uses_expected_labels": true,
+      "uses_expected_anchors": true,
+      "target_sections_present": true,
+      "content_width_1280": true
+    },
+    "overview_has_no_span6_layout": true,
+    "artifact_policy": "HTML-only by default; retained PNG/PDF only on explicit request.",
+    "passed": true
+  },
+  "companion_reports": {
+    "series_header": {
+      "business": {
+        "single_series_band": true,
+        "uses_expected_nav_labels": true,
+        "current_label": "商业生态篇"
+      },
+      "industry": {
+        "single_series_band": true,
+        "uses_expected_nav_labels": true,
+        "current_label": "行业生态篇"
+      },
+      "operation": {
+        "single_series_band": true,
+        "uses_expected_nav_labels": true,
+        "current_label": "经营质量篇"
+      },
+      "organization": {
+        "single_series_band": true,
+        "uses_expected_nav_labels": true,
+        "current_label": "组织能力篇"
+      }
+    },
+    "original_hero_alignment": {
+      "business": {
+        "hero_present": true,
+        "normalized_hero_css": true,
+        "normalized_h1_order": true
+      },
+      "industry": {
+        "hero_present": true,
+        "normalized_hero_css": true,
+        "normalized_h1_order": true
+      },
+      "operation": {
+        "hero_present": true,
+        "normalized_hero_css": true,
+        "normalized_h1_order": true
+      },
+      "organization": {
+        "hero_present": true,
+        "normalized_hero_css": true,
+        "normalized_h1_order": true
+      }
+    },
+    "sticky_nav_alignment": {
+      "business": {
+        "sticky_nav_present": true,
+        "uses_business_nav_width": true,
+        "uses_expected_labels": true,
+        "uses_expected_anchors": true,
+        "content_width_1280": true
+      },
+      "industry": {
+        "sticky_nav_present": true,
+        "uses_business_nav_width": true,
+        "uses_expected_labels": true,
+        "uses_expected_anchors": true,
+        "content_width_1280": true
+      },
+      "operation": {
+        "sticky_nav_present": true,
+        "uses_business_nav_width": true,
+        "uses_expected_labels": true,
+        "uses_expected_anchors": true,
+        "content_width_1280": true
+      },
+      "organization": {
+        "sticky_nav_present": true,
+        "uses_business_nav_width": true,
+        "uses_expected_labels": true,
+        "uses_expected_anchors": true,
+        "content_width_1280": true
+      }
+    },
+    "industry_report": {
+      "supply_section_found": true,
+      "supply_network_compact_grid": true,
+      "supply_network_viewbox_height_460": true,
+      "causal_section_found": true,
+      "causal_marker_tip_anchored": true,
+      "causal_markers_compact": true,
+      "causal_arrow_strokes_compact": true,
+      "causal_arrow_boundary_connections": true,
+      "causal_panel_backgrounds_expanded": true,
+      "causal_b2_right_bottom_arrow_reworked": true,
+      "causal_marked_arrows_reworked": true,
+      "causal_arrows_reworked": true,
+      "trend_section_found": true,
+      "trend_compare_equal_panels": true,
+      "trend_panel_titles_inside_border": true,
+      "trend_table_rows_compact": true,
+      "trend_table_indicator_col_narrow": true,
+      "trend_chart_labels_single_line_centered": true,
+      "trend_chart_labels_match_lines": true,
+      "trend_chart_year_spacing_compact": true,
+      "industry_compact_css_present": true,
+      "overseas_trend_section_found": true,
+      "overseas_trend_viewbox_height_500": true,
+      "overseas_trend_label_backgrounds": true,
+      "overseas_trend_labels_split": true,
+      "ecosystem_radar_interactive": true,
+      "position_table_first_col_single_line": true,
+      "position_y_axis_labels_vertical": true,
+      "rules_table_first_col_single_line": true,
+      "strategy_matrix_compact": true,
+      "conclusion_grid_top_aligned": true
+    },
+    "operation_report": {
+      "series_order_third": true,
+      "new_title_present": true,
+      "no_internal_process_tags": true,
+      "operation_refined_css_present": true,
+      "operation_judgment_text_grid_aligned": true,
+      "operation_chart_grid_present": true,
+      "operation_table_breathing": true,
+      "operation_financial_chart_height_compact": true,
+      "operation_table_blank_reduced": true,
+      "operation_table_unit_top_right": true,
+      "operation_table_height_sync_script": true,
+      "operation_financial_table_fits_desktop": true,
+      "operation_financial_table_first_col_nowrap": true,
+      "operation_feedback_callout_spacing": true,
+      "operation_radar_height_compact": true,
+      "operation_decision_extra_arrow_removed": true,
+      "operation_decision_tree_compact": true,
+      "operation_decision_lines_connected_to_goal": true,
+      "operation_feedback_size_compact": true,
+      "watchlist_first_col_single_line": true,
+      "operation_return_arrow_tail_centered": true,
+      "operation_feedback_arrows_tail_centered": true,
+      "operation_arrow_markers_compact": true
+    },
+    "organization_report": {
+      "section3_found": true,
+      "bubble_chart_full_width": true,
+      "radar_chart_full_width": true,
+      "organization_refined_css_present": true,
+      "scope_metric_equal_height": true,
+      "org_radar_height_compact": true,
+      "org_radar_interactive": true,
+      "people_table_widths_adjusted": true,
+      "market_table_widths_adjusted": true,
+      "implication_grid_row_aligned": true,
+      "section3_no_span7_or_span5": true,
+      "megjia_label_y": 138.0,
+      "megjia_label_clear_of_top_boundary": true,
+      "contact_removed_from_org_hero": true,
+      "org_optimization_notes_removed": true,
+      "org_causal_legend_background_removed": true,
+      "stockflow_defect_rework_arrow_rerouted": true,
+      "stockflow_knowledge_arrow_rerouted": true
+    },
+    "html_integrity": {
+      "business": true,
+      "industry": true,
+      "operation": true,
+      "organization": true
+    },
+    "passed": true
+  },
+  "passed": true
+}
