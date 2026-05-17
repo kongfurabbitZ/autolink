@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>车联天下三阶段情景影响矩阵</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <div data-scenario-matrix></div>
+    </main>
+    <script>
+      window.SCENARIO_MATRIX_CONFIG = {
+  "title": "车联天下三阶段情景影响矩阵",
+  "subtitle": "把 1Y / 3Y / 5Y 与乐观 / 基准 / 悲观交叉，观察财务、客户、技术、组织四维影响。真正关键的不是九个孤立格子，而是哪些早期节点会打开或剪掉后续路径。",
+  "sourceNote": "源表：Book1.xlsx | 三段时间 × 三种情景 × 四维影响",
+  "dimensions": [
+    "财务",
+    "客户",
+    "技术",
+    "组织"
+  ],
+  "horizons": [
+    {
+      "key": "1Y",
+      "label": "1Y",
+      "description": "现金流与 IPO 窗口"
+    },
+    {
+      "key": "3Y",
+      "label": "3Y",
+      "description": "海外化与客户结构"
+    },
+    {
+      "key": "5Y",
+      "label": "5Y",
+      "description": "平台位与组织形态"
+    }
+  ],
+  "stances": [
+    {
+      "key": "乐观",
+      "label": "乐观",
+      "tone": "upside",
+      "description": "上行突破"
+    },
+    {
+      "key": "基准",
+      "label": "基准",
+      "tone": "base",
+      "description": "稳态延续"
+    },
+    {
+      "key": "悲观",
+      "label": "悲观",
+      "tone": "downside",
+      "description": "下行压力"
+    }
+  ],
+  "records": [
+    {
+      "horizon": "1Y",
+      "stance": "乐观",
+      "role": "打开主路径",
+      "impacts": {
+        "财务": "IPO 成功，营收 ~33-35 亿，跑道延至 2029",
+        "客户": "奇瑞放量，集中度仍 95%+",
+        "技术": "8797 中央计算寻得首个定点",
+        "组织": "海外团队启动招募"
+      }
+    },
+    {
+      "horizon": "3Y",
+      "stance": "乐观",
+      "role": "验证跃迁",
+      "impacts": {
+        "财务": "海外占比 25-30%，2028-29 近扭亏",
+        "客户": "集中度降至 ~85%",
+        "技术": "中央计算量产，毛利结构升级",
+        "组织": "海外能力闭环成型"
+      }
+    },
+    {
+      "horizon": "5Y",
+      "stance": "乐观",
+      "role": "平台终局",
+      "impacts": {
+        "财务": "海外占比 >35%，稳定盈利",
+        "客户": "集中度 <75%，欧洲 OEM 直供突破",
+        "技术": "中央计算中国前三",
+        "组织": "结构型公司转型成功"
+      }
+    },
+    {
+      "horizon": "1Y",
+      "stance": "基准",
+      "role": "可生存但上限受限",
+      "impacts": {
+        "财务": "营收 ~30 亿，亏损 ~2.5 亿持平",
+        "客户": "集中度 95%+ 未改善",
+        "技术": "Deep Fusion EEA 仍是「架构先于订单」",
+        "组织": "罗马尼亚处选址/注册期"
+      }
+    },
+    {
+      "horizon": "3Y",
+      "stance": "基准",
+      "role": "可生存但上限受限",
+      "impacts": {
+        "财务": "营收 ~45 亿，仍在盈亏线挣扎",
+        "客户": "集中度 ~88-90%，仍随车出海",
+        "技术": "舱驾融合量产，A 独立未突破",
+        "组织": "总部-海外接口磨合中"
+      }
+    },
+    {
+      "horizon": "5Y",
+      "stance": "基准",
+      "role": "可生存但上限受限",
+      "impacts": {
+        "财务": "微利稳态",
+        "客户": "区域工程供应商客户结构",
+        "技术": "工程供应商定位锁定",
+        "组织": "组织独立但生态层无牌"
+      }
+    },
+    {
+      "horizon": "1Y",
+      "stance": "悲观",
+      "role": "剪枝压力节点",
+      "impacts": {
+        "财务": "IPO 遇阻，现金告急",
+        "客户": "奇瑞年降侵蚀毛利",
+        "技术": "研发投入被迫收缩",
+        "组织": "海外计划冻结"
+      }
+    },
+    {
+      "horizon": "3Y",
+      "stance": "悲观",
+      "role": "剪枝压力节点",
+      "impacts": {
+        "财务": "现金链断裂风险",
+        "客户": "奇瑞分流，跌出前五",
+        "技术": "第三跳中央计算「跳不动」",
+        "组织": "第二跳全球化失败"
+      }
+    },
+    {
+      "horizon": "5Y",
+      "stance": "悲观",
+      "role": "剪枝压力节点",
+      "impacts": {
+        "财务": "被并购 / 边缘化",
+        "客户": "客户基础瓦解",
+        "技术": "沦为高通生态可替代节点",
+        "组织": "组织解构"
+      }
+    }
+  ],
+  "paths": [
+    {
+      "id": "breakthrough",
+      "label": "结构性跃迁路径",
+      "tone": "upside",
+      "viability": "viable",
+      "nodes": [
+        "1Y|乐观",
+        "3Y|乐观",
+        "5Y|乐观"
+      ],
+      "thesis": "IPO 成功延长现金跑道，海外与中央计算同时兑现，最终形成平台型公司。"
+    },
+    {
+      "id": "survive",
+      "label": "稳态生存路径",
+      "tone": "base",
+      "viability": "viable",
+      "nodes": [
+        "1Y|基准",
+        "3Y|基准",
+        "5Y|基准"
+      ],
+      "thesis": "订单与组织没有断裂，但客户结构和生态位没有实质跃迁，走向微利稳态。"
+    },
+    {
+      "id": "compression",
+      "label": "高开后压缩路径",
+      "tone": "mixed",
+      "viability": "conditional",
+      "nodes": [
+        "1Y|乐观",
+        "3Y|基准",
+        "5Y|基准"
+      ],
+      "thesis": "早期融资或订单顺利，但海外能力和技术平台化不足，后续被压回工程供应商上限。"
+    },
+    {
+      "id": "cash-cut",
+      "label": "现金失守剪枝",
+      "tone": "downside",
+      "viability": "pruned",
+      "nodes": [
+        "1Y|悲观",
+        "3Y|悲观",
+        "5Y|悲观"
+      ],
+      "thesis": "IPO 与现金流先失守后，研发、海外、客户多条后续路径被同步剪掉。"
+    },
+    {
+      "id": "base-fall",
+      "label": "基准转下行剪枝",
+      "tone": "warning",
+      "viability": "pruned",
+      "nodes": [
+        "1Y|基准",
+        "3Y|悲观",
+        "5Y|悲观"
+      ],
+      "thesis": "初期没有崩盘，但客户分流或第三跳失败会把 5Y 终局推向边缘化。"
+    }
+  ],
+  "pruningNotes": [
+    {
+      "title": "现金门槛",
+      "text": "1Y 若 IPO 遇阻并现金告急，3Y 的中央计算量产与海外闭环基本被剪枝。",
+      "tone": "downside"
+    },
+    {
+      "title": "客户结构门槛",
+      "text": "3Y 若仍高度依赖奇瑞，5Y 即使活下来也更像区域工程供应商，而不是平台公司。",
+      "tone": "base"
+    },
+    {
+      "title": "技术跃迁门槛",
+      "text": "8797 首个定点只是入口，真正决定上行的是中央计算能否量产并进入中国前三。",
+      "tone": "upside"
+    }
+  ]
+};
+    </script>
+    <script src="assets/scenario_matrix.bundle.js"></script>
+  </body>
+</html>
