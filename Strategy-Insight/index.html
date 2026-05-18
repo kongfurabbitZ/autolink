@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>车联天下战略洞察 · 八日庙算 | Auto-Link Strategic Insight</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#131a26; --surface:#1a2333; --surface2:#222d40;
+    --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.14);
+    --text:#e7eaf0; --dim:#9aa4b6; --faint:#69748a;
+    --accent:#f5b544; --accent-d:#caa23e;
+    --blue:#4a9eff; --red:#ef5b54; --green:#37d3a0; --purple:#a78bfa;
+    --serif:"Songti SC","STSong",Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--sans); background:var(--bg); color:var(--text);
+    display:flex; overflow:hidden; font-size:15px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::-webkit-scrollbar{width:9px;height:9px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:#2c3850;border-radius:6px}
+  ::-webkit-scrollbar-thumb:hover{background:#3a496a}
+
+  /* ============ SIDEBAR ============ */
+  #sidebar{
+    width:266px; flex-shrink:0; height:100vh; background:linear-gradient(180deg,#0c111a,#10151f);
+    border-right:1px solid var(--border); display:flex; flex-direction:column;
+  }
+  .sb-head{padding:22px 22px 16px;border-bottom:1px solid var(--border)}
+  .sb-logo{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+  .sb-logo .mark{
+    width:30px;height:30px;border-radius:7px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--accent),#e0922b);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#1a1205;font-size:15px;
+  }
+  .sb-logo .t1{font-weight:700;font-size:15px;letter-spacing:.3px}
+  .sb-logo .t2{font-size:10.5px;color:var(--faint);letter-spacing:.5px;text-transform:uppercase}
+  .sb-sub{font-size:11.5px;color:var(--dim);line-height:1.6}
+  .sb-sub b{color:var(--accent);font-weight:600}
+  .sb-nav{flex:1;overflow-y:auto;padding:12px 12px}
+  .nav-item{
+    display:flex;gap:11px;align-items:flex-start;padding:9px 11px;border-radius:9px;
+    cursor:pointer;margin-bottom:2px;border:1px solid transparent;transition:.15s;
+  }
+  .nav-item:hover{background:var(--surface)}
+  .nav-item.active{background:var(--surface2);border-color:var(--border2)}
+  .nav-item.active .ni-num{color:var(--accent)}
+  .nav-item.active::before{content:"";position:absolute}
+  .ni-num{
+    font-size:11px;font-weight:700;color:var(--faint);font-variant-numeric:tabular-nums;
+    width:20px;flex-shrink:0;padding-top:2px;
+  }
+  .ni-txt .cn{font-size:13px;font-weight:600;line-height:1.35}
+  .ni-txt .en{font-size:9.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.4px;margin-top:1px}
+  .nav-item.active .ni-txt .cn{color:#fff}
+  .sb-foot{padding:13px 22px;border-top:1px solid var(--border);font-size:10.5px;color:var(--faint);line-height:1.6}
+
+  /* ============ MAIN ============ */
+  #main{flex:1;height:100vh;display:flex;flex-direction:column;position:relative}
+  #progress{height:3px;background:var(--bg2);flex-shrink:0}
+  #progress .bar{height:100%;background:linear-gradient(90deg,var(--accent),#e0922b);width:10%;transition:width .35s ease}
+  #stage{flex:1;overflow-y:auto;scroll-behavior:smooth}
+  .module{display:none;padding:34px 54px 120px;max-width:1180px;margin:0 auto;animation:fade .4s ease}
+  .module.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .mod-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:8px}
+  .mod-badge{
+    font-size:13px;font-weight:800;color:var(--accent);border:1.5px solid var(--accent);
+    border-radius:9px;padding:6px 10px;flex-shrink:0;font-variant-numeric:tabular-nums;
+  }
+  .mod-title .cn{font-size:25px;font-weight:800;letter-spacing:.4px;line-height:1.25}
+  .mod-title .en{font-size:11.5px;color:var(--faint);text-transform:uppercase;letter-spacing:1.3px;margin-top:3px}
+  .mod-tag{
+    margin-left:auto;flex-shrink:0;font-size:10.5px;color:var(--dim);background:var(--surface);
+    border:1px solid var(--border);padding:5px 10px;border-radius:20px;align-self:center;
+  }
+  .mod-rule{height:1px;background:linear-gradient(90deg,var(--border2),transparent);margin:14px 0 22px}
+
+  .kicker{font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+  .headline{font-size:21px;font-weight:700;line-height:1.5;letter-spacing:.2px;margin-bottom:6px}
+  .headline .hl{color:var(--accent)}
+  .headline .hlb{color:var(--blue)}
+  .headline .hlr{color:var(--red)}
+  .lead{color:var(--dim);font-size:14.5px;margin-bottom:22px;max-width:880px}
+
+  .quote{
+    font-family:var(--serif);font-style:italic;font-size:14.5px;color:#d6c9a8;
+    border-left:2.5px solid var(--accent-d);padding:4px 0 4px 16px;margin:0 0 22px;line-height:1.85;
+  }
+  .quote .src{display:block;font-size:12px;color:var(--faint);font-style:normal;margin-top:5px}
+
+  h3.sec{font-size:13px;font-weight:700;letter-spacing:.5px;margin:30px 0 14px;display:flex;align-items:center;gap:9px;color:#fff}
+  h3.sec::before{content:"";width:4px;height:15px;background:var(--accent);border-radius:2px;display:inline-block}
+  h3.sec.blue::before{background:var(--blue)}
+  h3.sec.red::before{background:var(--red)}
+  h3.sec.green::before{background:var(--green)}
+
+  /* TL;DR finding cards */
+  .findings{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .finding{
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:15px 16px;display:flex;gap:13px;transition:.18s;
+  }
+  .finding:hover{border-color:var(--border2);transform:translateY(-2px)}
+  .finding .fn{
+    font-size:14px;font-weight:800;color:var(--accent);flex-shrink:0;
+    min-width:26px;height:26px;padding:0 7px;border-radius:7px;background:rgba(245,181,68,.12);
+    display:flex;align-items:center;justify-content:center;line-height:1;white-space:nowrap;
+  }
+  .finding .fb{font-size:13px;line-height:1.65}
+  .finding .fb b{color:#fff;font-weight:700}
+  .finding .fb .em{color:var(--accent);font-weight:600}
+  .finding .fb .emr{color:var(--red);font-weight:600}
+  .finding .fb .emb{color:var(--blue);font-weight:600}
+
+  /* callouts */
+  .callrow{display:flex;gap:13px;flex-wrap:wrap;margin:6px 0}
+  .callout{
+    flex:1;min-width:150px;background:linear-gradient(160deg,var(--surface2),var(--surface));
+    border:1px solid var(--border);border-radius:12px;padding:15px 16px;
+  }
+  .callout .num{font-size:27px;font-weight:800;letter-spacing:-.5px;line-height:1.1;font-variant-numeric:tabular-nums}
+  .callout .num.r{color:var(--red)} .callout .num.g{color:var(--green)} .callout .num.a{color:var(--accent)} .callout .num.b{color:var(--blue)}
+  .callout .lbl{font-size:11.5px;color:var(--dim);margin-top:4px}
+  .callout .sub{font-size:10.5px;color:var(--faint);margin-top:2px}
+
+  /* expandable deep cards */
+  .deep{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  .deep-h{padding:14px 17px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:.15s;user-select:none}
+  .deep-h:hover{background:var(--surface2)}
+  .deep-h .dx{
+    font-size:11px;font-weight:700;color:var(--faint);font-variant-numeric:tabular-nums;flex-shrink:0;
+    border:1px solid var(--border2);border-radius:5px;padding:2px 6px;
+  }
+  .deep-h .dt{font-size:14px;font-weight:600;flex:1}
+  .deep-h .dchev{color:var(--faint);transition:transform .25s;font-size:13px}
+  .deep.open .dchev{transform:rotate(90deg)}
+  .deep-b{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .deep.open .deep-b{max-height:1400px}
+  .deep-b-inner{padding:2px 17px 17px;font-size:13.5px;color:var(--dim);line-height:1.78}
+  .deep-b-inner p{margin-bottom:9px}
+  .deep-b-inner b{color:var(--text);font-weight:600}
+  .deep-b-inner .em{color:var(--accent)}
+  .deep-b-inner .emr{color:var(--red)}
+  .deep-b-inner .emb{color:var(--blue)}
+  .deep-b-inner ul{margin:4px 0 9px 4px;list-style:none}
+  .deep-b-inner ul li{padding-left:16px;position:relative;margin-bottom:5px}
+  .deep-b-inner ul li::before{content:"▸";position:absolute;left:0;color:var(--accent)}
+
+  /* discussion block */
+  .discuss{
+    margin-top:32px;background:linear-gradient(160deg,rgba(74,158,255,.07),rgba(74,158,255,.02));
+    border:1px solid rgba(74,158,255,.28);border-radius:14px;padding:20px 22px;
+  }
+  .discuss .dh{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;color:var(--blue);letter-spacing:.6px;margin-bottom:13px;text-transform:uppercase}
+  .discuss .dh .ico{width:18px;height:18px;border:1.5px solid var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px}
+  .discuss ol{list-style:none;counter-reset:q}
+  .discuss ol li{
+    counter-increment:q;padding:9px 0 9px 34px;position:relative;font-size:13.5px;line-height:1.7;
+    border-bottom:1px dashed var(--border);
+  }
+  .discuss ol li:last-child{border-bottom:none}
+  .discuss ol li::before{
+    content:"Q"counter(q);position:absolute;left:0;top:9px;font-size:10.5px;font-weight:700;
+    color:var(--blue);background:rgba(74,158,255,.13);border-radius:5px;padding:2px 5px;
+  }
+  .discuss ol li b{color:#fff}
+
+  /* generic table */
+  .dtable{width:100%;border-collapse:collapse;font-size:12.5px;margin:4px 0 8px}
+  .dtable th,.dtable td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border)}
+  .dtable th{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+  .dtable td{color:var(--dim)}
+  .dtable tr:hover td{background:rgba(255,255,255,.018)}
+  .dtable .hl-col{background:rgba(245,181,68,.06)}
+  .dtable b{color:var(--text)}
+  .sc{display:inline-block;min-width:34px;text-align:center;border-radius:5px;padding:1px 5px;font-weight:700;font-size:11.5px}
+  .sc.s5{background:rgba(239,91,84,.18);color:#ff8a84}
+  .sc.s4{background:rgba(245,181,68,.18);color:var(--accent)}
+  .sc.s3{background:rgba(74,158,255,.16);color:#7fbcff}
+  .sc.s2{background:rgba(55,211,160,.15);color:var(--green)}
+  .sc.s1{background:rgba(255,255,255,.07);color:var(--dim)}
+
+  /* note line */
+  .note{font-size:11.5px;color:var(--faint);margin-top:8px;font-style:italic}
+
+  /* ====== value chain viz ====== */
+  .vchain{display:flex;flex-direction:column;gap:7px;margin:6px 0}
+  .vlayer{
+    display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;padding:12px 16px;transition:.18s;position:relative;
+  }
+  .vlayer:hover{border-color:var(--border2)}
+  .vlayer.hot{border-color:var(--accent);background:linear-gradient(100deg,rgba(245,181,68,.1),var(--surface))}
+  .vlayer .vl{font-size:12px;font-weight:800;color:var(--faint);width:30px;flex-shrink:0}
+  .vlayer.hot .vl{color:var(--accent)}
+  .vlayer .vname{font-size:13.5px;font-weight:700;width:170px;flex-shrink:0}
+  .vlayer .vdesc{font-size:12px;color:var(--dim)}
+  .vlayer .vmark{
+    margin-left:auto;flex-shrink:0;font-size:10.5px;font-weight:700;color:var(--accent);
+    background:rgba(245,181,68,.13);border-radius:20px;padding:3px 11px;white-space:nowrap;
+  }
+
+  /* ====== quadrant chart ====== */
+  .quad-wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+  .quad{
+    position:relative;width:440px;height:380px;background:var(--surface);
+    border:1px solid var(--border);border-radius:14px;flex-shrink:0;
+  }
+  .quad .qlabel{position:absolute;font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.5px}
+  .quad .qx{bottom:8px;left:50%;transform:translateX(-50%)}
+  .quad .qy{top:50%;left:8px;transform:translateY(-50%) rotate(-90deg);transform-origin:left}
+  .quad .qaxis{position:absolute;background:var(--border2)}
+  .quad .qaxis.h{height:1px;width:88%;left:6%;top:50%}
+  .quad .qaxis.v{width:1px;height:84%;top:8%;left:50%}
+  .quad .qquad{position:absolute;font-size:9.5px;color:var(--faint);width:46%;text-align:center}
+  .qdot{
+    position:absolute;transform:translate(-50%,-50%);cursor:default;
+  }
+  .qdot .qd{width:11px;height:11px;border-radius:50%;border:2px solid var(--bg);box-shadow:0 0 0 1px var(--border2)}
+  .qdot .qn{position:absolute;left:14px;top:-3px;font-size:10.5px;color:var(--dim);white-space:nowrap}
+  .qdot.you .qd{width:15px;height:15px;background:var(--accent);box-shadow:0 0 0 4px rgba(245,181,68,.22)}
+  .qdot.you .qn{color:var(--accent);font-weight:700}
+  .qdot.target .qd{width:13px;height:13px;background:transparent;border:2px dashed var(--accent)}
+  .qdot.target .qn{color:var(--accent-d)}
+  .qvec{position:absolute;height:2px;background:repeating-linear-gradient(90deg,var(--accent) 0 5px,transparent 5px 9px);transform-origin:left}
+  .quad-legend{flex:1;min-width:230px;font-size:12px;color:var(--dim);line-height:1.9}
+  .quad-legend .li{display:flex;gap:8px;align-items:center;margin-bottom:3px}
+  .quad-legend .dotc{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+  /* ====== five forces ====== */
+  .ff-wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;align-items:stretch}
+  .ff{
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 15px;transition:.18s;
+  }
+  .ff:hover{border-color:var(--border2);transform:translateY(-2px)}
+  .ff.center{
+    background:linear-gradient(160deg,rgba(239,91,84,.14),var(--surface));border-color:rgba(239,91,84,.4);
+    display:flex;flex-direction:column;justify-content:center;text-align:center;
+  }
+  .ff .ff-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+  .ff .ff-name{font-size:12.5px;font-weight:700}
+  .ff .ff-score{font-size:13px;font-weight:800;font-variant-numeric:tabular-nums}
+  .ff .ff-score.s5{color:var(--red)} .ff .ff-score.s4{color:var(--accent)} .ff .ff-score.s3{color:var(--blue)}
+  .ff .ff-bar{height:5px;background:var(--bg2);border-radius:3px;overflow:hidden;margin-bottom:8px}
+  .ff .ff-bar i{display:block;height:100%;border-radius:3px}
+  .ff .ff-bar i.s5{background:var(--red);width:100%}
+  .ff .ff-bar i.s4{background:var(--accent);width:80%}
+  .ff .ff-bar i.s3{background:var(--blue);width:60%}
+  .ff .ff-desc{font-size:11.5px;color:var(--dim);line-height:1.6}
+  .ff.center .big{font-size:34px;font-weight:800;color:var(--red);line-height:1}
+  .ff.center .biglbl{font-size:12px;color:var(--text);margin-top:4px;font-weight:600}
+  .ff.center .bigsub{font-size:11px;color:var(--dim);margin-top:5px}
+
+  /* ====== waterfall ====== */
+  .waterfall{display:flex;align-items:flex-end;gap:4px;height:240px;margin:14px 0 6px;padding:0 4px}
+  .wf{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .wf .wbar{width:100%;border-radius:4px 4px 0 0;position:relative;min-height:3px}
+  .wf .wval{font-size:11px;font-weight:700;margin-bottom:4px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .wf .wlbl{font-size:10px;color:var(--faint);margin-top:7px;text-align:center;line-height:1.3}
+  .wf.rev .wbar{background:linear-gradient(180deg,var(--blue),#3a7fd0)}
+  .wf.rev .wval{color:var(--blue)}
+  .wf.cost .wbar{background:linear-gradient(180deg,#56627c,#3c4659)}
+  .wf.cost .wval{color:var(--dim)}
+  .wf.gp .wbar{background:linear-gradient(180deg,var(--accent),#d0922e)}
+  .wf.gp .wval{color:var(--accent)}
+  .wf.loss .wbar{background:linear-gradient(180deg,var(--red),#c8443d)}
+  .wf.loss .wval{color:var(--red)}
+
+  /* ====== stacked ASP bar ====== */
+  .aspbar{display:flex;height:46px;border-radius:9px;overflow:hidden;margin:10px 0 6px;border:1px solid var(--border)}
+  .aspseg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#0d1117;position:relative}
+  .aspseg span{position:relative;z-index:1;padding:0 6px;text-align:center;line-height:1.2}
+  .asp-soc{background:#56627c;color:#e7eaf0}
+  .asp-pcba{background:#7a8aa8;color:#15203a}
+  .asp-other{background:#9aa8c2;color:#15203a}
+  .asp-gp{background:linear-gradient(90deg,var(--accent),#e6a838);color:#1a1205}
+
+  /* ====== generic horizontal bars ====== */
+  .hbars{display:flex;flex-direction:column;gap:9px;margin:6px 0}
+  .hbar{display:flex;align-items:center;gap:12px}
+  .hbar .hb-name{font-size:12.5px;width:200px;flex-shrink:0;display:flex;justify-content:space-between;gap:8px}
+  .hbar .hb-name .s{font-weight:800;font-variant-numeric:tabular-nums}
+  .hbar .hb-track{flex:1;height:9px;background:var(--bg2);border-radius:5px;overflow:hidden}
+  .hbar .hb-track i{display:block;height:100%;border-radius:5px}
+  .hb-track i.strong{background:linear-gradient(90deg,var(--green),#2bb888)}
+  .hb-track i.mid{background:linear-gradient(90deg,var(--blue),#3a7fd0)}
+  .hb-track i.weak{background:linear-gradient(90deg,var(--red),#c8443d)}
+  .hbar .hb-tag{font-size:10px;color:var(--faint);width:74px;flex-shrink:0;text-align:right}
+
+  /* ====== tech stack layers ====== */
+  .tstack{display:flex;flex-direction:column;gap:6px;margin:6px 0}
+  .tlayer{
+    background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 15px;
+    display:flex;align-items:center;gap:14px;border-left:3px solid var(--blue);
+  }
+  .tlayer.weak{border-left-color:var(--accent)}
+  .tlayer .tln{font-size:13px;font-weight:700;width:150px;flex-shrink:0}
+  .tlayer .tld{font-size:11.5px;color:var(--dim);flex:1}
+  .tlayer .tls{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+  .tlayer .tls.ok{background:rgba(55,211,160,.14);color:var(--green)}
+  .tlayer .tls.warn{background:rgba(245,181,68,.14);color:var(--accent)}
+
+  /* ====== timeline ====== */
+  .tline{position:relative;margin:16px 0 6px;padding-left:6px}
+  .tline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:var(--border2)}
+  .tnode{position:relative;padding:0 0 18px 34px}
+  .tnode::before{
+    content:"";position:absolute;left:3px;top:4px;width:13px;height:13px;border-radius:50%;
+    background:var(--surface);border:2.5px solid var(--accent);
+  }
+  .tnode.done::before{background:var(--accent)}
+  .tnode .ty{font-size:12px;font-weight:800;color:var(--accent)}
+  .tnode .tt{font-size:12.5px;color:var(--dim);margin-top:2px;line-height:1.6}
+  .tnode .tt b{color:var(--text)}
+
+  /* ====== AI four layers ====== */
+  .ailayers{display:flex;flex-direction:column;gap:8px;margin:6px 0}
+  .ailayer{
+    display:flex;gap:14px;align-items:center;background:var(--surface);
+    border:1px solid var(--border);border-radius:11px;padding:13px 16px;
+  }
+  .ailayer .ai-n{font-size:12px;font-weight:800;width:88px;flex-shrink:0;color:var(--accent)}
+  .ailayer .ai-body{flex:1}
+  .ailayer .ai-t{font-size:13px;font-weight:700}
+  .ailayer .ai-d{font-size:11.5px;color:var(--dim);margin-top:2px}
+  .ailayer .ai-time{font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;flex-shrink:0;white-space:nowrap}
+  .ai-time.t1{background:rgba(239,91,84,.16);color:#ff8a84}
+  .ai-time.t2{background:rgba(245,181,68,.15);color:var(--accent)}
+  .ai-time.t3{background:rgba(74,158,255,.15);color:#7fbcff}
+  .ai-time.t4{background:rgba(167,139,250,.16);color:var(--purple)}
+
+  /* ====== scenario matrix ====== */
+  .scen-wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+  .scen-grid{display:grid;grid-template-columns:auto repeat(3,1fr);gap:6px;flex:1;min-width:420px}
+  .scen-cell{
+    background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:11px 12px;
+    cursor:pointer;transition:.16s;min-height:74px;
+  }
+  .scen-cell:hover{border-color:var(--border2);transform:translateY(-2px)}
+  .scen-cell.active{border-color:var(--accent);background:linear-gradient(150deg,rgba(245,181,68,.1),var(--surface))}
+  .scen-cell.opt{border-left:3px solid var(--green)}
+  .scen-cell.base{border-left:3px solid var(--blue)}
+  .scen-cell.pess{border-left:3px solid var(--red)}
+  .scen-cell .sc-t{font-size:11.5px;font-weight:700;margin-bottom:3px}
+  .scen-cell .sc-d{font-size:10.5px;color:var(--dim);line-height:1.5}
+  .scen-rowh,.scen-colh{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--faint)}
+  .scen-colh{padding-bottom:2px}
+  .scen-rowh{writing-mode:vertical-rl;text-orientation:mixed;padding:0 2px}
+  .scen-detail{
+    flex:1;min-width:260px;background:var(--surface);border:1px solid var(--border2);
+    border-radius:12px;padding:16px 18px;align-self:stretch;
+  }
+  .scen-detail .sd-t{font-size:14px;font-weight:700;margin-bottom:4px}
+  .scen-detail .sd-t .badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle}
+  .badge.opt{background:rgba(55,211,160,.16);color:var(--green)}
+  .badge.base{background:rgba(74,158,255,.16);color:#7fbcff}
+  .badge.pess{background:rgba(239,91,84,.16);color:#ff8a84}
+  .scen-detail .sd-row{display:flex;gap:9px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:12px}
+  .scen-detail .sd-row:last-child{border-bottom:none}
+  .scen-detail .sd-k{font-size:10.5px;font-weight:700;color:var(--faint);width:42px;flex-shrink:0;padding-top:1px}
+  .scen-detail .sd-v{color:var(--dim);line-height:1.6}
+
+  /* ====== action cards (top5) ====== */
+  .acard{
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:15px 17px;margin-bottom:10px;display:flex;gap:15px;
+  }
+  .acard .a-rank{
+    font-size:19px;font-weight:800;color:var(--accent);width:34px;height:34px;flex-shrink:0;
+    border-radius:9px;background:rgba(245,181,68,.12);display:flex;align-items:center;justify-content:center;
+  }
+  .acard .a-body{flex:1}
+  .acard .a-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px}
+  .acard .a-t{font-size:14.5px;font-weight:700}
+  .acard .a-pri{font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(239,91,84,.15);color:#ff8a84}
+  .acard .a-pri.p2{background:rgba(245,181,68,.15);color:var(--accent)}
+  .acard .a-pri.p3{background:rgba(74,158,255,.15);color:#7fbcff}
+  .acard .a-win{font-size:9.5px;color:var(--faint);font-variant-numeric:tabular-nums}
+  .acard .a-d{font-size:12.5px;color:var(--dim);line-height:1.65}
+  .acard .a-d .em{color:var(--accent)}
+  .acard .a-hedge{font-size:11.5px;color:var(--faint);margin-top:6px;padding-top:6px;border-top:1px dashed var(--border)}
+  .acard .a-hedge b{color:var(--green)}
+
+  /* ====== 90 day plan ====== */
+  .plan90{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:6px 0}
+  .pphase{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 16px;border-top:3px solid var(--accent)}
+  .pphase .pp-d{font-size:20px;font-weight:800;color:var(--accent)}
+  .pphase .pp-t{font-size:12.5px;font-weight:700;margin:2px 0 9px}
+  .pphase .pp-l{font-size:11.5px;color:var(--dim);line-height:1.6;list-style:none}
+  .pphase .pp-l li{padding-left:14px;position:relative;margin-bottom:5px}
+  .pphase .pp-l li::before{content:"–";position:absolute;left:0;color:var(--accent)}
+  .pphase .pp-out{font-size:10.5px;color:var(--faint);margin-top:9px;padding-top:8px;border-top:1px dashed var(--border)}
+  .pphase .pp-out b{color:var(--green)}
+
+  /* ====== fit mapping ====== */
+  .fitmap{display:flex;flex-direction:column;gap:9px;margin:6px 0}
+  .fitrow{display:flex;align-items:stretch;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:11px;overflow:hidden}
+  .fitrow .f-need{flex:1;padding:13px 15px;border-right:1px solid var(--border)}
+  .fitrow .f-cap{flex:1;padding:13px 15px;background:rgba(245,181,68,.05)}
+  .fitrow .f-lab{font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+  .fitrow .f-need .f-lab{color:var(--red)}
+  .fitrow .f-cap .f-lab{color:var(--accent)}
+  .fitrow .f-txt{font-size:12.5px;line-height:1.6;color:var(--dim)}
+  .fitrow .f-txt b{color:var(--text)}
+  .fitconn{display:flex;align-items:center;color:var(--accent);font-size:14px;padding:0 2px}
+
+  /* cover */
+  .cover-hero{
+    background:linear-gradient(155deg,rgba(245,181,68,.08),rgba(74,158,255,.05),transparent);
+    border:1px solid var(--border);border-radius:18px;padding:34px 36px;margin-bottom:24px;
+    position:relative;
+  }
+  .contact-card{
+    position:absolute;top:28px;right:32px;
+    background:linear-gradient(160deg,rgba(245,181,68,.10),rgba(255,255,255,.02));
+    border:1px solid rgba(245,181,68,.28);border-radius:13px;padding:15px 18px 16px;
+    display:flex;flex-direction:column;gap:7px;min-width:228px;
+    backdrop-filter:blur(2px);
+  }
+  .contact-name{font-size:17px;font-weight:700;color:#fff;letter-spacing:2px;line-height:1.2}
+  .contact-sub{font-size:10px;color:var(--faint);letter-spacing:2px;text-transform:uppercase;margin-top:-2px;margin-bottom:7px}
+  .contact-row{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+  .contact-row .ic{
+    width:24px;height:24px;border-radius:6px;flex-shrink:0;
+    background:rgba(245,181,68,.14);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .contact-row .ic svg{width:13px;height:13px}
+  @media(max-width:980px){.contact-card{position:static;margin-bottom:18px;min-width:auto}}
+  .cover-hero .ch-k{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .cover-hero .ch-t{font-size:34px;font-weight:800;letter-spacing:.5px;margin:9px 0 4px;line-height:1.2}
+  .cover-hero .ch-e{font-size:13px;color:var(--faint);letter-spacing:1.5px;text-transform:uppercase}
+  .cover-hero .ch-d{font-size:14px;color:var(--dim);margin-top:14px;max-width:760px;line-height:1.8}
+  .cover-meta{display:flex;gap:11px;flex-wrap:wrap;margin-top:18px}
+  .cover-meta .cm{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:9px 14px}
+  .cover-meta .cm .v{font-size:16px;font-weight:800;color:var(--accent)}
+  .cover-meta .cm .l{font-size:10.5px;color:var(--faint)}
+  .method-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .mcard{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:14px 16px}
+  .mcard .mc-t{font-size:12.5px;font-weight:700;margin-bottom:5px;color:#fff}
+  .mcard .mc-d{font-size:12px;color:var(--dim);line-height:1.65}
+  .mcard .mc-d b{color:var(--accent)}
+  .roadmap{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+  .rmd{
+    flex:1;min-width:104px;background:var(--surface);border:1px solid var(--border);border-radius:9px;
+    padding:10px 11px;cursor:pointer;transition:.16s;
+  }
+  .rmd:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .rmd .rd-n{font-size:10px;font-weight:700;color:var(--faint)}
+  .rmd .rd-t{font-size:12px;font-weight:700;margin-top:2px}
+  .rmd .rd-e{font-size:9px;color:var(--faint);text-transform:uppercase;letter-spacing:.3px;margin-top:1px}
+
+  /* footer nav */
+  .modnav{display:flex;justify-content:space-between;margin-top:38px;gap:12px}
+  .modnav button{
+    background:var(--surface);border:1px solid var(--border2);color:var(--text);
+    border-radius:10px;padding:11px 18px;cursor:pointer;font-size:12.5px;font-family:var(--sans);
+    transition:.16s;display:flex;align-items:center;gap:8px;
+  }
+  .modnav button:hover:not(:disabled){background:var(--surface2);border-color:var(--accent)}
+  .modnav button:disabled{opacity:.3;cursor:not-allowed}
+  .modnav button .mn-e{font-size:9px;color:var(--faint);text-transform:uppercase}
+
+  .src-tag{font-size:10px;color:var(--faint);background:var(--bg2);border-radius:5px;padding:1px 6px;margin-left:4px}
+
+  @media(max-width:1200px){.module{padding:30px 34px 110px}.findings{grid-template-columns:1fr}.method-grid{grid-template-columns:1fr}.plan90{grid-template-columns:1fr}}
+  @media(max-width:900px){#sidebar{width:212px}.quad{width:100%}}
+</style>
+</head>
+<body>
+
+<!-- ============ SIDEBAR ============ -->
+<aside id="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo">
+      <div class="mark">联</div>
+      <div>
+        <div class="t1">车联天下战略洞察</div>
+        <div class="t2">Auto-Link · Strategic Insight</div>
+      </div>
+    </div>
+    <div class="sb-sub">面向 <b>国际化建设支持总监</b> 岗位的<br>八日庙算 · 战略对话材料</div>
+  </div>
+  <nav class="sb-nav" id="nav"></nav>
+  <div class="sb-foot">
+    八日研究 · 12 套战略框架 · 90+ 公开信源<br>
+    数据截至 2026 年 5 月 · 仅供面试沟通讨论
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<div id="main">
+  <div id="progress"><div class="bar" id="pbar"></div></div>
+  <div id="stage">
+
+  <!-- ====================== M0 COVER ====================== -->
+  <section class="module active" data-cn="封面与方法" data-en="Cover & Method">
+    <div class="cover-hero">
+      <div class="contact-card">
+        <div class="contact-name">瞿博文</div>
+        <div class="contact-sub">Bowen Qu · 候选人</div>
+        <div class="contact-row">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+          <span>166 1986 2025</span>
+        </div>
+        <div class="contact-row">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+          <span>bowen88500@126.com</span>
+        </div>
+      </div>
+      <div class="ch-k">8-Day War-Room Analysis · 庙算八日</div>
+      <div class="ch-t">车联天下 · 一家红海临界企业的战略解剖</div>
+      <div class="ch-e">Auto-Link Holdings — Anatomy of a Company at the Red-Ocean Threshold</div>
+      <div class="ch-d">
+        这份材料把对车联天下连续八天的独立研究，浓缩为十个可交互模块。它不是一份恭维的尽调，
+        也不是一份唱衰的报告——而是用 <b style="color:#fff">「诊断 + 建设性」</b> 的态度，
+        把一家正在「从机会增长走向结构驱动」的公司，钉在 2026 年 5 月的坐标系里：
+        它的生态位、它的竞争、它怎么赚钱、它的战略、它的技术、AI 如何冲击它、未来三段如何演化，
+        以及——一个「国际化建设支持总监」能在其中创造什么价值。
+      </div>
+      <div class="cover-meta">
+        <div class="cm"><div class="v">2024</div><div class="l">营收 26.56 亿元 · 出口占比 15.3%</div></div>
+        <div class="cm"><div class="v">8.2%</div><div class="l">座舱域控装机份额 · 全国第四</div></div>
+        <div class="cm"><div class="v">99.2%</div><div class="l">前五大客户收入占比（2025H1）</div></div>
+        <div class="cm"><div class="v">HKEX</div><div class="l">2025 年 11 月递表港交所</div></div>
+      </div>
+    </div>
+
+    <h3 class="sec">为什么是"八日庙算" · Why an 8-Day Structured Study</h3>
+    <p class="lead">
+      «孙子兵法» 言「多算胜，少算不胜」。这次研究刻意采用<b style="color:#fff">分日递进</b>的结构——
+      每一天回答一个独立而连贯的战略问题，后一天站在前一天的结论上深挖，最终收敛为可行动的判断。
+      之所以把它整理成这份材料，是想与面试官就<b style="color:#fff">岗位与公司战略</b>做一次有坐标系的对话，
+      而非泛泛而谈。
+    </p>
+
+    <div class="method-grid">
+      <div class="mcard"><div class="mc-t">分析框架 · Frameworks</div><div class="mc-d">
+        SDV 价值链分层、<b>Porter 五力</b>、Osterwalder 商业模式画布、<b>McKinsey 7S</b>、Galbraith 星型模型、
+        Mintzberg 计划/涌现战略、Christensen 颠覆性创新、<b>Wack 情景规划</b>、Taleb 反脆弱/黑天鹅—灰犀牛。
+      </div></div>
+      <div class="mcard"><div class="mc-t">信息来源 · Sources</div><div class="mc-d">
+        车联天下港交所招股书与财务附录、官网「四全战略」一手发布、CES 2026 产品资料、
+        华经/罗兰贝格/Frost&Sullivan 行业研报、主流财经媒体——<b>均为公开可核查信源</b>，按 Edinburgh 格式标注。
+      </div></div>
+      <div class="mcard"><div class="mc-t">分析态度 · Stance</div><div class="mc-d">
+        诊断力求<b>锐利而公允</b>：每一处尖锐判断都配套机会窗口与应对路径；既不回避「年亏 2.53 亿」
+        的事实，也不忽视「中国 OEM 出海 + SDV 渗透 + AI 入舱」三窗口叠加的真实「势」。
+      </div></div>
+      <div class="mcard"><div class="mc-t">使用方式 · How to Use</div><div class="mc-d">
+        左侧导航可在十个模块间自由跳转，跟随话题切换；卡片可展开查看深度论证；
+        每个模块末尾附 <b>「博文的关键议题 · Bowen's Key Topics」</b>——它们是邀请共同推演的引子，而非结论。
+      </div></div>
+    </div>
+
+    <h3 class="sec blue">十个模块 · The Ten Modules</h3>
+    <div class="roadmap" id="roadmap"></div>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>这次对话希望共同校准的三件事</div>
+      <ol>
+        <li>这份外部视角的研究，与公司<b>内部对自身的判断</b>，在哪些点上一致、哪些点上有偏差？</li>
+        <li>「国际化建设支持总监」在「四全战略」落地链条中，被设想为<b>战略组织的建构者</b>，还是跨部门协调者？</li>
+        <li>若把这份分析视为一次"压力测试"，公司最希望被<b>挑战</b>、也最希望被<b>补强</b>的，是哪一环？</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button disabled><span class="mn-e">Prev</span></button>
+      <button onclick="go(1)"><div><div style="font-size:11px;text-align:right">下一模块 →</div><div class="mn-e">01 · 生态位定位</div></div></button>
+    </div>
+  </section>
+
+  <!-- ====================== M1 VALUE CHAIN ====================== -->
+  <section class="module" data-cn="生态位定位" data-en="Value-Chain Positioning">
+    <div class="quote">
+      上兵伐谋，其次伐交，其次伐兵，其下攻城。
+      <span class="src">— «孙子兵法 · 谋攻篇»　Tier 1 的胜负，已不取决于器件成本（攻城），而取决于 E/E 架构重构中的「占位」与「联盟」（伐谋伐交）。</span>
+    </div>
+    <div class="kicker">Day 1 · 车联天下在 SDV 价值链中的精准坐标</div>
+    <div class="headline">车联天下处在 <span class="hl">「域控 Tier 1 头部第二梯队」</span>，正向 <span class="hl">「舱驾融合 / 中央计算 候选 Tier 0.5」</span> 过渡——一家站在「升维或降维」窗口期的<span class="hlr">临界企业</span>。</div>
+    <p class="lead">按收入计，2024 年中国智能座舱域控制器领域全国第二（仅次于德赛西威）；但按装机量计排第四。这一「口径差」本身，就是理解这家公司的第一把钥匙。</p>
+
+    <h3 class="sec">核心发现 · Key Findings</h3>
+    <div class="findings">
+      <div class="finding"><div class="fn">1</div><div class="fb"><b>生态位坐标</b>：处于 SDV 价值链中段 L3 层（域控硬件 Tier 1），并向 L2（Autosee OS）轻量延伸、向 L4（舱驾融合量产）小步前移。是<span class="em">「第三梯队头部 + 第二梯队尾部」</span>的临界企业。</div></div>
+      <div class="finding"><div class="fn">2</div><div class="fb"><b>上游极度耦合</b>：高通骁龙 8155/8255/8775/8797 是其立身之本，第一大供应商占采购 <span class="emr">75–80%</span>——近乎一家「高通信仰公司」，杠杆与单点风险同源。</div></div>
+      <div class="finding"><div class="fn">3</div><div class="fb"><b>下游极度集中</b>：前五大客户占收入 <span class="emr">98.7–99.2%</span>，第一大客户（市场推断为奇瑞集团）单一占比约 <span class="emr">58%</span>——「单点客户、单点平台」结构。</div></div>
+      <div class="finding"><div class="fn">4</div><div class="fb"><b>博世既是股东也是约束</b>：2021 年 C 轮入股并签「A+B」分工——博世做底层平台、车联天下做上层应用。这条纽带是出海的<span class="emb">信任背书</span>，也可能是欧洲渠道的<span class="emr">隐性天花板</span>。</div></div>
+    </div>
+
+    <h3 class="sec blue">SDV 价值链五层 · 车联天下的精准卡位</h3>
+    <div class="vchain">
+      <div class="vlayer"><div class="vl">L1</div><div class="vname">半导体与 IP</div><div class="vdesc">高通 · 英伟达 · 芯驰 · 地平线 — 提供芯片算力与基础 IP</div></div>
+      <div class="vlayer"><div class="vl">L2</div><div class="vname">中间件与 OS</div><div class="vdesc">QNX · Android Automotive · AUTOSAR Adaptive — 车联天下经 Autosee OS 轻量延伸</div></div>
+      <div class="vlayer hot"><div class="vl">L3</div><div class="vname">域控 / 区控 / 中央计算硬件 Tier 1</div><div class="vdesc">德赛西威 · 博世 · 车联天下 · 佛吉亚-Aptoide — 以智能座舱域控为根据地</div><div class="vmark">★ 车联天下主战场</div></div>
+      <div class="vlayer"><div class="vl">L4</div><div class="vname">整车 E/E 架构与软件平台</div><div class="vdesc">OEM 自研或 Tier 1 合作 — 舱驾融合 AL-A1 在北汽极狐量产，小步前移</div></div>
+      <div class="vlayer"><div class="vl">L5</div><div class="vname">服务化应用与生态</div><div class="vdesc">地图 · 车联网 · AI 助理 — 车联天下当前几无生态层布局</div></div>
+    </div>
+    <p class="note">中国市场 2024 年座舱域控规模约 570 亿元、2025 年预计 880 亿元（华经情报网, 2025）；其中德赛西威占 16.1%，车联天下按收入第二。</p>
+
+    <h3 class="sec">深度论证 · Deep Dive</h3>
+    <div class="deep"><div class="deep-h"><span class="dx">1.1</span><span class="dt">上游耦合：「高通信仰」是杠杆，也是单点失效的尾部敞口</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>车联天下全面押注高通骁龙平台——SA8155P（2021 年全球首发量产，单芯片型号累计出货 200 万台居全球第一）、SA8255P、SA8775P（北汽极狐 αT5 单芯片舱驾融合量产）、SA8797 远期布局，辅以芯驰 X9、联发科作国产/成本备胎。</p>
+        <p>这是典型的 <span class="em">「借芯片巨头研发杠杆，放大自身应用层价值」</span>——但当第一大供应商采购占比 75–80%，地缘政治变量、出口管制扩散、或高通价格策略调整，任一变量都会被放大成尾部风险。Autosee OS 是少有的「向上爬」证据，但目前仍是 Android Automotive 之上的应用框架，距内核级控制权有距离。</p>
+      </div></div>
+    </div>
+    <div class="deep"><div class="deep-h"><span class="dx">1.2</span><span class="dt">下游集中：99% 客户集中度——是「易碎的稻草」还是「战略人质共生」？</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>2022→2025H1，服务客户数从 5→14 家，看似多元化，但前五大占比始终 98.7–99.2%。国内核心客户群为奇瑞-捷途、北汽极狐、广汽、长城、上汽、吉利；海外则以「随中国 OEM 整车出海」为主，而非直接服务欧美 OEM。</p>
+        <p>正向看，这是「最容易猝死的姿势」；<span class="em">逆向看</span>，客户深度绑定也意味着在头部客户处深度嵌入，是「战略锁定 + 战略人质」的共生关系，类似富士康早期与苹果。真正的问题是：<b>何时能从「人质」蜕变为「合伙人」。</b></p>
+      </div></div>
+    </div>
+    <div class="deep"><div class="deep-h"><span class="dx">1.3</span><span class="dt">Tier 边界正在熔化：传统线性供应链被「三体结构」取代</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>中国智能化时代，「Tier 1 卖硬件、Tier 2 卖芯片」的线性链条，被「OEM 自研域控 + ODM 代工 + Tier 1 平台化」三体结构取代，并涌现三大变化：<b>(a) Tier 0.5</b> 涌现（华为车 BU、Momenta「卖灵魂」）；<b>(b) ODM 化反向蚕食</b>（亿咖通、博泰、车联天下承接高度定制项目，议价权弱于具备独立平台底座者）；<b>(c) OEM 自研逆向拉低 Tier 价值</b>（比亚迪、特斯拉、蔚来全栈自研）。</p>
+        <p>车联天下当前档位是 <span class="em">「Tier 1 + ODM Hybrid，向 Tier 0.5 候选爬升」</span>——爬升的钥匙不在硬件成本、不在芯片代际，而在「软件平台化能力 + 海外合规背书 + 全球化组织能力」三件套。</p>
+      </div></div>
+    </div>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>博文的关键议题 · Bowen's Key Topics</div>
+      <ol>
+        <li>"按收入第二"与"按装机量第四"之间的口径差，反映的是 <b>技术溢价（高端 SoC）</b> 还是 <b>定制化高成本</b>？这决定了规模经济曲线的形态。</li>
+        <li>奇瑞约 58% 的占比，公司内部视为 <b>战略性深度绑定</b>，还是 <b>需要主动稀释的风险</b>？两种判断会导出完全不同的组织建设优先级。</li>
+        <li>是否存在先例——一家由博世参股的中国本土 Tier 1，成功进入欧洲 OEM 直接定点？若没有，"博世股东 + 海外突围"的结构性张力该如何在制度上化解？</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button onclick="go(0)"><span class="mn-e">← 00 封面与方法</span></button>
+      <button onclick="go(2)"><div><div style="font-size:11px;text-align:right">下一模块 →</div><div class="mn-e">02 · 竞争格局</div></div></button>
+    </div>
+  </section>
+
+  <!-- ====================== M2 COMPETITIVE ====================== -->
+  <section class="module" data-cn="竞争格局" data-en="Competitive Landscape">
+    <div class="quote">
+      知彼知己，百战不殆；不知彼而知己，一胜一负；不知彼，不知己，每战必殆。
+      <span class="src">— «孙子兵法 · 谋攻篇»　在「血色八月」般的中国智能座舱赛道，先要绘一张"敌情图"。</span>
+    </div>
+    <div class="kicker">Day 2 · Porter 五力评分 / 国内+国际玩家全景 / 四象限定位</div>
+    <div class="headline"><span class="hl">Porter 五力总分 21/25</span>——这是一片<span class="hlr">五力共振的红海中心</span>。但车联天下在第二梯队中拥有<span class="hl">「博世股东 + 港股资本通道 + 头部 OEM 深度绑定 + Autosee 软件雏形」</span>的稀缺组合。</div>
+    <p class="lead">没有任何单一维度绝对领先，但"四件套组合"是其他第二梯队不具备的——这既是优势，也是诅咒。</p>
+
+    <h3 class="sec">核心发现 · Key Findings</h3>
+    <div class="findings">
+      <div class="finding"><div class="fn">1</div><div class="fb"><b>金字塔结构</b>：2024 年座舱域控装机 TOP-5 合计仅 <span class="em">50.1%</span>，车联天下排第四（8.2%），与第三的亿咖通仅差 0.2 个百分点——属"第二梯队领头羊"。</div></div>
+      <div class="finding"><div class="fn">2</div><div class="fb"><b>国际 Tier 1 全面退守</b>：博世、大陆、安波福、伟世通在中国本土 OEM 项目的胜率从十年前 70%+ 跌至不足 <span class="emr">30%</span>，正用「全球项目反向锁定」中国 Tier 1 的海外突围空间。</div></div>
+      <div class="finding"><div class="fn">3</div><div class="fb"><b>五力共振</b>：买方议价 <span class="emr">5/5</span>、同业竞争 <span class="emr">5/5</span>、供方 4/5、替代品 4/5、新进入者 3/5——总分 21/25。</div></div>
+      <div class="finding"><div class="fn">4</div><div class="fb"><b>真正的护城河</b>：不在单一维度，而在<span class="em">"四件套组合的稀缺性"</span>——德赛西威无外资股东背书，亿咖通无博世深度合作，镁佳无自研 OS，博泰无 IPO 通道。</div></div>
+    </div>
+
+    <h3 class="sec red">Porter 五力 · 红海中心位置 21/25</h3>
+    <div class="ff-wrap">
+      <div class="ff"><div class="ff-top"><div class="ff-name">新进入者威胁</div><div class="ff-score s3">3/5</div></div>
+        <div class="ff-bar"><i class="s3"></i></div><div class="ff-desc">资本与合规壁垒高，但 OEM 自带玩家（华为车 BU、零束）持续涌入。</div></div>
+      <div class="ff"><div class="ff-top"><div class="ff-name">替代品威胁</div><div class="ff-score s4">4/5</div></div>
+        <div class="ff-bar"><i class="s4"></i></div><div class="ff-desc">OEM 全栈自研 + 中央计算 HPC 一体化 + Tier 0.5 整车方案——三重挖墙脚。</div></div>
+      <div class="ff center"><div class="big">21/25</div><div class="biglbl">五力总分</div><div class="bigsub">车联天下处于"五力共振"的红海中心</div></div>
+      <div class="ff"><div class="ff-top"><div class="ff-name">买方议价力（OEM）</div><div class="ff-score s5">5/5</div></div>
+        <div class="ff-bar"><i class="s5"></i></div><div class="ff-desc">客户集中度 99.2%、年降 5-10%/年、多供应商策略。</div></div>
+      <div class="ff"><div class="ff-top"><div class="ff-name">供方议价力</div><div class="ff-score s4">4/5</div></div>
+        <div class="ff-bar"><i class="s4"></i></div><div class="ff-desc">高通占采购 75-80%；BIS 出口管制 + 高通 reference design 双重约束。</div></div>
+      <div class="ff"><div class="ff-top"><div class="ff-name">同业竞争强度</div><div class="ff-score s5">5/5</div></div>
+        <div class="ff-bar"><i class="s5"></i></div><div class="ff-desc">国内 11+ 家本土 + 5 家国际 Tier 1 同台，价格战与毛利下行同行。</div></div>
+    </div>
+
+    <h3 class="sec blue">差异化六维对比 · Differentiation Matrix</h3>
+    <table class="dtable">
+      <tr><th>维度</th><th class="hl-col">车联天下</th><th>德赛西威</th><th>亿咖通</th><th>镁佳</th><th>博泰</th><th>博世</th></tr>
+      <tr><td>硬件量产规模</td><td class="hl-col"><span class="sc s3">3</span></td><td><span class="sc s5">5</span></td><td><span class="sc s4">4</span></td><td><span class="sc s4">4</span></td><td><span class="sc s3">3</span></td><td><span class="sc s5">5</span></td></tr>
+      <tr><td>软件自研深度（OS/中间件）</td><td class="hl-col"><span class="sc s2">2</span></td><td><span class="sc s3">3</span></td><td><span class="sc s4">4</span></td><td><span class="sc s2">2</span></td><td><span class="sc s3">3</span></td><td><span class="sc s5">5</span></td></tr>
+      <tr><td>海外能力</td><td class="hl-col"><span class="sc s2">2</span></td><td><span class="sc s3">3</span></td><td><span class="sc s3">3</span></td><td><span class="sc s1">1</span></td><td><span class="sc s2">2</span></td><td><span class="sc s5">5</span></td></tr>
+      <tr><td>OEM 黏性</td><td class="hl-col"><span class="sc s4">4</span></td><td><span class="sc s5">5</span></td><td><span class="sc s4">4</span></td><td><span class="sc s3">3</span></td><td><span class="sc s3">3</span></td><td><span class="sc s4">4</span></td></tr>
+      <tr><td>资本结构 / 股东背书</td><td class="hl-col"><span class="sc s4">4</span></td><td><span class="sc s5">5</span></td><td><span class="sc s4">4</span></td><td><span class="sc s2">2</span></td><td><span class="sc s2">2</span></td><td><span class="sc s5">5</span></td></tr>
+      <tr><td><b>小计 / 25</b></td><td class="hl-col"><b>15</b></td><td><b>21</b></td><td><b>19</b></td><td><b>12</b></td><td><b>13</b></td><td><b>24</b></td></tr>
+    </table>
+
+    <h3 class="sec">海外能力 × 软件自研深度 · 四象限定位</h3>
+    <div class="quad-wrap">
+      <div class="quad">
+        <div class="qaxis h"></div><div class="qaxis v"></div>
+        <div class="qlabel qx">海外能力 →</div>
+        <div class="qlabel qy">软件自研深度 →</div>
+        <div class="qquad" style="top:14px;left:52%;color:#37d3a0">全球冠军候选</div>
+        <div class="qquad" style="top:14px;right:52%;color:#7fbcff">国内技术领跑</div>
+        <div class="qquad" style="bottom:14px;right:52%;color:#9aa4b6">追赶者区</div>
+        <div class="qquad" style="bottom:14px;left:52%;color:#9aa4b6">海外渠道型</div>
+        <div class="qdot" style="left:93%;top:16%"><div class="qd" style="background:#ef5b54"></div><div class="qn">博世</div></div>
+        <div class="qdot" style="left:79%;top:33%"><div class="qd" style="background:#a78bfa"></div><div class="qn">伟世通</div></div>
+        <div class="qdot" style="left:42%;top:10%"><div class="qd" style="background:#4a9eff"></div><div class="qn">华为车 BU</div></div>
+        <div class="qdot" style="left:55%;top:30%"><div class="qd" style="background:#37d3a0"></div><div class="qn">德赛西威</div></div>
+        <div class="qdot" style="left:65%;top:27%"><div class="qd" style="background:#37d3a0"></div><div class="qn">亿咖通</div></div>
+        <div class="qdot" style="left:50%;top:22%"><div class="qd" style="background:#7fbcff"></div><div class="qn">中科创达</div></div>
+        <div class="qdot you" style="left:37%;top:62%"><div class="qd"></div><div class="qn">车联天下 (Now)</div></div>
+        <div class="qdot target" style="left:64%;top:42%"><div class="qd"></div><div class="qn">车联天下 (2028 Target)</div></div>
+        <div class="qvec" style="left:37%;top:62%;width:165px;transform:rotate(-22deg)"></div>
+        <div class="qdot" style="left:22%;top:58%"><div class="qd" style="background:#9aa4b6"></div><div class="qn">镁佳</div></div>
+        <div class="qdot" style="left:26%;top:48%"><div class="qd" style="background:#9aa4b6"></div><div class="qn">博泰</div></div>
+      </div>
+      <div class="quad-legend">
+        <p style="font-size:13px;color:var(--text);margin-bottom:9px"><b>车联天下的「升维路径」</b></p>
+        <div class="li"><div class="dotc" style="background:var(--accent)"></div>Now (0.37, 0.38)：海外萌芽期 + 软件浅层</div>
+        <div class="li"><div class="dotc" style="background:transparent;border:1.5px dashed var(--accent)"></div>2028 Target：海外达欧洲合规闭环 + 软件至 Autosee OS 2.0</div>
+        <p style="margin-top:14px;font-size:11.5px;color:var(--faint);line-height:1.7">
+          海外能力需"2 倍提升"，软件深度需"1.5 倍提升"——<b style="color:var(--accent)">这两项均非单一财务投入能解决，需组织能力 + 制度建设。</b>
+        </p>
+      </div>
+    </div>
+
+    <h3 class="sec">深度论证 · Deep Dive</h3>
+    <div class="deep"><div class="deep-h"><span class="dx">2.1</span><span class="dt">国内 11+ 家本土 Tier 1：三梯队结构与车联天下的位置</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p><b>第一梯队</b>（综合 Tier 1，年收入 &gt;200 亿元）：德赛西威（2024 营收 276 亿元、座舱域控装机 16.1% 长期蝉联第一）、均胜电子（2025 前三季度新获订单 714 亿元，单 Q3 即 402 亿元，含两家头部品牌跨域中央计算 CCU 全球订单 <span class="emr">150 亿元</span>——已是"中央计算订单截胡"的明确预警）。</p>
+        <p><b>第二梯队</b>（专业型 Tier 1）：亿咖通（龍鹰一号自研 SoC + Geely 系 captive volume）、车联天下、镁佳（模块化设计、12 家车企 / 48 款车型）、博泰、远峰、诺博。</p>
+        <p><b>第三梯队</b>：中科创达（智能 OS 服务商）、东软睿驰、几何伙伴。</p>
+        <p>结构性观察：车联天下不是最大也不是最深，<span class="em">但它是第二梯队里唯一同时具备「博世股东背书 + 港股资本通道 + 单一头部 OEM 深度绑定」三件套的玩家</span>——这一组合既是优势也是诅咒。</p>
+      </div></div>
+    </div>
+    <div class="deep"><div class="deep-h"><span class="dx">2.2</span><span class="dt">国际 Tier 1 阵营：从"正面进攻"到"反向锁定"</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>博世全球座舱域控累计出货 180 万台（2024 Q3）；与车联天下「A+B」分工同时，在欧洲已有自有 Cockpit Computer 直供 VW ID 系列——<b>对车联天下是「股东 + 隐性渠道天花板」的双重身份</b>。</p>
+        <p>大陆集团从"全球 DCU 四巨头"退守至中国合资 + 研发中心模式；安波福聚焦智驾域；伟世通仍是全球前五座舱域控玩家，与日韩车企深度合作；佛吉亚-Aptoide 通过应用商店切入软件生态；松下/LG 电装/HARMAN 绑定丰田、现代起亚、Stellantis。</p>
+        <p>国际 Tier 1 正用<span class="em">"全球项目反向锁定中国 Tier 1 的海外突围空间"</span>——车联天下若直接服务欧洲 OEM，必然与博世、伟世通、HARMAN 形成三线作战。</p>
+      </div></div>
+    </div>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>博文的关键议题 · Bowen's Key Topics</div>
+      <ol>
+        <li>「四件套组合」的稀缺性，是真护城河，还是<b>"四个浅护城河叠加的幻觉"</b>？若博世退股、奇瑞改换、港股估值下行任一发生，组合是否会同时解构？</li>
+        <li>在 OEM 多供应商策略已成主流（奇瑞同时用德赛西威 + 车联天下）的格局下，公司有怎样的<b>"OEM 内部份额扩张"制度化机制</b>？这是商务关系，还是体系化能力？</li>
+        <li>均胜电子 150 亿元中央计算订单，对车联天下"第三跳"的窗口压力是否已经显性化？公司的反应路径是什么？</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button onclick="go(1)"><span class="mn-e">← 01 生态位定位</span></button>
+      <button onclick="go(3)"><div><div style="font-size:11px;text-align:right">下一模块 →</div><div class="mn-e">03 · 商业模式</div></div></button>
+    </div>
+  </section>
+
+  <!-- ====================== M3 BUSINESS MODEL ====================== -->
+  <section class="module" data-cn="商业模式" data-en="Business Model">
+    <div class="quote">
+      天下熙熙，皆为利来；天下攘攘，皆为利往。
+      <span class="src">— 司马迁 «史记 · 货殖列传»　商业模式是一家公司对世界提出的数学等式——左边是它能创造的价值，右边是它能保留的利润。</span>
+    </div>
+    <div class="kicker">Day 3 · 收入结构 / 单位经济学 / 现金链与 IPO 动机</div>
+    <div class="headline">营收 26.56 亿元 → 净亏损 2.53 亿元——亏损的真正根源不是"研发烧钱"，而是<span class="hlr">单位经济学问题</span>：单台白痴指数仅 <span class="hl">1.21</span>，附加值收益只占 BOM 的 21%。</div>
+    <p class="lead">"等号"必须右移（毛利结构升级），而非把左边做大（出货量）。这是商业模式上不可压缩的底层算术。</p>
+
+    <h3 class="sec">核心财务信号 · Core Financial Signals</h3>
+    <div class="callrow">
+      <div class="callout"><div class="num">¥26.56<span style="font-size:14px"> 亿</span></div><div class="lbl">2024 营收</div><div class="sub">三年增长 523%（市场口径）</div></div>
+      <div class="callout"><div class="num r">-¥2.53<span style="font-size:14px"> 亿</span></div><div class="lbl">2024 净亏损</div><div class="sub">2025H1 累计亏损 -2.62 亿</div></div>
+      <div class="callout"><div class="num a">16.18%</div><div class="lbl">毛利率</div><div class="sub">扣三费后归零并转负</div></div>
+      <div class="callout"><div class="num r">198.3%</div><div class="lbl">资产负债率 (2025H1)</div><div class="sub">累计未弥补亏损 12.72 亿</div></div>
+    </div>
+
+    <h3 class="sec">收入瀑布 · 26.56 亿如何变成 -2.53 亿</h3>
+    <div class="waterfall">
+      <div class="wf rev"><div class="wval">26.56</div><div class="wbar" style="height:96%"></div><div class="wlbl">营收<br>Revenue</div></div>
+      <div class="wf cost"><div class="wval">-22.26</div><div class="wbar" style="height:80%"></div><div class="wlbl">COGS<br>(83.8%)</div></div>
+      <div class="wf gp"><div class="wval">4.30</div><div class="wbar" style="height:18%"></div><div class="wlbl">毛利<br>(16.2%)</div></div>
+      <div class="wf cost"><div class="wval">-3.68</div><div class="wbar" style="height:14%"></div><div class="wlbl">研发<br>(13.8%)</div></div>
+      <div class="wf cost"><div class="wval">-2.00</div><div class="wbar" style="height:8%"></div><div class="wlbl">销售管理<br>(~7.5%)</div></div>
+      <div class="wf cost"><div class="wval">-1.15</div><div class="wbar" style="height:5%"></div><div class="wlbl">财务+减值<br>+股权激励</div></div>
+      <div class="wf loss"><div class="wval">-2.53</div><div class="wbar" style="height:11%"></div><div class="wlbl">净亏损<br>Net Loss</div></div>
+    </div>
+    <p class="note">单台 ASP = 26.56 亿 ÷ 81 万台 = <b style="color:var(--text)">¥3,279/台</b>　|　单台毛利 ¥530　|　单台费用 ¥674　→　<b style="color:var(--red)">单台净亏 -¥144</b>。</p>
+
+    <h3 class="sec accent">单位经济学 · Unit Economics · 白痴指数 1.21</h3>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:10px">单台 ASP ¥3,279 的成本拆解（百分比按 ASP 计）——这是亏损的<b style="color:var(--text)">物理底层</b>：</p>
+    <div class="aspbar">
+      <div class="aspseg asp-soc" style="flex:55"><span>高通 SoC 模组 ~¥1,800 · 55%</span></div>
+      <div class="aspseg asp-pcba" style="flex:20"><span>PCBA + 存储 + 连接器 ~¥800 · 20%</span></div>
+      <div class="aspseg asp-other" style="flex:9"><span>显示/摄像头 ~¥300 · 9%</span></div>
+      <div class="aspseg asp-gp" style="flex:16"><span>毛利 ¥530 · 16%</span></div>
+    </div>
+    <div class="callrow">
+      <div class="callout"><div class="num a">1.21</div><div class="lbl">白痴指数 (ASP / BOM)</div><div class="sub">远低于"软件型"应有的 1.5-2.0</div></div>
+      <div class="callout"><div class="num b">70 万台</div><div class="lbl">盈亏平衡（毛利率 24%）</div><div class="sub">需结构性升级到软件溢价</div></div>
+      <div class="callout"><div class="num r">106 万台</div><div class="lbl">盈亏平衡（维持 16% 毛利）</div><div class="sub">远超 2024 实际 81 万台</div></div>
+    </div>
+    <p class="note">马斯克标准：白痴指数 &lt; 1.5 的产品"不是制造业产品，是搬运业产品"。</p>
+
+    <h3 class="sec blue">港股 IPO · 四层动机叠加</h3>
+    <div class="findings">
+      <div class="finding"><div class="fn">1</div><div class="fb"><b>现金需求</b>（最核心）—— 经营性现金流持续为负，资产负债率 198%。<span class="em">"股本融资替代债务融资"的资本结构修复</span>。</div></div>
+      <div class="finding"><div class="fn">2</div><div class="fb"><b>出海背书</b>—— 港股上市公司身份是欧洲 OEM 准入的"合规通行证"，未上市的本土 Tier 1 在欧盟项目定点面临"资质过滤"。</div></div>
+      <div class="finding"><div class="fn">3</div><div class="fb"><b>股东退出</b>—— 博世、蔚来资本、无锡国联、威孚高科等股东已进入 4-5 年投资周期，需二级市场流动性窗口。</div></div>
+      <div class="finding"><div class="fn">4</div><div class="fb"><b>估值套利</b>—— 港股 2025-2026 硬科技板块复苏，是亏损企业的"最后一扇可行的窗户"——A 股科创板对持续亏损企业窗口已收窄。</div></div>
+    </div>
+    <p class="note">募资用途结构：研发投入 50% / 国际化能力 23% / 提升产能 17% / 营运资金 10%——"国际化能力"恰对应「国际化建设支持总监」岗位的战略预算。</p>
+
+    <h3 class="sec">深度论证 · Deep Dive</h3>
+    <div class="deep"><div class="deep-h"><span class="dx">3.1</span><span class="dt">收入结构「单一品类化」：与德赛、亿咖通的关键差距</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>2022–2024 年「车载计算解决方案」占收入 <b>100%</b>，且其中硬件销售估算 85-90%（毛利 12-15%）、软件授权 5-8%（毛利 30-40%）、服务/NRE 3-5%、IP 授权近零。</p>
+        <p>对比：德赛西威 2024 年汽车电子板块中，<b>软件与服务占比已升至 12%</b>（含数据增值与运营分成）；亿咖通软件与服务占比 18%+。<span class="em">车联天下既无硬件的极致规模成本优势，也无软件的高毛利护城河</span>——是商业模式上的"平均主义陷阱"。</p>
+      </div></div>
+    </div>
+    <div class="deep"><div class="deep-h"><span class="dx">3.2</span><span class="dt">客户/供应商「双高集中」：两端议价权同时为零</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>客户集中度 99.2% + 供应商集中度 75-80%：上游高通定价权 + 下游 OEM 年降权双向挤压。<span class="emr">公司扮演的实质是「价差搬运工」与「定制化 NRE 承包商」</span>，而非真正的平台型 Tier 1。</p>
+        <p>反脆弱设计建议（Taleb 杠铃）：<b>80% 高通继续投入</b>（保底）+ <b>20% 芯驰/MTK 国产替代储备</b>（押注），避免"100% 高通"或"100% 国产"两个极端。</p>
+      </div></div>
+    </div>
+    <div class="deep"><div class="deep-h"><span class="dx">3.3</span><span class="dt">订单 → 现金链：24-36 个月的"流动性桥"</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>从立项 → 报价 → B 样定点 → NRE 投入（当期费用化）→ C 样 → SOP → 出货 → 应收 → OEM 6-9 月账期 → 现金到账：<span class="em">链条总长约 24-36 个月</span>。</p>
+        <p>应收账款从 2022 年 2.28 亿暴增至 2023 年 16.03 亿；研发当期费用化（资本化率仅 2.2%）；OEM 长账期 6-9 个月。公司本质上用"股东输血 + 应收账款延期 + 供应商账期"三件套维持运转——<b>IPO 募资正是这条链条上的"流动性桥"</b>。</p>
+      </div></div>
+    </div>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>博文的关键议题 · Bowen's Key Topics</div>
+      <ol>
+        <li>公司董事会是否认同"亏损的根源是<b>单位经济学问题（白痴指数 1.21）</b>而非研发烧钱"这一判断？两种归因会导出完全不同的战略动作。</li>
+        <li>德赛西威已尝试"软件订阅 + 数据运营"分成模式。在 OEM 议价力 5/5 的格局下，OEM 是否会让渡 OTA / 应用商店 / AI 订阅给 Tier 1？还是<b>软件溢价主战场必须放在海外</b>？</li>
+        <li>"四全战略"募资中 23% 投向国际化能力——这部分预算的<b>具体分配方向</b>（罗马尼亚工厂、海外人才、合规体系、IT 系统）是否已经明确？</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button onclick="go(2)"><span class="mn-e">← 02 竞争格局</span></button>
+      <button onclick="go(4)"><div><div style="font-size:11px;text-align:right">下一模块 →</div><div class="mn-e">04 · 四全战略</div></div></button>
+    </div>
+  </section>
+
+  <!-- ====================== M4 FOUR-ALL STRATEGY ====================== -->
+  <section class="module" data-cn="四全战略" data-en="The Four-All Strategy">
+    <div class="quote">
+      故善战者，求之于势，不责于人。
+      <span class="src">— «孙子兵法 · 势篇»　四全战略若成，是车联天下为自己"造势"；若败，则是把"结构之责"错置于"个人之肩"。</span>
+    </div>
+    <div class="kicker">Day 4 · 公司战略与「四全战略」深度解读</div>
+    <div class="headline">「四全战略」是真实的、内涵清晰的<span class="hl">「计划战略」宣言</span>——但 McKinsey 7S 诊断显示<span class="hlr">硬 S 领先、软 S 滞后</span>：战略雄心（4.5）与人才储备（2.0）之间有 2.5 分的鸿沟。</div>
+    <p class="lead">"三全"回答"做什么"，"四全"回答"怎么运行"——但「客户集中度 99%」这一最大风险，<span class="em">没有一个"全"去正面承接</span>。这是战略叙事的一处结构性盲点。</p>
+
+    <h3 class="sec">四全战略 · The Four-All Strategy</h3>
+    <div class="findings">
+      <div class="finding"><div class="fn">1</div><div class="fb"><b>全面产品架构化</b><br><span style="color:var(--faint);font-size:11.5px">Holistic Product Architecting</span><br>「四循环产品体系」（数据/软件/硬件/控制层），通过<span class="em">软硬解耦与模块复用</span>，从"单点突破"走向"系统复用"；落点是 Deep Fusion EEA。</div></div>
+      <div class="finding"><div class="fn">2</div><div class="fb"><b>能力全球化</b><br><span style="color:var(--faint);font-size:11.5px">Capability Globalisation</span><br>"全球化不是销售扩张，是能力结构的重构。先建能力闭环，再放大规模"——构建<span class="em">客户-能力-团队-合作方-资本五环闭环</span>。</div></div>
+      <div class="finding"><div class="fn">3</div><div class="fb"><b>全体系重构与补全</b><br><span style="color:var(--faint);font-size:11.5px">End-to-End System Rebuild</span><br>"让体系 AI 就绪"：主数据、流程体系、系统支撑三层重构。SAP 已投运，<span class="em">存货周转 83 → 23 天</span>。</div></div>
+      <div class="finding"><div class="fn">4</div><div class="fb"><b>全员 AI 能力建设</b><br><span style="color:var(--faint);font-size:11.5px">AI-Enabled Workforce</span><br>「高管 + 战略 AI Agent 共治」「人 × AI Agent 混合项目组」——2026 试点、2027-2028 扩展、2029 后常态化。</div></div>
+    </div>
+    <p class="note">来源：车联天下 2026 年 3 月 5 日年度大会正式宣布 · auto-link.com.cn 官方一手发布。</p>
+
+    <h3 class="sec blue">McKinsey 7S 一致性诊断 · Hard Fast, Soft Slow</h3>
+    <div class="hbars">
+      <div class="hbar"><div class="hb-name">Strategy 战略<span class="s" style="color:var(--green)">4.5</span></div><div class="hb-track"><i class="strong" style="width:90%"></i></div><div class="hb-tag">硬 · 领先</div></div>
+      <div class="hbar"><div class="hb-name">Systems 系统<span class="s" style="color:var(--green)">4.0</span></div><div class="hb-track"><i class="strong" style="width:80%"></i></div><div class="hb-tag">硬 · 领先</div></div>
+      <div class="hbar"><div class="hb-name">Shared Values 共同价值观<span class="s" style="color:var(--accent)">3.5</span></div><div class="hb-track"><i class="mid" style="width:70%"></i></div><div class="hb-tag">软 · 中</div></div>
+      <div class="hbar"><div class="hb-name">Structure 结构<span class="s" style="color:var(--accent)">3.0</span></div><div class="hb-track"><i class="mid" style="width:60%"></i></div><div class="hb-tag">硬 · 中</div></div>
+      <div class="hbar"><div class="hb-name">Style 风格<span class="s" style="color:var(--accent)">3.0</span></div><div class="hb-track"><i class="mid" style="width:60%"></i></div><div class="hb-tag">软 · 中</div></div>
+      <div class="hbar"><div class="hb-name">Skills 技能<span class="s" style="color:var(--red)">2.5</span></div><div class="hb-track"><i class="weak" style="width:50%"></i></div><div class="hb-tag">软 · 弱</div></div>
+      <div class="hbar"><div class="hb-name">Staff 人才<span class="s" style="color:var(--red)">2.0</span></div><div class="hb-track"><i class="weak" style="width:40%"></i></div><div class="hb-tag">软 · 弱</div></div>
+    </div>
+    <p class="note" style="margin-top:14px">
+      <b style="color:var(--red)">最大缺口 = Staff × Skills × 海外 Structure</b>——这正是「国际化建设支持总监」岗位被设置的<b style="color:var(--accent)">结构性原因</b>。
+      Galbraith Star Model 同向验证：People × Structure × Processes 三顶点交汇，是该岗位的精准坐标。
+    </p>
+
+    <h3 class="sec">战略三段跳 · The Strategic Triple Jump</h3>
+    <div class="tline">
+      <div class="tnode done"><div class="ty">第一跳 · 国产替代（已完成）</div><div class="tt"><b>2021 高通 8155 全球首发量产</b>——借中国 OEM 智能化窗口期、以本土响应速度替代国际 Tier 1 存量份额。没有这一跳，就没有谈后两跳的资格。</div></div>
+      <div class="tnode done"><div class="ty">第二跳 · 全球化（进行中，2026-2029）</div><div class="tt"><b>横滨销售中心 + 罗马尼亚工程中心</b>——必须以国内规模与量产证据为前提；当前"随中国 OEM 出海"是低成本试水路径，2024 出口 12.4 万台。</div></div>
+      <div class="tnode"><div class="ty">第三跳 · 中央计算 / 舱驾融合（半途，2026-2030）</div><div class="tt">技术换代最重、研发投入最大、回收周期最长，<span style="color:var(--accent)">必须由前两跳的现金流与组织能力"输血"</span>。8775 舱驾融合 2025 极狐首发、Deep Fusion EEA 仍在研。</div></div>
+    </div>
+    <p class="note">时间窗口：仍开放，但<b style="color:var(--red)">收窄</b>。中国 OEM 出海期（2024-2028）、SDV 渗透期、AI 入舱期三窗口叠加，但均胜 150 亿元中央计算订单已是"截胡"预警。</p>
+
+    <h3 class="sec">深度论证 · Deep Dive</h3>
+    <div class="deep"><div class="deep-h"><span class="dx">4.1</span><span class="dt">机会窗口 vs 战略风险 · 对冲矩阵</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <table class="dtable">
+          <tr><th>机会窗口（势）</th><th>战略风险（结构）</th></tr>
+          <tr><td><b>中国 OEM 出海期</b>：奇瑞/比亚迪/MG 整车出海带动，2024 出口占比 15.3%</td><td><b>客户集中</b>：奇瑞 ~58%、前五大 99.2%——四全战略中<span class="emr">无任何一全直接对应此风险</span></td></tr>
+          <tr><td><b>欧洲在地化期</b>：罗马尼亚 2025 入申根、汽车电子人才与零部件基础</td><td><b>技术换代</b>：中央计算 HPC 一体化可能让独立座舱域控贬值；均胜订单已示警</td></tr>
+          <tr><td><b>SDV 渗透期</b>：E/E 架构重构、软硬解耦正是"全面产品架构化"的市场土壤</td><td><b>地缘政治</b>：高通采购占比 75-80%，BIS 出口管制为尾部黑天鹅</td></tr>
+          <tr><td><b>AI 入舱期</b>：「全员 AI」踩中行业节奏，可成差异化叙事</td><td><b>合规升级</b>：ASPICE、UNECE R155、GDPR、ISO/PAS 8800——出海即面对的硬门槛</td></tr>
+        </table>
+        <p style="margin-top:10px">官方原话：<span class="em">"在窗口期解决结构问题，压力会放大优势；错过窗口期，压力则会暴露结构。"</span> 这是对热力学第二定律的朴素呼应——组织若不主动注入"结构负熵"，必然走向无序。</p>
+      </div></div>
+    </div>
+    <div class="deep"><div class="deep-h"><span class="dx">4.2</span><span class="dt">岗位在战略落地链条中的精准位置</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>这个岗位<b>不只是"战略执行"，更是"战略组织本身的建构者"</b>。它横跨「四全」中的三个全：</p>
+        <ul>
+          <li><b>能力全球化</b>—— 直接对应海外实体设立、五环闭环中的「团队」「合作方」环</li>
+          <li><b>全体系重构与补全</b>—— 国际化流程制度、海外流程内审、总部职能接口，是「流程体系」层在海外的延伸</li>
+          <li><b>全员 AI 能力建设</b>—— JD 明列"AI 工具在运营管理场景落地"</li>
+        </ul>
+        <p>在 7S 中，该岗位补的是滞后的软 4S；在 Galbraith Star 中，它坐在 People × Structure × Processes 三顶点交汇——<span class="em">是把总部「计划战略」翻译为海外「涌现战略」的转译器</span>。</p>
+      </div></div>
+    </div>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>博文的关键议题 · Bowen's Key Topics</div>
+      <ol>
+        <li>「四全战略」中没有"全"直接对应客户集中度风险——是认为<b>"能力全球化"可以间接缓释</b>，还是公司另有专项设计？</li>
+        <li>从 PPT 到组织肌肉：「能力全球化」与「全体系重构」<b>当前的执行抓手与里程碑</b>是什么？SAP 上线、存货周转 83→23 天之后，下一个可量化的成果指标？</li>
+        <li>"高管 + 战略 AI Agent 共治"的 2026 试点——具体涉及哪些决策场景？数据底座（主数据治理）是否已经支撑得起这一设想？</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button onclick="go(3)"><span class="mn-e">← 03 商业模式</span></button>
+      <button onclick="go(5)"><div><div style="font-size:11px;text-align:right">下一模块 →</div><div class="mn-e">05 · 技术栈</div></div></button>
+    </div>
+  </section>
+
+  <!-- ====================== M5 TECH STACK ====================== -->
+  <section class="module" data-cn="技术栈" data-en="Technology Stack">
+    <div class="quote">
+      We must not be fooled by the names — to name a thing, and to understand it, are two different things.
+      <span class="src">— R. P. Feynman, «Cargo Cult Science», 1974　给一件事物命名 ≠ 理解它。技术栈的真假，要看是"自己理解并掌控"，还是"在别人的画布上命名"。</span>
+    </div>
+    <div class="kicker">Day 5 · 从硅基到交付链 · 五层技术栈的真实评估</div>
+    <div class="headline">技术骨架是 <span class="hl">「硅基扎实 · 应用领先 · 中间件与交付链待验证」</span>——足以撑起舱驾融合的今天，能否撑起中央计算的明天，取决于两堵「解耦承重墙」和两块「待验证能力」。</div>
+    <p class="lead">CES 2026 发布的 Deep Fusion EEA（高通 8797 + AMD Versal AI Edge Gen 2 + 光传 PCIe 骨干网）已是"架构先于订单"——但 OTA / 全栈 CI-CD 是叙事最响、公开证据最薄的一环。</p>
+
+    <h3 class="sec">技术栈五层 · The Five Layers</h3>
+    <div class="tstack">
+      <div class="tlayer"><div class="tln">硬件层 / HW</div><div class="tld">高通 8155 / 8255 / 8775 / 8797 · 芯驰 X9 · MTK · AMD Versal AI Edge Gen 2 区域控制</div><div class="tls ok">扎实</div></div>
+      <div class="tlayer"><div class="tln">应用层 / APP</div><div class="tld">座舱域控 · <b style="color:var(--accent)">舱驾融合 AL-A1 全球首发量产</b>（极狐 αT5） · Deep Fusion EEA</div><div class="tls ok">领先</div></div>
+      <div class="tlayer weak"><div class="tln">操作系统 / OS</div><div class="tld">Autosee 座舱 OS（多基于 QNX Hypervisor + AAOS 定制）—— 应用层差异化，非内核级控制</div><div class="tls warn">待验证</div></div>
+      <div class="tlayer weak"><div class="tln">中间件层 / MW</div><div class="tld">HAL 硬件抽象 + SOA 软件解耦 + AUTOSAR Adaptive —— "四循环产品体系"是设计意图，治理机制未见披露</div><div class="tls warn">待验证</div></div>
+      <div class="tlayer weak"><div class="tln">交付链层 / Tooling</div><div class="tld">SOTA / FOTA / 全栈 CI-CD —— UNECE R156 合规义务，公开证据近乎空白</div><div class="tls warn">最薄</div></div>
+    </div>
+
+    <h3 class="sec">汽车 E/E 架构演进 · 车联天下卡位时间表</h3>
+    <div class="tline">
+      <div class="tnode done"><div class="ty">2014-2018 · 分布式 ECU 时代</div><div class="tt">上百个独立控制器；车联天下成立、早期积累</div></div>
+      <div class="tnode done"><div class="ty">2019-2022 · 域集中起步</div><div class="tt"><b>8155 全球首发量产（车联天下 + 博世）</b>——"国产替代第一跳"的硅基入口</div></div>
+      <div class="tnode done"><div class="ty">2023-2025 · 跨域 / 舱驾融合</div><div class="tt"><b>AL-A1 基于 8775 全球首发量产（极狐 αT5）</b> · 8255 舱泊一体 AL-C2 量产 · "多盒变一盒"，降本 20-30%</div></div>
+      <div class="tnode"><div class="ty">2026-2028 · 中央计算 + 区域控制</div><div class="tt"><b>Deep Fusion EEA 发布</b>（8797 + Versal + 光传 PCIe）· 2026 舱驾一体规模量产元年</div></div>
+      <div class="tnode"><div class="ty">2029-2032 · 车云一体</div><div class="tt">中央大脑 + 边缘节点 + 云协同 · 2035 十年规划目标态</div></div>
+    </div>
+
+    <h3 class="sec">高通平台代际跃迁 · The SoC Generations</h3>
+    <table class="dtable">
+      <tr><th>平台</th><th>制程</th><th>AI 算力</th><th>关键能力</th><th>车联天下卡位</th></tr>
+      <tr><td><b>SA8155P</b></td><td>7nm</td><td>~8 TOPS</td><td>座舱域控</td><td>2021 携博世<span class="sc s4" style="margin-left:5px">全球首发量产</span></td></tr>
+      <tr><td><b>SA8255P</b></td><td>5nm</td><td>~30 TOPS</td><td>舱泊一体</td><td>AL-C2 高端座舱产品</td></tr>
+      <tr><td><b>SA8775P</b></td><td>4nm</td><td>144 TOPS · ASIL-D</td><td>单 SoC 舱驾融合</td><td>AL-A1 极狐 αT5<span class="sc s4" style="margin-left:5px">全球首发</span></td></tr>
+      <tr><td><b>SA8797 (Elite)</b></td><td>—</td><td>NPU 12× 上代</td><td>L3/L4 中央计算</td><td>Deep Fusion EEA 卡位</td></tr>
+    </table>
+
+    <h3 class="sec">深度论证 · Deep Dive</h3>
+    <div class="deep"><div class="deep-h"><span class="dx">5.1</span><span class="dt">Autosee OS 定位：贴身的差异化，而非内核的控制权</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>行业通行做法是在 QNX Hypervisor 之上跑 Android Automotive，OEM/Tier 1 的"自研 OS"多指 <b>HMI 框架 + 中间件 + 生态服务的定制层</b>，而非内核级控制权。</p>
+        <p>对比：QNX 是闭源 RTOS 的事实标准；AGL 开放但碎片化；AAOS 应用生态最强；鸿蒙分布式 + AI 原生；亿咖通 ECARX 自研中间件 + 借沃尔沃/路特斯已有全球化样本。</p>
+        <p>Autosee 的护城河不在内核，而在 <span class="em">"贴身"</span>——对中国 OEM 需求的快速响应、服务生态的本地化适配。出海时面对 AAOS 的生态与 QNX 的安全认证双重夹击，差异化叙事必须从"我们更懂中国"升级为"我们能更快把客户需求变成可交付的软件"。</p>
+      </div></div>
+    </div>
+    <div class="deep"><div class="deep-h"><span class="dx">5.2</span><span class="dt">SDV 软硬解耦：Conway 定律的警告</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>Conway 定律：<b>"设计系统的组织，其产出的架构必然复刻该组织的沟通结构"</b>。车联天下 460 余研发、硬件基因强、软件自研深度 2/5——其组织结构能否"长出"一个真正解耦的 SOA 架构，是结构性疑问。</p>
+        <p>"四循环产品体系"是<b>清晰的设计意图</b>，但 HAL 层大概率构建在高通 BSP 之上，自主性受参考设计约束；中间件/SOA 是否采用 AUTOSAR Adaptive 商业栈、API 治理（版本管理、契约测试、服务注册发现）的成熟度，未见公开披露。</p>
+        <p><span class="em">架构要独立，组织必须先独立。</span>这恰是"国际化建设支持总监"在海外组织建设中的真实命题。</p>
+      </div></div>
+    </div>
+    <div class="deep"><div class="deep-h"><span class="dx">5.3</span><span class="dt">OTA / CI-CD：SDV 时代的护城河，也是欧洲准入的硬门槛</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>OTA 三级阶梯：SOTA（应用/地图）→ FOTA（固件刷写，需 A/B 分区、签名校验、回滚）→ <b>全栈 CI-CD</b>（云端"构建—测试—灰度—监控—回滚"闭环，决定"软件迭代速度"这一 SDV 核心竞争力）。</p>
+        <p>证据强度评估：SOTA 基本可确认；FOTA 在舱驾融合域控的安全机制未见披露；<span class="emr">全栈 CI-CD 公开证据近乎空白</span>。</p>
+        <p>出海视角：进入欧洲，OTA 不是能力选项而是<b>合规义务</b>——UNECE R156（SUMS 软件更新管理体系）与 R155（CSMS 网络安全管理体系）是市场准入门槛。<span class="em">把 OTA / CI-CD 做成可审计、可追溯、符合 R156 的体系证据链，可能比写十份流程文档更有战略杠杆。</span></p>
+      </div></div>
+    </div>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>博文的关键议题 · Bowen's Key Topics</div>
+      <ol>
+        <li>Deep Fusion EEA 的 IP 边界在哪里——<b>哪一层是车联天下不可替代的</b>？哪一层是"在别人的画布上命名"？</li>
+        <li>软件团队与硬件团队的<b>组织权重与决策权配比</b>，是否已经在"硬强软弱"之上做了调整？海外组织搭建是复刻总部，还是反向重塑总部？</li>
+        <li>全栈 CI-CD 与 UNECE R156 合规证据链建设，<b>当前的项目状态</b>是什么？是否已被识别为出海的"先决条件"？</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button onclick="go(4)"><span class="mn-e">← 04 四全战略</span></button>
+      <button onclick="go(6)"><div><div style="font-size:11px;text-align:right">下一模块 →</div><div class="mn-e">06 · AI 颠覆</div></div></button>
+    </div>
+  </section>
+
+  <!-- ====================== M6 AI DISRUPTION ====================== -->
+  <section class="module" data-cn="AI 颠覆" data-en="AI Disruption">
+    <div class="quote">
+      穷则变，变则通，通则久。
+      <span class="src">— «周易 · 系辞下»　AI 入舱，正是行业之"穷"与"变"的交汇点。</span>
+    </div>
+    <div class="kicker">Day 6 · AI 对智能座舱生态的四层颠覆 + 反脆弱站位</div>
+    <div class="headline">交互层<span class="hl">先爆发</span>，但壁垒最低、最易被"模型公司直供 OEM"绕过；决策层 + 生态层<span class="hlr">才是终局战场</span>。车联天下的反脆弱之道，不是"也做模型"，而是<span class="hl">做模型不可知的座舱 Agent runtime 与数据闭环底座</span>。</div>
+    <p class="lead">谁的模型赢都不重要，只要车跑在 Autosee 上、数据闭环握在自己手里——这是 Taleb"杠铃策略"在 AI 时代的精准映射。</p>
+
+    <h3 class="sec">AI 入舱四层颠覆 · The Four Layers of Disruption</h3>
+    <div class="ailayers">
+      <div class="ailayer"><div class="ai-n">交互层</div><div class="ai-body"><div class="ai-t">语音 · 多模态 · 手势 · 视线</div><div class="ai-d">理想 MindGPT · 蔚来 NOMI GPT 纯端侧 · 小鹏年投 45 亿——<b style="color:var(--red)">壁垒最低，最先被商品化</b></div></div><div class="ai-time t1">2025-2026 已爆发</div></div>
+      <div class="ailayer"><div class="ai-n">内容层</div><div class="ai-body"><div class="ai-t">个性化推荐 · 陪伴型情感交互</div><div class="ai-d">LG CES 2026 演示用图像生成模型按车外天气实时生成座舱主题</div></div><div class="ai-time t2">2026-2027 伴随</div></div>
+      <div class="ailayer"><div class="ai-n">决策层</div><div class="ai-body"><div class="ai-t">VLA · 车-人协同 AI 副驾</div><div class="ai-d">理想 MindVLA 2026 量产——<b style="color:var(--accent)">熔掉座舱与智驾边界，重排芯片与域控格局</b></div></div><div class="ai-time t3">2027-2029 规模化</div></div>
+      <div class="ailayer"><div class="ai-n">生态层</div><div class="ai-body"><div class="ai-t">车-家-办公 Agent 互联</div><div class="ai-d">吉利 1+2+N 多智能体——<b style="color:var(--purple)">车成 Agent 网络节点，争夺用户入口主权</b></div></div><div class="ai-time t4">2029+ 定终局</div></div>
+    </div>
+    <p class="note"><b style="color:var(--red)">Christensen 颠覆性创新警示</b>：先爆发 ≠ 颠覆力最强。交互层是"持续性创新"，壁垒低、人人可做，反而最易被绕过；真正的颠覆来自决策层与生态层。</p>
+
+    <h3 class="sec blue">大模型部署架构 · 端 vs 云 vs 端云混合</h3>
+    <div class="findings">
+      <div class="finding"><div class="fn">端</div><div class="fb"><b>端侧大模型</b>——延迟极低 / 隐私最优 / 断网可用；但受车规算力与功耗约束，能力上限低。<br><span style="color:var(--faint);font-size:11.5px">代表：蔚来 NOMI GPT 纯端侧</span></div></div>
+      <div class="finding"><div class="fn">云</div><div class="fb"><b>云端大模型</b>——能力上限高 / 迭代快；但延迟、隐私、断网、跨境合规、API 流量成本均成问题。<br><span style="color:var(--faint);font-size:11.5px">主流方案以此为兜底</span></div></div>
+      <div class="finding"><div class="fn" style="background:rgba(245,181,68,.25);color:var(--accent)">★</div><div class="fb"><b style="color:var(--accent)">端云混合 = 最优内点解</b>——"端侧优先、云侧兜底"。胜负手不在两端的模型，而在<span class="em">中间的"调度中间件"</span>——这是车联天下凭借 Autosee 可卡位、壁垒不在算法而在工程的缝隙。</div></div>
+      <div class="finding"><div class="fn">挑战</div><div class="fb"><b>真正难点</b>：什么任务在端、什么上云、如何无感切换、断网如何降级、隐私边界如何动态裁决——是<b style="color:var(--accent)">系统工程题</b>，不是算法题。</div></div>
+    </div>
+
+    <h3 class="sec">供应链颠覆 · 模型公司已经在绕过 Tier 1</h3>
+    <div class="callrow">
+      <div class="callout"><div class="num a">算法</div><div class="lbl">地平线 / Momenta / 商汤</div><div class="sub">征程 6 累计 1100 万套，城区 NOA"芯片+算法"捆绑直供 OEM</div></div>
+      <div class="callout"><div class="num b">模型</div><div class="lbl">DeepSeek / 通义 / 豆包 / 盘古</div><div class="sub">OEM 可直接调 API 或私有化部署，"对话能力"被釜底抽薪</div></div>
+      <div class="callout"><div class="num">Agent</div><div class="lbl">手机厂商 + 云厂商</div><div class="sub">跨端 Agent OS 延伸进座舱，争夺生态层入口</div></div>
+    </div>
+
+    <h3 class="sec accent">车联天下的 AI 反脆弱站位 · 四个支点</h3>
+    <div class="findings">
+      <div class="finding"><div class="fn">1</div><div class="fb"><b>Autosee Agent Runtime</b><br>把 Autosee OS 演进为"座舱智能体运行时"——Agent 生命周期管理、多 Agent 协商、工具调用与权限治理。<span class="em">谁的模型都能挂载</span>。</div></div>
+      <div class="finding"><div class="fn">2</div><div class="fb"><b>模型部署优化器</b><br>把大模型"塞进"车规算力的工程能力：量化、蒸馏、剪枝、算子优化——"有效算力"战争的软件落点。</div></div>
+      <div class="finding"><div class="fn">3</div><div class="fb"><b>端云调度中间件</b><br>模型公司不愿做、芯片公司做不好的"脏活"——任务分流、无感切换、降级策略、隐私裁决。</div></div>
+      <div class="finding"><div class="fn">4</div><div class="fb"><b>AI 数据闭环</b><br>车端数据 → 脱敏 → 训练 → OTA → 车端的飞轮。<span class="em">这是模型公司拿不到的资产</span>，也是 ISO/PAS 8800 合规要求的"数据证据"基础设施。</div></div>
+    </div>
+    <p class="note"><b style="color:var(--accent)">反脆弱定律（Taleb）</b>：不要去赌"哪个模型会赢"（那是脆弱的押注），要把自己建成"无论谁赢都需要的那一层"。车联天下不该和模型公司比模型，该和它们比"谁离量产车更近、谁握着数据闭环"。</p>
+
+    <h3 class="sec">深度论证 · Deep Dive</h3>
+    <div class="deep"><div class="deep-h"><span class="dx">6.1</span><span class="dt">算力重排：8255/8775 够用吗？关键在"有效算力"</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>AI 入舱对算力的需求是<b>"向上重排"而非线性增长</b>：座舱侧从"图形渲染主导"推向"AI 推理主导"，8797 平台算力推至 300+ TOPS；智驾侧城区 NOA 主流需求已逼近 500 TOPS；中央计算侧零跑 D19 已采用全球首个"双 8797"中央计算方案。</p>
+        <p>关键洞察：行业从"算力内卷"转向 <b style="color:var(--accent)">"有效算力"</b>——算力利用率、内存带宽、大模型推理效率成为核心指标。8255/8775/8797 在硬件参数上"够用"于 2026-2028 的舱驾融合与中央计算，<span class="em">但"自研 AI 加速器"几乎可以排除</span>——投入产出比对一家年亏 2.5 亿的公司不可承受。</p>
+        <p><b>结论</b>：硅片跟随高通，价值建在调度软件——这是车联天下在 AI 算力战中唯一理性的站位。</p>
+      </div></div>
+    </div>
+    <div class="deep"><div class="deep-h"><span class="dx">6.2</span><span class="dt">研发流程：V 模型 → AI Native CI-CD + ISO/PAS 8800</span><span class="dchev">▶</span></div>
+      <div class="deep-b"><div class="deep-b-inner">
+        <p>传统 V 模型建立在"需求可冻结、行为可穷举、测试可覆盖"的隐含假设之上——但 AI 的"锯齿状智能"打破了这一假设。ISO/PAS 8800（2024 发布，17 国专家参与，中国主导 AI 运行时监控议题）是行业首个为车载 AI 建立<b>安全生命周期框架</b>的标准。</p>
+        <p>新合规要求"数据证据 + 运行时证据"：模型用什么数据训的、上线后表现如何、出现长尾失效如何监测与回灌——<span class="em">这恰是把"合规"做成"AI 安全通行证"的战略机会</span>。</p>
+      </div></div>
+    </div>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>博文的关键议题 · Bowen's Key Topics</div>
+      <ol>
+        <li>"模型不可知的座舱 Agent runtime + 数据闭环"——这个反脆弱站位在公司战略中<b>是已经被识别</b>，还是仍待明确？</li>
+        <li>面对模型公司"绕过 Tier 1 直供 OEM"的趋势，公司打算用<b>"做模型"</b>正面接战，还是<b>"做底座"</b>侧面卡位？</li>
+        <li>ISO/PAS 8800 + R155/R156 的合规证据链，<b>建设进度</b>是什么状态？这是否已被定义为出海欧洲的战略前置条件？</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button onclick="go(5)"><span class="mn-e">← 05 技术栈</span></button>
+      <button onclick="go(7)"><div><div style="font-size:11px;text-align:right">下一模块 →</div><div class="mn-e">07 · 趋势推演</div></div></button>
+    </div>
+  </section>
+
+  <!-- ====================== M7 SCENARIO PLANNING ====================== -->
+  <section class="module" data-cn="趋势推演" data-en="Scenario Planning">
+    <div class="quote">
+      We cannot predict the future, but we can prepare for many futures. ／ 君子以思患而预防之。
+      <span class="src">— Pierre Wack (Shell) ／ «周易 · 既济»　不是预测会发生什么，而是用情景规划铺开"可能发生的几种未来"。</span>
+    </div>
+    <div class="kicker">Day 7 · 1/3/5 年情景推演 + 剪枝树 + 脆弱性识别</div>
+    <div class="headline">9 个情景格中，<span class="hlr">6 个被"1 年 IPO 节点"一票否决</span>——这不是 3×3 的概率分布，而是一棵<span class="hl">剪枝树</span>：1Y 现金支点若失守，3Y/5Y 的上行情景同时被剪掉。</div>
+    <p class="lead">最大脆弱性是奇瑞、高通、博世「三位一体捆绑」的<span class="em">正相关性</span>——任一断裂可能触发另两个的连锁反应。</p>
+
+    <h3 class="sec">关键不确定性变量 · Critical Uncertainties</h3>
+    <table class="dtable">
+      <tr><th>变量</th><th>不确定性</th><th>影响力</th><th>角色</th></tr>
+      <tr><td><b>V1 · 中国 OEM 海外份额与本地化节奏</b></td><td><span class="sc s5">高</span></td><td><span class="sc s5">高</span></td><td style="color:var(--accent)"><b>临界轴 1</b></td></tr>
+      <tr><td><b>V2 · AI 与中央计算对价值链的重排方向</b></td><td><span class="sc s5">高</span></td><td><span class="sc s5">高</span></td><td style="color:var(--accent)"><b>临界轴 2</b></td></tr>
+      <tr><td>V3 · 地缘政治与合规（高通断供、CRA、AI Act）</td><td><span class="sc s3">中</span></td><td><span class="sc s5">高</span></td><td>灰犀牛</td></tr>
+      <tr><td>V4 · 高通 / MTK 平台代际节奏</td><td><span class="sc s2">低</span></td><td><span class="sc s3">中</span></td><td>预定要素</td></tr>
+      <tr><td>V5 · 中央计算 SoC 自研突破</td><td><span class="sc s2">低</span></td><td><span class="sc s3">中</span></td><td>大概率不发生</td></tr>
+      <tr><td><b>V6 · 港股 IPO 与资本通道</b></td><td><span class="sc s4">中高</span></td><td><span class="sc s5">极高</span></td><td style="color:var(--red)"><b>1Y 触发开关</b></td></tr>
+    </table>
+
+    <h3 class="sec">3 × 3 情景矩阵 · 点击格子查看详情</h3>
+    <div class="scen-wrap">
+      <div class="scen-grid">
+        <div></div>
+        <div class="scen-colh">1 年（2026-2027）</div>
+        <div class="scen-colh">3 年（2026-2029）</div>
+        <div class="scen-colh">5 年（2026-2031）</div>
+        <div class="scen-rowh" style="color:var(--green)">乐观</div>
+        <div class="scen-cell opt" onclick='selScen(this,{t:"1Y 乐观 · IPO 成功",tag:"乐观",c:"opt",fin:"营收 ~33-35 亿，IPO 募资 17-30 亿，跑道延至 2028-2029",cust:"奇瑞 C2/北汽 A1 放量，集中度仍 95%+",tech:"8797 中央计算寻得首个定点",org:"海外团队启动招募"})'>
+          <div class="sc-t">IPO 成功</div><div class="sc-d">营收 ~33-35 亿，跑道延长</div></div>
+        <div class="scen-cell opt" onclick='selScen(this,{t:"3Y 乐观 · 海外突破",tag:"乐观",c:"opt",fin:"营收持续爬升，2028-29 接近扭亏",cust:"海外占比 25-30%，集中度降至 ~85%",tech:"中央计算量产，毛利结构升级",org:"罗马尼亚工程中心爬坡顺利，海外能力闭环成型"})'>
+          <div class="sc-t">海外突破</div><div class="sc-d">海外占比 25-30%，近扭亏</div></div>
+        <div class="scen-cell opt" onclick='selScen(this,{t:"5Y 乐观 · 中央计算前三",tag:"乐观",c:"opt",fin:"海外占比 >35%，稳定盈利",cust:"集中度 <75%，欧洲 OEM 直供突破",tech:"中央计算中国前三，Deep Fusion EEA 形成壁垒",org:"结构型公司转型成功"})'>
+          <div class="sc-t">中央计算前三</div><div class="sc-d">海外 &gt;35%，稳定盈利</div></div>
+        <div class="scen-rowh" style="color:#7fbcff">基准</div>
+        <div class="scen-cell base" onclick='selScen(this,{t:"1Y 基准 · 持平挣扎",tag:"基准",c:"base",fin:"营收 ~30 亿，亏损与 2025 持平（~±2.5 亿）",cust:"集中度 95%+ 未改善",tech:"Deep Fusion EEA 仍是「架构先于订单」",org:"罗马尼亚处选址/注册期"})'>
+          <div class="sc-t">持平挣扎</div><div class="sc-d">营收 ~30 亿，亏损持平</div></div>
+        <div class="scen-cell base" onclick='selScen(this,{t:"3Y 基准 · 慢爬升",tag:"基准",c:"base",fin:"营收 ~45 亿，仍在盈亏线挣扎",cust:"集中度 88-90%，仍以「随车出海」为主",tech:"舱驾融合量产，A 独立未突破，博世天花板兑现",org:"总部-海外接口磨合中"})'>
+          <div class="sc-t">慢爬升</div><div class="sc-d">营收 ~45 亿，仍挣扎</div></div>
+        <div class="scen-cell base" onclick='selScen(this,{t:"5Y 基准 · 区域工程供应商",tag:"基准",c:"base",fin:"微利稳态",cust:"区域工程供应商客户结构",tech:"工程供应商定位锁定，生态层无牌",org:"组织独立但天花板既定"})'>
+          <div class="sc-t">区域工程商</div><div class="sc-d">微利稳态，天花板既定</div></div>
+        <div class="scen-rowh" style="color:#ff8a84">悲观</div>
+        <div class="scen-cell pess" onclick='selScen(this,{t:"1Y 悲观 · IPO 遇阻",tag:"悲观",c:"pess",fin:"IPO 失败或大幅延后，经营性现金流缺口扩大",cust:"奇瑞年降侵蚀毛利",tech:"研发投入被迫收缩",org:"海外计划冻结"})'>
+          <div class="sc-t">IPO 遇阻</div><div class="sc-d">现金告急 · 一票否决</div></div>
+        <div class="scen-cell pess" onclick='selScen(this,{t:"3Y 悲观 · 奇瑞分流",tag:"悲观",c:"pess",fin:"现金链断裂风险显性化",cust:"奇瑞实质性分流，跌出装机前五",tech:"第三跳「中央计算」跳不动",org:"第二跳「全球化」失败"})'>
+          <div class="sc-t">奇瑞分流</div><div class="sc-d">跌出前五，第三跳失败</div></div>
+        <div class="scen-cell pess" onclick='selScen(this,{t:"5Y 悲观 · 边缘化",tag:"悲观",c:"pess",fin:"被并购或边缘化",cust:"客户基础瓦解",tech:"沦为高通生态可替代节点",org:"组织解构"})'>
+          <div class="sc-t">边缘化</div><div class="sc-d">被并购或可替代节点</div></div>
+      </div>
+      <div class="scen-detail" id="scenDetail">
+        <div class="sd-t">点击任一情景格 →</div>
+        <p style="font-size:12px;color:var(--dim);margin-top:8px;line-height:1.7">
+          九个情景格并非"九选一"，而是<b style="color:var(--accent)">路径依赖剪枝树</b>：1Y 的 IPO 节点一旦失败，3Y/5Y 的基准与乐观情景同时被剪掉。这是整个推演的"阿基米德支点"。
+        </p>
+        <p style="font-size:11.5px;color:var(--faint);margin-top:10px">点击任一格子查看 财务 / 客户 / 技术 / 组织 四维影响测算。</p>
+      </div>
+    </div>
+
+    <h3 class="sec">1 / 3 / 5 年关键里程碑 · Key Milestones</h3>
+    <div class="tline">
+      <div class="tnode"><div class="ty">2026</div><div class="tt">行业-舱驾融合规模量产元年 · CRA 漏洞强制报告 9 月生效 · <b>公司-港股 IPO 关键窗口</b> · Deep Fusion EEA 寻定点</div></div>
+      <div class="tnode"><div class="ty">2027</div><div class="tt">行业-高速以太网普及 · CRA 全面合规 12 月生效 · 公司-罗马尼亚工程中心爬坡 · <b>海外首批 SOP 落地</b></div></div>
+      <div class="tnode"><div class="ty">2028</div><div class="tt">行业-整合硬件平台成主流 · 中央计算渗透加速 · 公司-客户集中度目标降至 85% · 海外营收占比上台阶</div></div>
+      <div class="tnode"><div class="ty">2029</div><div class="tt">行业-VLA 决策层规模化 · 海外 Tier 1 洗牌加剧 · 公司-<b>A 独立能力验证窗口</b> · 第二跳能力闭环考核点</div></div>
+      <div class="tnode"><div class="ty">2030-2031</div><div class="tt">行业-zonal 架构主流，多数新车 SDV-L3+ · 中国车企海外份额 15-20% · 公司-中央计算份额定型 · <b>结构型公司转型成败见分晓</b></div></div>
+    </div>
+
+    <h3 class="sec red">脆弱性识别 · 黑天鹅 vs 灰犀牛</h3>
+    <div class="findings">
+      <div class="finding"><div class="fn" style="background:rgba(239,91,84,.18);color:#ff8a84">黑</div><div class="fb"><b>地缘政治断供</b>——BIS 出口管制扩大至车规 SoC。概率低，但 75-80% 高通采购集中度使影响<b style="color:var(--red)">存亡级</b>。</div></div>
+      <div class="finding"><div class="fn" style="background:rgba(239,91,84,.18);color:#ff8a84">黑</div><div class="fb"><b>AI 安全事故</b>——大模型座舱车型发生事故引发监管急转。"锯齿状智能"不可预测。</div></div>
+      <div class="finding"><div class="fn" style="background:rgba(239,91,84,.18);color:#ff8a84">黑</div><div class="fb"><b>客户违约</b>——前五大客户之一退出。99% 集中度下相当于"单根稻草折断"。</div></div>
+      <div class="finding"><div class="fn" style="background:rgba(245,181,68,.2);color:var(--accent)">灰</div><div class="fb"><b>技术换代失误</b>——错过中央计算定点窗口。均胜 150 亿元订单已是明确预警，<b>这头犀牛已经在视野里小跑</b>。</div></div>
+      <div class="finding"><div class="fn" style="background:rgba(245,181,68,.2);color:var(--accent)">灰</div><div class="fb"><b>EU 合规急转</b>——CRA 2027/12 全面合规 + AI Act + ISO/PAS 8800。对一家"全栈 CI-CD 证据空白"的公司，是确定会撞上的墙。</div></div>
+      <div class="finding"><div class="fn" style="background:rgba(245,181,68,.2);color:var(--accent)">灰</div><div class="fb"><b>港股估值杀跌</b>——上市后股价与"奇瑞依赖度下降 + 海外兑现 + 毛利升级"三指标强绑定，任一不及预期即触发。</div></div>
+    </div>
+    <p class="note"><b style="color:var(--red)">Taleb 结构性诊断</b>：真正的脆弱性不在"某一头犀牛"或"某一只黑天鹅"，而在"三位一体捆绑"的相关性——奇瑞、高通、博世三者风险相关系数为正。反脆弱之道是"杠铃策略"：一端死守现金流基本盘（保命），另一端小注下注海外能力闭环与数据闭环底座（博取非对称收益）。</p>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>博文的关键议题 · Bowen's Key Topics</div>
+      <ol>
+        <li>公司在做三年规划时，<b>悲观情景假设的是什么</b>？是否在内部沙盘推演过"奇瑞流失"或"IPO 遇阻"的应对预案？</li>
+        <li>面对"三位一体捆绑"的正相关脆弱性，是否考虑过用<b>制度设计</b>（海外业务独立子公司、信息隔离机制、多 OEM 流程标准化）做结构对冲？</li>
+        <li>CRA / R156 / ISO PAS 8800 的合规证据链，是被视为"成本"，还是出海的<b>"AI 安全通行证 + 战略护城河"</b>？</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button onclick="go(6)"><span class="mn-e">← 06 AI 颠覆</span></button>
+      <button onclick="go(8)"><div><div style="font-size:11px;text-align:right">下一模块 →</div><div class="mn-e">08 · 战略应对</div></div></button>
+    </div>
+  </section>
+
+  <!-- ====================== M8 STRATEGIC RESPONSE ====================== -->
+  <section class="module" data-cn="战略应对" data-en="Strategic Response">
+    <div class="quote">
+      夫未战而庙算胜者，得算多也；未战而庙算不胜者，得算少也。多算胜，少算不胜，而况于无算乎！
+      <span class="src">— «孙子兵法 · 计篇»　把七日之「知」收敛为「行」——五个战略动作，按"剪枝树"时序排序。</span>
+    </div>
+    <div class="kicker">Day 8 · Top 5 战略动作 · 优先级被剪枝树锁定</div>
+    <div class="headline">五个动作的排序不是"重要性排序"，而是<span class="hl">"时序依赖排序"</span>——前序动作失败，后序动作的资源与窗口同时消失。1 年的<span class="hl">「现金流支点」</span>是整副棋的阿基米德支点。</div>
+    <p class="lead">这是基于前七日分析对公司战略路径的整合建议——可作为讨论"四全战略"落地优先级的对照参考。</p>
+
+    <h3 class="sec">Top 5 战略动作 · 按时序优先级排序</h3>
+
+    <div class="acard"><div class="a-rank">1</div><div class="a-body">
+      <div class="a-top"><div class="a-t">守住 IPO 与现金流支点，并把合规证据链做成"副产品"</div><div class="a-pri">最高 · 0-12 月</div><div class="a-win">硬约束</div></div>
+      <div class="a-d">以"现金跑道延长"为唯一硬目标。配合港股聆讯所需的内控、关联交易、风险披露文档；同步启动 CRA / UNECE R155 / R156 / ISO PAS 8800 的合规证据链建设——<span class="em">使其既服务 IPO 披露、又服务欧洲准入</span>，一次建设、双重复用。</div>
+      <div class="a-hedge"><b>对冲</b>：合规证据链本身具备独立价值——即便 IPO 延后，它仍是欧洲定点的通行证。这是 Taleb 杠铃策略的"保命端"。</div>
+    </div></div>
+
+    <div class="acard"><div class="a-rank">2</div><div class="a-body">
+      <div class="a-top"><div class="a-t">客户多元化 · 拆解"奇瑞 58% / 前五 99%"的单根稻草</div><div class="a-pri p2">高 · 0-24 月</div><div class="a-win">能力建设</div></div>
+      <div class="a-d">短期提升"随车出海"强度（奇瑞/比亚迪/MG 欧洲东南亚），中期建立<span class="em">"多 OEM 流程标准化"机制</span>，使服务新 OEM 的边际 NRE 成本下降。目标：前五大占比 2026 年底回落至 95%、2028 年至 85%。</div>
+      <div class="a-hedge"><b>对冲</b>：德赛西威以"理想/小米全栈合作"反向蚕食奇瑞——对冲是"在奇瑞内部做深"（多车型平台渗透）与"在奇瑞之外做宽"双线并行。</div>
+    </div></div>
+
+    <div class="acard"><div class="a-rank">3</div><div class="a-body">
+      <div class="a-top"><div class="a-t">商业模式升级 · 从"卖盒子"向"软件 + 中央计算高 ASP + 数据运营"迁移</div><div class="a-pri p2">高 · 12-36 月</div><div class="a-win">等号右移</div></div>
+      <div class="a-d">单位经济学（白痴指数 1.21）是亏损根源——加研发若不换毛利结构只会扩大亏损。必须以 Deep Fusion EEA 中央计算高 ASP 产品 + Autosee 软件授权独立计费 + 数据运营分成，把"等号右移"。目标：毛利率从 16% 升至 24%+，盈亏平衡量从 106 万台降至 70 万台。</div>
+      <div class="a-hedge"><b>对冲</b>：中国 OEM 倾向"软件营收全归 OEM"——<b>软件溢价主战场放在海外</b>（欧洲 OEM 软件能力弱、更愿外包）。</div>
+    </div></div>
+
+    <div class="acard"><div class="a-rank">4</div><div class="a-body">
+      <div class="a-top"><div class="a-t">海外能力闭环 · 罗马尼亚 + 五环 + 总部-海外接口治理</div><div class="a-pri p3">中高 · 12-48 月</div><div class="a-win">从 PPT 到组织</div></div>
+      <div class="a-d">把"能力全球化"从 PPT 变成组织肌肉——先建能力闭环（客户-能力-团队-合作方-资本），再放大市场规模。目标：海外营收占比 2029 年达 25-30%。</div>
+      <div class="a-hedge"><b>对冲</b>：博世"天花板效应"约束欧洲 OEM 直供——对冲是"海外业务独立子公司 + 信息隔离机制"的治理设计。</div>
+    </div></div>
+
+    <div class="acard"><div class="a-rank">5</div><div class="a-body">
+      <div class="a-top"><div class="a-t">AI 工程层卡位 · Agent runtime + 端云调度 + 数据闭环</div><div class="a-pri p3">中 · 持续</div><div class="a-win">反脆弱底座</div></div>
+      <div class="a-d">不赌模型、做<span class="em">"模型不可知的座舱 Agent runtime 与数据闭环底座"</span>——在 AI 价值链重排中守住"离量产车最近、握数据闭环"的反脆弱位置。</div>
+      <div class="a-hedge"><b>对冲</b>：交付链证据空白——与动作 1 的合规证据链建设同源，一次投入、两处受益。</div>
+    </div></div>
+
+    <h3 class="sec blue">为什么是这个时序 · The Pruning Tree Logic</h3>
+    <div class="findings">
+      <div class="finding"><div class="fn" style="background:rgba(239,91,84,.18);color:#ff8a84">!</div><div class="fb"><b>动作 1 失败 → 全盘剪枝</b>：若 IPO 失败、现金告急，后续四个动作的资源与窗口同时消失。所以它必须排第一，且不容妥协。</div></div>
+      <div class="finding"><div class="fn">2</div><div class="fb"><b>动作 2、3 是中周期承重墙</b>：客户多元化与商业模式升级是 3 年内能否"过 G2 能力门槛"的关键，决定能否走入 5Y 的上行情景。</div></div>
+      <div class="finding"><div class="fn">3</div><div class="fb"><b>动作 4、5 是长周期期权</b>：海外能力闭环与 AI 工程层卡位决定 5 年终局——是"区域工程供应商"还是"反脆弱生态底座"。</div></div>
+      <div class="finding"><div class="fn">★</div><div class="fb"><b>同源杠杆</b>：动作 1（合规证据链）+ 动作 4（海外能力）+ 动作 5（AI 数据闭环）→ <b style="color:var(--accent)">三动作可共用同一支体系工程团队</b>，是岗位的最高战略杠杆。</div></div>
+    </div>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>博文的关键议题 · Bowen's Key Topics</div>
+      <ol>
+        <li>这五项动作的优先级排序，与公司董事会当前的战略重心<b>是否一致</b>？哪一项是公司认为"我们已经做对了"、哪一项是"还需要外部视角推一把"？</li>
+        <li>动作 1（合规证据链）+ 动作 4（海外能力）+ 动作 5（AI 数据闭环）<b>共用同一支体系工程团队</b>的思路——是否符合公司当前的组织设计？</li>
+        <li>动作 3（商业模式升级）需要重新谈判 OEM 的软件分成权——这是<b>商务问题</b>，还是<b>组织问题</b>（公司当前没有"软件商务"职能）？</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button onclick="go(7)"><span class="mn-e">← 07 趋势推演</span></button>
+      <button onclick="go(9)"><div><div style="font-size:11px;text-align:right">下一模块 →</div><div class="mn-e">09 · 岗位适配</div></div></button>
+    </div>
+  </section>
+
+  <!-- ====================== M9 ROLE FIT ====================== -->
+  <section class="module" data-cn="岗位适配" data-en="Role & Fit">
+    <div class="quote">
+      知行合一。
+      <span class="src">— 王阳明 «传习录»　前七日是"知"的极致，第九模块若不落到"行"，则知亦未真知。</span>
+    </div>
+    <div class="kicker">Day 8 · 岗位价值咬合 / 90 天工作设想 / AI 运营落地 Top 5</div>
+    <div class="headline">「国际化建设支持总监」精准坐在<span class="hl">「四全战略」三个全的交汇</span>—— 这不是岗位与能力的"匹配"，而是<span class="hl">"咬合"</span>。本模块呈现：能力 × 需求映射、90 天工作设想、AI 运营落地优先级。</div>
+    <p class="lead">以下内容是我对"若有幸加入，前 90 天如何创造价值"的初步构想——希望成为我们对话的起点，而非终点。</p>
+
+    <h3 class="sec">能力 × 岗位需求 · Capability × Need Mapping</h3>
+    <div class="fitmap">
+      <div class="fitrow">
+        <div class="f-need"><div class="f-lab">公司需求</div><div class="f-txt"><b>「全体系重构与补全」</b>——主数据 / 流程 / 系统三层重构，需要架构思维统筹销售、项目、HR、财务、质量等跨职能流程的国际化版本</div></div>
+        <div class="fitconn">★</div>
+        <div class="f-cap"><div class="f-lab">我能贡献</div><div class="f-txt"><b>TOGAF 架构方法论 + 数字化负责人经验</b>——以企业架构（业务/数据/应用/技术四视图）方法论，把分散的"国际化流程"转译为<b>可审计、可复制、可独立运行的组织操作系统</b></div></div>
+      </div>
+      <div class="fitrow">
+        <div class="f-need"><div class="f-lab">公司痛点</div><div class="f-txt"><b>总部-海外接口效率与权责边界</b>——海外团队常被"总部政策"与"客户需求"两端拉扯，Tier 1 缺乏 OEM 真实决策链的内部视角</div></div>
+        <div class="fitconn">★</div>
+        <div class="f-cap"><div class="f-lab">我能贡献</div><div class="f-txt"><b>跨国 OEM 甲方视角 + 全球数字化经验</b>——曾以 OEM 全球数字化负责人身份与多家 Tier 1 协作，<b>反向校准</b>"OEM 真正需要的是什么、内部决策链如何运转、多供应商策略的边界在哪"</div></div>
+      </div>
+      <div class="fitrow">
+        <div class="f-need"><div class="f-lab">公司挑战</div><div class="f-txt"><b>「全员 AI 能力建设」从 PPT 到工时表</b>——AI 应用若无明确场景和数据基础，可能停留在口号（公司自身已坦承的风险）</div></div>
+        <div class="fitconn">★</div>
+        <div class="f-cap"><div class="f-lab">我能贡献</div><div class="f-txt"><b>第一性原理 + 数据治理体系</b>——以 ROI 公式（场景价值密度 × 数据就绪度 × 落地阻力倒数）筛选 AI 落地优先级，<b>不追求七场景齐头并进，而是以两个高 ROI 标杆做楔子</b></div></div>
+      </div>
+      <div class="fitrow">
+        <div class="f-need"><div class="f-lab">公司风险</div><div class="f-txt"><b>「三位一体捆绑」的结构脆弱性</b>——奇瑞、高通、博世正相关风险，任一断裂可能连锁反应</div></div>
+        <div class="fitconn">★</div>
+        <div class="f-cap"><div class="f-lab">我能贡献</div><div class="f-txt"><b>系统思考 + 反脆弱设计</b>——用制度设计（海外独立子公司、信息隔离、数据闭环主权、多 OEM 流程标准化）<b>把公司从"依赖三方信任的临时合约"推向"制度独立的组织生命体"</b></div></div>
+      </div>
+    </div>
+
+    <h3 class="sec">90 天工作设想 · The 30/60/90 Plan</h3>
+    <div class="plan90">
+      <div class="pphase">
+        <div class="pp-d">30 天</div><div class="pp-t">盘点 + 建立战情节奏</div>
+        <ul class="pp-l">
+          <li>销售/项目/支持/HR/财务五大职能的现行国际化流程<b style="color:var(--text)">断点盘点</b></li>
+          <li>访谈总部各职能接口人与海外团队（≥15 场），绘制<b style="color:var(--text)">权责接口现状图</b></li>
+          <li>建立「国际化战情会」周节奏（输出导向管理）</li>
+        </ul>
+        <div class="pp-out">交付物：流程断点热力图、接口现状图、战情会机制文档<br>成功指标：<b>Top 10 流程断点完成优先级排序</b></div>
+      </div>
+      <div class="pphase">
+        <div class="pp-d">60 天</div><div class="pp-t">关键流程立柱 + 知识管理 MVP</div>
+        <ul class="pp-l">
+          <li>选定 2-3 个最痛断点（大概率"报价-项目交付"与"海外质量闭环"），完成<b style="color:var(--text)">可执行/可审计/可复制</b>的 SOP V1</li>
+          <li>上线<b style="color:var(--text)">全球知识管理 RAG 知识库 MVP</b>，先覆盖海外项目文档与内审报告</li>
+        </ul>
+        <div class="pp-out">交付物：2-3 个标准化 SOP、知识库 MVP（≥500 篇入库）<br>成功指标：流程在 1 个海外项目试运行、知识库周活检索 ≥30 次</div>
+      </div>
+      <div class="pphase">
+        <div class="pp-d">90 天</div><div class="pp-t">人才发展体系 + AI 试点</div>
+        <ul class="pp-l">
+          <li>设计<b style="color:var(--text)">国际人才能力模型</b>（销售/项目/应用工程/质量四类角色 + 认证路径）</li>
+          <li>启动<b style="color:var(--text)">海外经营分析 AI 试点</b>（多语言数据归集、异常归因、月报自动化）</li>
+          <li>输出「国际化建设 1 年路线图」提交执行委员会</li>
+        </ul>
+        <div class="pp-out">交付物：能力模型 + 认证路径、AI 经营分析试点报告、1 年路线图<br>成功指标：<b>能力模型获 HR 与业务双线确认 + 路线图获得明确授权回应</b></div>
+      </div>
+    </div>
+
+    <h3 class="sec accent">AI 运营落地 Top 5 · 按 ROI 排序</h3>
+    <p class="lead" style="margin-bottom:14px">ROI 公式：<span class="em">场景价值密度 × 数据就绪度 × 落地阻力的倒数</span>。优先做"三者皆优"的场景。</p>
+    <div class="findings">
+      <div class="finding"><div class="fn">1</div><div class="fb"><b>全球知识管理（RAG 知识库）</b><br>50 名海外/接口人员每人每周回收 3 小时 × 40% = <b style="color:var(--accent)">年化节约 ~3,000 工时</b>。数据现成、技术成熟、痛点明确——"第一落点"。</div></div>
+      <div class="finding"><div class="fn">2</div><div class="fb"><b>海外经营分析</b><br>月报制作周期 5 人天 → 1 人天，多语言异常归因。依赖 SAP 主数据治理（已上线），与"全体系重构"绑定推进。</div></div>
+      <div class="finding"><div class="fn">3</div><div class="fb"><b>项目治理</b><br>跨部门大型国际项目的 AI 风险预警 + 会议纪要结构化 + 行动项 Agent。PMO 工作量降 30%，风险暴露提前 2-4 周。</div></div>
+      <div class="finding"><div class="fn">4</div><div class="fb"><b>海外质量复盘</b><br>根因聚类 + 相似案例检索 + 8D 报告辅助生成。质量问题闭环周期缩短 25%。</div></div>
+      <div class="finding"><div class="fn">5</div><div class="fb"><b>内审与合规预检</b><br>流程合规 AI 预检 + 证据链完整性扫描，直接对接 ISO PAS 8800 / R156——<b>同时服务 IPO 与欧洲准入</b>。</div></div>
+    </div>
+    <p class="note"><b style="color:var(--accent)">纪律</b>：以场景 1、2 为"6 个月标杆楔子"，3、4、5 随数据底座成熟梯次展开。<b>KPI 必须定义为"AI 闭环替代多少人工工时、回灌多少可复用知识资产"，而非"部署了多少 AI 工具"</b>——这是"真正理解"与"货物崇拜"的分水岭。</p>
+
+    <h3 class="sec blue">岗位的"北极星"指标 · The North Star Metric</h3>
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:22px 26px;margin:6px 0">
+      <p style="font-size:14px;color:var(--text);line-height:1.85">
+        若以一句话定义这个岗位的成功，它<b>不是</b>"写了多少流程文档"、"开了多少培训"、"部署了多少 AI 工具"——而是：
+      </p>
+      <p style="font-size:18px;font-weight:700;line-height:1.6;color:var(--accent);margin-top:14px;padding-left:14px;border-left:3px solid var(--accent)">
+        "公司面对一次外部冲击时，海外组织能不能<span style="color:#fff">自己站稳</span>。"
+      </p>
+      <p style="font-size:13px;color:var(--dim);margin-top:12px;line-height:1.75">
+        从"依赖三方信任的临时合约"，走向"制度独立的组织生命体"——这是把岗位从"跨部门救火协调员"升维为<b style="color:var(--text)">"战略组织的建构者"</b>的唯一标尺。Galbraith Star Model 中的 People × Structure × Processes 三顶点交汇，正是这一升维路径的几何中心。
+      </p>
+    </div>
+
+    <div class="discuss">
+      <div class="dh"><span class="ico">?</span>博文的关键议题 · Bowen's Key Topics</div>
+      <ol>
+        <li>这个岗位在「四全战略」执行委员会里，是<b>有投票权的成员</b>，还是会议纪要的执行者？跨部门流程制定权与资源调配权的边界在哪？</li>
+        <li>第一年的核心 KPI，更偏向<b>"为 IPO 与海外背书服务的合规工程"</b>，还是 JD 里的"国际化组织建设愿景"？两者并不矛盾，但优先级会不同。</li>
+        <li>"全员 AI 能力建设"的 KPI 定义，公司是按<b>"部署 AI 工具数量"</b>，还是按<b>"替代人工工时 + 回灌知识资产"</b>来衡量？这决定 AI 落地是货物崇拜还是真正理解。</li>
+        <li>除 JD 描述的职责外，公司是否预期该岗位<b>参与某个具体的战略性项目</b>（如罗马尼亚工程中心搭建、海外首个 SOP 项目、合规证据链建设）？这会显著影响岗位的真实杠杆。</li>
+      </ol>
+    </div>
+
+    <div class="modnav">
+      <button onclick="go(8)"><span class="mn-e">← 08 战略应对</span></button>
+      <button onclick="go(0)"><div><div style="font-size:11px;text-align:right">回到封面 ↻</div><div class="mn-e">00 · 封面与方法</div></div></button>
+    </div>
+  </section>
+
+  </div>
+</div>
+
+<script>
+const MODS=[
+ {n:"00",cn:"封面与方法",en:"Cover & Method"},
+ {n:"01",cn:"生态位定位",en:"Value-Chain Positioning"},
+ {n:"02",cn:"竞争格局",en:"Competitive Landscape"},
+ {n:"03",cn:"商业模式",en:"Business Model"},
+ {n:"04",cn:"四全战略",en:"The Four-All Strategy"},
+ {n:"05",cn:"技术栈",en:"Technology Stack"},
+ {n:"06",cn:"AI 颠覆",en:"AI Disruption"},
+ {n:"07",cn:"趋势推演",en:"Scenario Planning"},
+ {n:"08",cn:"战略应对",en:"Strategic Response"},
+ {n:"09",cn:"岗位适配",en:"Role & Fit"}
+];
+let cur=0;
+const nav=document.getElementById('nav');
+MODS.forEach((m,i)=>{
+  const d=document.createElement('div');
+  d.className='nav-item'+(i===0?' active':'');
+  d.innerHTML=`<div class="ni-num">${m.n}</div><div class="ni-txt"><div class="cn">${m.cn}</div><div class="en">${m.en}</div></div>`;
+  d.onclick=()=>go(i);
+  nav.appendChild(d);
+});
+const rm=document.getElementById('roadmap');
+if(rm){MODS.forEach((m,i)=>{if(i===0)return;const d=document.createElement('div');d.className='rmd';
+  d.innerHTML=`<div class="rd-n">${m.n}</div><div class="rd-t">${m.cn}</div><div class="rd-e">${m.en}</div>`;
+  d.onclick=()=>go(i);rm.appendChild(d);});}
+function go(i){
+  if(i<0||i>=MODS.length)return;
+  const mods=document.querySelectorAll('.module');
+  mods[cur].classList.remove('active');
+  mods[i].classList.add('active');
+  document.querySelectorAll('.nav-item').forEach((x,j)=>x.classList.toggle('active',j===i));
+  cur=i;
+  document.getElementById('pbar').style.width=((i+1)/MODS.length*100)+'%';
+  document.getElementById('stage').scrollTop=0;
+}
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'||e.key==='PageDown')go(cur+1);
+  if(e.key==='ArrowLeft'||e.key==='PageUp')go(cur-1);
+});
+function bindDeep(){
+  document.querySelectorAll('.deep-h').forEach(h=>{
+    if(h.dataset.b)return;h.dataset.b=1;
+    h.onclick=()=>h.parentElement.classList.toggle('open');
+  });
+}
+bindDeep();
+// scenario matrix
+function selScen(el,data){
+  document.querySelectorAll('.scen-cell').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  const d=document.getElementById('scenDetail');
+  d.innerHTML=`<div class="sd-t">${data.t}<span class="badge ${data.c}">${data.tag}</span></div>
+    <div class="sd-row"><div class="sd-k">财务</div><div class="sd-v">${data.fin}</div></div>
+    <div class="sd-row"><div class="sd-k">客户</div><div class="sd-v">${data.cust}</div></div>
+    <div class="sd-row"><div class="sd-k">技术</div><div class="sd-v">${data.tech}</div></div>
+    <div class="sd-row"><div class="sd-k">组织</div><div class="sd-v">${data.org}</div></div>`;
+}
+</script>
+</body>
+</html>
